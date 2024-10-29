@@ -3,6 +3,7 @@ package net.codersky.mcutils.storage.files.yaml;
 import net.codersky.mcutils.Reloadable;
 import net.codersky.mcutils.java.MCFiles;
 import net.codersky.mcutils.storage.DataHandler;
+import net.codersky.mcutils.storage.files.UpdatableFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.yaml.snakeyaml.DumperOptions;
@@ -18,10 +19,11 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class YamlFile implements DataHandler, Reloadable {
+public class YamlFile implements DataHandler, Reloadable, UpdatableFile {
 
 	protected final HashMap<String, Object> keys = new HashMap<>();
 	private final File file;
@@ -83,13 +85,6 @@ public class YamlFile implements DataHandler, Reloadable {
 		}
 	}
 
-	protected void update(@NotNull InputStream source) {
-		final HashMap<String, Object> updMap = getNewYaml().load(source);
-		for (Map.Entry<String, Object> entry : updMap.entrySet())
-			if (!keys.containsKey(entry.getKey()))
-				keys.put(entry.getKey(), entry.getValue());
-	}
-
 	/*
 	 * Reloadable implementation
 	 */
@@ -102,6 +97,47 @@ public class YamlFile implements DataHandler, Reloadable {
 		} catch (FileNotFoundException | SecurityException ex) {
 			return false;
 		}
+	}
+
+	/*
+	 * UpdatableFile implementation
+	 */
+
+	/**
+	 * Gets the updated {@link InputStream} of this {@link YamlFile}.
+	 * By default, this will be {@link Class#getResourceAsStream(String)}
+	 * with the {@code name} being {@link #asFile asFile().}{@link File#getName() getName()}.
+	 * The returned value of this method directly affects {@link #update(List)},
+	 * as this is the {@link InputStream} that said method will compare against, if
+	 * {@code null}, the file won't update.
+	 * 
+	 * @return The updated {@link InputStream} of this {@link YamlFile}.
+	 *
+	 * @since MCUtils 1.0.0
+	 */
+	@Nullable
+	protected InputStream getUpdatedStream() {
+		return getClass().getResourceAsStream(file.getPath());
+	}
+
+	private boolean isIgnored(String path, @Nullable List<String> ignored) {
+		if (ignored == null)
+			return false;
+		for (String ignoredPath : ignored)
+			if (path.startsWith(ignoredPath))
+				return true;
+		return false;
+	}
+
+	public boolean update(@Nullable List<String> ignored) {
+		final InputStream updated = getUpdatedStream();
+		if (updated == null)
+			return false;
+		final HashMap<String, Object> updMap = getNewYaml().load(getUpdatedStream());
+		for (Map.Entry<String, Object> entry : updMap.entrySet())
+			if (!keys.containsKey(entry.getKey()) && !isIgnored(entry.getKey(), ignored))
+				keys.put(entry.getKey(), entry.getValue());
+		return true;
 	}
 
 	/*
