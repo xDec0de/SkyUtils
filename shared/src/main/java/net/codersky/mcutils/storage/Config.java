@@ -2,20 +2,17 @@ package net.codersky.mcutils.storage;
 
 import net.codersky.mcutils.Reloadable;
 import net.codersky.mcutils.java.MCCollections;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
 
-public interface Config extends Reloadable {
+public interface Config extends DataHandler, Reloadable {
 
 	/**
 	 * Does any necessary tasks in order to set up this {@link Config}.
@@ -123,24 +120,6 @@ public interface Config extends Reloadable {
 	 * Setters
 	 */
 
-	// - Utility - //
-
-	@NotNull
-	@ApiStatus.Internal
-	default <T> T set(@NotNull String key, @NotNull T value) {
-		getMap().put(Objects.requireNonNull(key), Objects.requireNonNull(value));
-		return value;
-	}
-
-	@NotNull
-	@ApiStatus.Internal
-	default <T> List<T> setList(@NotNull String key, @NotNull List<T> list) {
-		Objects.requireNonNull(list);
-		final ArrayList<T> lst = list instanceof ArrayList ? (ArrayList<T>) list : new ArrayList<>(list);
-		getMap().put(Objects.requireNonNull(key), lst);
-		return list;
-	}
-
 	// - Strings - //
 
 	@NotNull
@@ -228,28 +207,6 @@ public interface Config extends Reloadable {
 	@NotNull
 	default List<UUID> setUUIDs(@NotNull String key, @NotNull List<UUID> value) {
 		return setList(key, value);
-	}
-
-	/*
-	 * Getters
-	 */
-
-	// - Utility - //
-
-	@ApiStatus.Internal
-	@SuppressWarnings("unchecked")
-	default <T> T get(@NotNull String key, @NotNull Class<T> type) {
-		final Object obj = getMap().get(key);
-		return (obj != null && obj.getClass().equals(type)) ? (T) obj : null;
-	}
-
-	@ApiStatus.Internal
-	@SuppressWarnings("unchecked")
-	default <T> List<T> getList(@NotNull String key, @NotNull Class<T> type) {
-		final Object obj = getMap().get(key);
-		if (obj instanceof ArrayList<?> lst)
-			return lst.getClass().getTypeParameters()[0].getClass().equals(type) ? (List<T>) lst : null;
-		return null;
 	}
 
 	// - Strings - //
