@@ -4,6 +4,7 @@ import net.codersky.mcutils.Reloadable;
 import net.codersky.mcutils.java.MCFiles;
 import net.codersky.mcutils.storage.DataHandler;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
@@ -18,6 +19,7 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class YamlFile implements DataHandler, Reloadable {
 
@@ -100,5 +102,24 @@ public class YamlFile implements DataHandler, Reloadable {
 		} catch (FileNotFoundException | SecurityException ex) {
 			return false;
 		}
+	}
+
+	/*
+	 * Object class
+	 */
+
+	@Override
+	public boolean equals(@Nullable Object obj) {
+		return obj instanceof final YamlFile other && other.getMap().equals(this.getMap());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(getMap());
+	}
+
+	@Override
+	public String toString() {
+		return "YamlFile" + getMap();
 	}
 }
