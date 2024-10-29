@@ -11,12 +11,12 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.util.HashMap;
 
-public class MessagesFile implements Reloadable {
+public class YamlMessages implements Reloadable {
 
 	protected final HashMap<String, Object> keys = new HashMap<>();
 	private final YamlManager manager;
 
-	public MessagesFile(String path) {
+	public YamlMessages(String path) {
 		this.manager = new YamlManager(path);
 	}
 
