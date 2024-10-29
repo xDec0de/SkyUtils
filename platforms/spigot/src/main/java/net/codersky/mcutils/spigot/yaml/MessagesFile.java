@@ -126,7 +126,7 @@ public class MessagesFile extends PluginFile implements net.codersky.mcutils.sto
 
 	@Nullable
 	@Override
-	public String getMessage(@NotNull String path) {
+	public String getRawMessage(@NotNull String path) {
 		final String str = super.getString(path);
 		if (str == null)
 			return null;
@@ -135,7 +135,7 @@ public class MessagesFile extends PluginFile implements net.codersky.mcutils.sto
 
 	@Nullable
 	@Override
-	public String getMessage(@NotNull String path, @NotNull Replacer rep) {
+	public String getRawMessage(@NotNull String path, @NotNull Replacer rep) {
 		final String str = super.getString(path);
 		if (str == null)
 			return null;
@@ -145,7 +145,7 @@ public class MessagesFile extends PluginFile implements net.codersky.mcutils.sto
 
 	@Nullable
 	@Override
-	public String getMessage(@NotNull String path, @NotNull Object... replacements) {
+	public String getRawMessage(@NotNull String path, @NotNull Object... replacements) {
 		final String str = super.getString(path);
 		if (str == null)
 			return null;
