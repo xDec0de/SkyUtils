@@ -6,9 +6,11 @@ import net.codersky.mcutils.java.MCFiles;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.HashMap;
 
-public class YamlConfig extends Config implements Reloadable {
+public class YamlConfig implements Config {
 
+	protected final HashMap<String, Object> keys = new HashMap<>();
 	private final YamlManager manager;
 
 	public YamlConfig(String path) {
@@ -40,6 +42,11 @@ public class YamlConfig extends Config implements Reloadable {
 	@Override
 	public boolean reload() {
 		return manager.reload(keys);
+	}
+
+	@Override
+	public @NotNull HashMap<String, Object> getMap() {
+		return keys;
 	}
 
 	@Override

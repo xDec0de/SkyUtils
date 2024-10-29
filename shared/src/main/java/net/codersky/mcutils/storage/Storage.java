@@ -1,7 +1,9 @@
 package net.codersky.mcutils.storage;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import net.codersky.mcutils.java.MCCollections;
@@ -44,7 +46,15 @@ import org.jetbrains.annotations.Nullable;
  * 
  * @see FlatStorage
  */
-public abstract class Storage extends Config {
+public abstract class Storage implements Config {
+
+	protected final HashMap<String, Object> keys = new HashMap<>();
+
+	@NotNull
+	@Override
+	public HashMap<String, Object> getMap() {
+		return keys;
+	}
 
 	/**
 	 * Does any necessary tasks in order to set up this {@link Storage}.
@@ -192,7 +202,17 @@ public abstract class Storage extends Config {
 	 */
 
 	@Override
+	public boolean equals(@Nullable Object obj) {
+		return obj instanceof final Config cfg && cfg.getMap().equals(this.getMap());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(getMap());
+	}
+
+	@Override
 	public String toString() {
-		return "Storage" + keys;
+		return "Storage" + getMap();
 	}
 }
