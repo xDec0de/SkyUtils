@@ -11,13 +11,13 @@ import org.jetbrains.annotations.Nullable;
 /**
  * An interface that is designed to get messages from a file that
  * can then be sent to a {@link MessageReceiver}. This interface
- * extends the {@link Reloadable} interface, though it is generally
- * also implemented with {@link UpdatableFile}.
+ * extends the {@link Reloadable} interface, though it generally
+ * also implements {@link UpdatableFile}.
  * <p>
  * Messages sent by files that implement this interface must apply
  * all patterns provided by MCUtils. This is default behaviour, and
  * it is already provided by the interface itself. The only method
- * that should be implemented is {@link #getMessage(String)}, everything
+ * that should be implemented is {@link #getRawMessage(String)}, everything
  * else has a default implementation that shouldn't be modified.
  * 
  * @since MCUtils 1.0.0
@@ -27,7 +27,7 @@ import org.jetbrains.annotations.Nullable;
 public interface MessagesFile extends Reloadable {
 
 	/*
-	 * String getters
+	 * Raw message getters
 	 */
 
 	/**
@@ -45,12 +45,97 @@ public interface MessagesFile extends Reloadable {
 	 * @since MCUtils 1.0.0
 	 */
 	@Nullable
-	String getMessage(@NotNull String path);
+	String getRawMessage(@NotNull String path);
 
 	/**
 	 * Gets a message {@link String} from this {@link MessagesFile},
 	 * applying a {@link Replacer} to it. This {@link String} may be
 	 * {@code null} if the message isn't found.
+	 *
+	 * @param path The path of the message to get.
+	 * @param replacer The {@link Replacer} to apply to the message. If
+	 * no message is found and hence the {@link String} is {@code null},
+	 * the {@link Replacer} won't be applied.
+	 *
+	 * @return The {@link String} stored at the specified {@code path},
+	 * with the specified {@link Replacer} applied to it.
+	 * {@code null} if no {@link String} is stored on said {@code path} or
+	 * if the {@code path} itself doesn't exist.
+	 *
+	 * @throws NullPointerException if any parameter is {@code null}.
+	 *
+	 * @since MCUtils 1.0.0
+	 */
+	@Nullable
+	default String getRawMessage(@NotNull String path, @NotNull Replacer replacer) {
+		final String str = getRawMessage(path);
+		return str == null ? null : replacer.replaceAt(str);
+	}
+
+	/**
+	 * Gets a message {@link String} from this {@link MessagesFile},
+	 * applying a {@link Replacer} built from the specified {@code replacements} to it.
+	 * This {@link String} may be {@code null} if the message isn't found.
+	 *
+	 * @param path The path of the message to get.
+	 * @param replacements The {@link Object Objects} that will be used in
+	 * order to build a new {@link Replacer} that will later be applied to
+	 * the {@link String} found at the specified {@code path}. If said
+	 * {@link String} is {@code null}, no {@link Replacer} will be created in
+	 * order to save a tiny bit of resources. Keep in mind that the amount
+	 * of {@code replacements} must be even as specified on the {@link Replacer}
+	 * {@link Replacer#Replacer(Object...) constructor}.
+	 *
+	 * @return The {@link String} stored at the specified {@code path},
+	 * with the specified {@code replacements} applied to it.
+	 * {@code null} if no {@link String} is stored on said {@code path} or
+	 * if the {@code path} itself doesn't exist.
+	 *
+	 * @throws NullPointerException if any parameter is {@code null}.
+	 *
+	 * @since MCUtils 1.0.0
+	 */
+	@Nullable
+	default String getRawMessage(@NotNull String path, @NotNull Object... replacements) {
+		return getRawMessage(path, new Replacer(replacements));
+	}
+
+	/*
+	 * Message getters
+	 */
+
+	/**
+	 * Gets a message {@link String} from this {@link MessagesFile}.
+	 * This {@link String} may be {@code null} if the message isn't found.
+	 * <br>
+	 * This method will {@link MCStrings#applyColor(String) apply} color patterns.
+	 * If you don't want this, you can use {@link #getRawMessage(String)} to get
+	 * the unmodified stored {@link String} as is, without any processing.
+	 *
+	 * @param path The path of the message to get.
+	 *
+	 * @return The {@link String} stored at the specified {@code path}.
+	 * {@code null} if no {@link String} is stored on said {@code path} or
+	 * if the {@code path} itself doesn't exist.
+	 *
+	 * @throws NullPointerException If {@code path} is {@code null}.
+	 *
+	 * @since MCUtils 1.0.0
+	 */
+	@Nullable
+	default String getMessage(@NotNull String path) {
+		final String str = getRawMessage(path);
+		return str == null ? null : MCStrings.applyColor(str);
+	}
+
+	/**
+	 * Gets a message {@link String} from this {@link MessagesFile},
+	 * applying a {@link Replacer} to it. This {@link String} may be
+	 * {@code null} if the message isn't found.
+	 * <br>
+	 * This method will {@link MCStrings#applyColor(String) apply} color patterns.
+	 * If you don't want this, you can use {@link #getRawMessage(String, Replacer)} to get
+	 * the unmodified stored {@link String} as is, without any processing.
 	 *
 	 * @param path The path of the message to get.
 	 * @param replacer The {@link Replacer} to apply to the message. If
@@ -76,6 +161,10 @@ public interface MessagesFile extends Reloadable {
 	 * Gets a message {@link String} from this {@link MessagesFile},
 	 * applying a {@link Replacer} built from the specified {@code replacements} to it.
 	 * This {@link String} may be {@code null} if the message isn't found.
+	 * <br>
+	 * This method will {@link MCStrings#applyColor(String) apply} color patterns.
+	 * If you don't want this, you can use {@link #getRawMessage(String, Object...)} to get
+	 * the unmodified stored {@link String} as is, without any processing.
 	 *
 	 * @param path The path of the message to get.
 	 * @param replacements The {@link Object Objects} that will be used in
