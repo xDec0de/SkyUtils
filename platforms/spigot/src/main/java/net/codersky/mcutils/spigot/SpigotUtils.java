@@ -27,6 +27,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -42,6 +43,12 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 	public SpigotUtils(@NotNull P plugin) {
 		super(plugin);
 		this.console = new SpigotConsole(Bukkit.getConsoleSender());
+	}
+
+	@NotNull
+	@Override
+	public File getDataFolder() {
+		return getPlugin().getDataFolder();
 	}
 
 	@NotNull

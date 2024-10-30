@@ -7,6 +7,7 @@ import net.codersky.mcutils.crossplatform.player.MCPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -42,6 +43,9 @@ public abstract class MCUtils<P> {
 	public final P getPlugin() {
 		return plugin;
 	}
+
+	@NotNull
+	public abstract File getDataFolder();
 
 	@Nullable
 	public abstract MCPlayer getPlayer(@NotNull UUID uuid);

@@ -15,6 +15,8 @@ import net.codersky.mcutils.velocity.cmd.VelocityCommand;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
+import java.nio.file.Path;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -23,11 +25,13 @@ public class VelocityUtils<P> extends ProxyUtils<P> {
 	private final ProxyServer proxy;
 	private final VelocityConsole console;
 	private PlayerProvider<Player> playerProvider;
+	private final Path dataDirectory;
 
-	public VelocityUtils(@NotNull P plugin, @NotNull ProxyServer proxy) {
+	public VelocityUtils(@NotNull P plugin, @NotNull ProxyServer proxy, @NotNull Path dataDirectory) {
 		super(plugin);
 		this.proxy = Objects.requireNonNull(proxy);
 		this.console = new VelocityConsole(proxy.getConsoleCommandSource());
+		this.dataDirectory = dataDirectory;
 	}
 
 	@NotNull
@@ -44,6 +48,12 @@ public class VelocityUtils<P> extends ProxyUtils<P> {
 	@NotNull
 	public PlayerProvider<Player> getPlayerProvider() {
 		return playerProvider;
+	}
+
+	@NotNull
+	@Override
+	public File getDataFolder() {
+		return this.dataDirectory.toFile();
 	}
 
 	@Nullable
