@@ -76,6 +76,8 @@ public class YamlFile implements DataHandler, Reloadable, UpdatableFile {
 	}
 
 	public boolean setup() {
+		if (exists())
+			return reload();
 		return MCFiles.create(file) && update() && save();
 	}
 
