@@ -1,5 +1,6 @@
 package net.codersky.mcutils.storage.files.yaml;
 
+import net.codersky.mcutils.MCUtils;
 import net.codersky.mcutils.Reloadable;
 import net.codersky.mcutils.java.MCFiles;
 import net.codersky.mcutils.storage.DataHandler;
@@ -26,15 +27,20 @@ import java.util.Objects;
 public class YamlFile implements DataHandler, Reloadable, UpdatableFile {
 
 	protected final HashMap<String, Object> keys = new HashMap<>();
+	protected final ClassLoader loader;
+	protected final Yaml yaml;
+	protected final File file;
+	protected final String resourcePath;
 
-	private final Yaml yaml;
-	private final File file;
-	private final String resourcePath;
-
-	YamlFile(@Nullable File parent, @NotNull String path) {
+	public YamlFile(@NotNull MCUtils<?> utils, @Nullable File parent, @NotNull String path) {
+		this.loader = utils.getPlugin().getClass().getClassLoader();
 		this.yaml = getNewYaml();
 		this.file = new File(parent, path);
 		this.resourcePath = path;
+	}
+
+	public YamlFile(@NotNull MCUtils<?> utils, @NotNull String path) {
+		this(utils, utils.getDataFolder(), path);
 	}
 
 	/*
@@ -76,7 +82,7 @@ public class YamlFile implements DataHandler, Reloadable, UpdatableFile {
 	}
 
 	public boolean save() {
-		if (!setup())
+		if (!exists() && !MCFiles.create(file))
 			return false;
 		try {
 			Writer writer = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
@@ -106,10 +112,20 @@ public class YamlFile implements DataHandler, Reloadable, UpdatableFile {
 	 * UpdatableFile implementation
 	 */
 
+	private boolean isIgnored(String path, @Nullable List<String> ignored) {
+		if (ignored == null)
+			return false;
+		for (String ignoredPath : ignored)
+			if (path.startsWith(ignoredPath))
+				return true;
+		return false;
+	}
+
 	/**
 	 * Gets the updated {@link InputStream} of this {@link YamlFile}.
-	 * By default, this will be {@link Class#getResourceAsStream(String)}
-	 * with the {@code name} being {@link #asFile asFile().}{@link File#getName() getName()}.
+	 * By default, this method uses the {@link ClassLoader} of the
+	 * {@link MCUtils} instance that was provided on the constructor, using
+	 * only the {@code path} without the parent {@link File} to get the resource.
 	 * The returned value of this method directly affects {@link #update(List)},
 	 * as this is the {@link InputStream} that said method will compare against, if
 	 * {@code null}, the file won't update.
@@ -120,16 +136,7 @@ public class YamlFile implements DataHandler, Reloadable, UpdatableFile {
 	 */
 	@Nullable
 	protected InputStream getUpdatedStream() {
-		return getClass().getResourceAsStream(resourcePath);
-	}
-
-	private boolean isIgnored(String path, @Nullable List<String> ignored) {
-		if (ignored == null)
-			return false;
-		for (String ignoredPath : ignored)
-			if (path.startsWith(ignoredPath))
-				return true;
-		return false;
+		return loader.getResourceAsStream(resourcePath);
 	}
 
 	public boolean update(@Nullable List<String> ignored) {
@@ -140,7 +147,12 @@ public class YamlFile implements DataHandler, Reloadable, UpdatableFile {
 		for (Map.Entry<String, Object> entry : updMap.entrySet())
 			if (!keys.containsKey(entry.getKey()) && !isIgnored(entry.getKey(), ignored))
 				keys.put(entry.getKey(), entry.getValue());
-		return true;
+		try {
+			updated.close();
+			return true;
+		} catch (IOException e) {
+			return false;
+		}
 	}
 
 	/*
