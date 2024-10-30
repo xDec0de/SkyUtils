@@ -59,21 +59,13 @@ public interface Config extends DataHandler, Reloadable {
 	 * Key access
 	 */
 
-	@NotNull
-	HashMap<String, Object> getMap();
-
 	default Set<Map.Entry<String, Object>> getEntries() {
-		return getMap().entrySet();
-	}
-
-	default Set<Map.Entry<String, Object>> getEntries(@NotNull Predicate<String> filter) {
-		return MCCollections.clone(getEntries(), entry -> filter.test(entry.getKey()));
+		return getMap().getEntries();
 	}
 
 	@NotNull
 	default Config removeEntries(@NotNull String... keys) {
-		for (String key : keys)
-			getMap().remove(key);
+		getMap().removeEntries(keys);
 		return this;
 	}
 
@@ -95,7 +87,7 @@ public interface Config extends DataHandler, Reloadable {
 	 * @see #containsKey(String...)
 	 */
 	default Set<String> getKeys() {
-		return getMap().keySet();
+		return getMap().getKeys();
 	}
 
 	@NotNull
@@ -104,10 +96,7 @@ public interface Config extends DataHandler, Reloadable {
 	}
 
 	default boolean containsKey(@NotNull String... keys) {
-		for (String key : keys)
-			if (!getMap().containsKey(key))
-				return false;
-		return true;
+		return getMap().containsKeys(keys);
 	}
 
 	@NotNull
@@ -124,90 +113,94 @@ public interface Config extends DataHandler, Reloadable {
 
 	@NotNull
 	default String setString(@NotNull String key, @NotNull String value) {
-		return set(key, value);
+		return getMap().set(key, value);
 	}
 
 	@NotNull
 	default List<String> setStrings(@NotNull String key, @NotNull List<String> value) {
-		return setList(key, value);
+		return getMap().setList(key, value);
 	}
 
 	// - Characters - //
 
 	default char setChar(@NotNull String key, char value) {
-		return set(key, value);
+		return getMap().set(key, value);
 	}
 
 	@NotNull
 	default List<Character> setChars(@NotNull String key, @NotNull List<Character> value) {
-		return setList(key, value);
+		return getMap().setList(key, value);
 	}
 
 	// - Booleans - //
 
 	default boolean setBoolean(@NotNull String key, boolean value) {
-		return set(key, value);
+		return getMap().set(key, value);
 	}
 
 	@NotNull
 	default List<Boolean> setBooleans(@NotNull String key, @NotNull List<Boolean> value) {
-		return setList(key, value);
+		return getMap().setList(key, value);
 	}
 
 	// - Integers - //
 
 	default int setInt(@NotNull String key, int value) {
-		return set(key, value);
+		return getMap().set(key, value);
 	}
 
 	@NotNull
 	default List<Integer> setInts(@NotNull String key, @NotNull List<Integer> value) {
-		return setList(key, value);
+		return getMap().setList(key, value);
 	}
 
 	// - Longs - //
 
 	default long setLong(@NotNull String key, long value) {
-		return set(key, value);
+		return getMap().set(key, value);
 	}
 
 	@NotNull
 	default List<Long> setLongs(@NotNull String key, @NotNull List<Long> value) {
-		return setList(key, value);
+		return getMap().setList(key, value);
 	}
 
 	// - Floats - //
 
 	default float setFloat(@NotNull String key, float value) {
-		return set(key, value);
+		return getMap().set(key, value);
 	}
 
 	default List<Float> setFloats(@NotNull String key, @NotNull List<Float> value) {
-		return setList(key, value);
+		return getMap().setList(key, value);
 	}
 
 	// - Doubles - //
 
 	default double setDouble(@NotNull String key, double value) {
-		return set(key, value);
+		return getMap().set(key, value);
 	}
 
 	@NotNull
 	default List<Double> setDoubles(@NotNull String key, @NotNull List<Double> value) {
-		return setList(key, value);
+		return getMap().setList(key, value);
 	}
 
 	// - UUIDs - //
 
 	@NotNull
 	default UUID setUUID(@NotNull String key, @NotNull UUID value) {
-		return set(key, value);
+		return getMap().set(key, value);
 	}
 
 	@NotNull
 	default List<UUID> setUUIDs(@NotNull String key, @NotNull List<UUID> value) {
-		return setList(key, value);
+		return getMap().setList(key, value);
 	}
+
+	/*
+	 * Getters
+	 */
 
 	// - Strings - //
 
@@ -225,7 +218,7 @@ public interface Config extends DataHandler, Reloadable {
 	 */
 	@Nullable
 	default String getString(@NotNull String key) {
-		return get(key, String.class);
+		return getMap().get(key, String.class);
 	}
 
 	@NotNull
@@ -236,7 +229,7 @@ public interface Config extends DataHandler, Reloadable {
 
 	@Nullable
 	default List<String> getStrings(@NotNull String key) {
-		return getList(key, String.class);
+		return getMap().getList(key, String.class);
 	}
 
 	@NotNull
@@ -249,7 +242,7 @@ public interface Config extends DataHandler, Reloadable {
 
 	@Nullable
 	default Character getChar(@NotNull String key) {
-		return get(key, Character.class);
+		return getMap().get(key, Character.class);
 	}
 
 	default char getChar(@NotNull String key, char def) {
@@ -259,7 +252,7 @@ public interface Config extends DataHandler, Reloadable {
 
 	@Nullable
 	default List<Character> getChars(@NotNull String key) {
-		return getList(key, Character.class);
+		return getMap().getList(key, Character.class);
 	}
 
 	@NotNull
@@ -272,7 +265,7 @@ public interface Config extends DataHandler, Reloadable {
 
 	@Nullable
 	default Boolean getBoolean(@NotNull String key) {
-		return get(key, Boolean.class);
+		return getMap().get(key, Boolean.class);
 	}
 
 	default boolean getBoolean(@NotNull String key, boolean def) {
@@ -282,7 +275,7 @@ public interface Config extends DataHandler, Reloadable {
 
 	@Nullable
 	default List<Boolean> getBooleans(@NotNull String key) {
-		return getList(key, Boolean.class);
+		return getMap().getList(key, Boolean.class);
 	}
 
 	@NotNull
@@ -295,7 +288,7 @@ public interface Config extends DataHandler, Reloadable {
 
 	@Nullable
 	default Integer getInt(@NotNull String key) {
-		return get(key, Integer.class);
+		return getMap().get(key, Integer.class);
 	}
 
 	default int getInt(@NotNull String key, int def) {
@@ -305,7 +298,7 @@ public interface Config extends DataHandler, Reloadable {
 
 	@Nullable
 	default List<Integer> getInts(@NotNull String key) {
-		return getList(key, Integer.class);
+		return getMap().getList(key, Integer.class);
 	}
 
 	@NotNull
@@ -318,7 +311,7 @@ public interface Config extends DataHandler, Reloadable {
 
 	@Nullable
 	default Long getLong(@NotNull String key) {
-		return get(key, Long.class);
+		return getMap().get(key, Long.class);
 	}
 
 	default long getLong(@NotNull String key, long def) {
@@ -328,7 +321,7 @@ public interface Config extends DataHandler, Reloadable {
 
 	@Nullable
 	default List<Long> getLongs(@NotNull String key) {
-		return getList(key, Long.class);
+		return getMap().getList(key, Long.class);
 	}
 
 	@NotNull
@@ -341,7 +334,7 @@ public interface Config extends DataHandler, Reloadable {
 
 	@Nullable
 	default Float getFloat(@NotNull String key) {
-		return get(key, Float.class);
+		return getMap().get(key, Float.class);
 	}
 
 	default float getFloat(@NotNull String key, float def) {
@@ -351,7 +344,7 @@ public interface Config extends DataHandler, Reloadable {
 
 	@Nullable
 	default List<Float> getFloats(@NotNull String key) {
-		return getList(key, Float.class);
+		return getMap().getList(key, Float.class);
 	}
 
 	@NotNull
@@ -364,7 +357,7 @@ public interface Config extends DataHandler, Reloadable {
 
 	@Nullable
 	default Double getDouble(@NotNull String key) {
-		return get(key, Double.class);
+		return getMap().get(key, Double.class);
 	}
 
 	default double getDouble(@NotNull String key, double def) {
@@ -374,7 +367,7 @@ public interface Config extends DataHandler, Reloadable {
 
 	@Nullable
 	default List<Double> getDoubles(@NotNull String key)  {
-		return getList(key, Double.class);
+		return getMap().getList(key, Double.class);
 	}
 
 	@NotNull
@@ -387,7 +380,7 @@ public interface Config extends DataHandler, Reloadable {
 
 	@Nullable
 	default UUID getUUID(@NotNull String key) {
-		return get(key, UUID.class);
+		return getMap().get(key, UUID.class);
 	}
 
 	@NotNull
@@ -398,7 +391,7 @@ public interface Config extends DataHandler, Reloadable {
 
 	@Nullable
 	default List<UUID> getUUIDs(@NotNull String key) {
-		return getList(key, UUID.class);
+		return getMap().getList(key, UUID.class);
 	}
 
 	@NotNull

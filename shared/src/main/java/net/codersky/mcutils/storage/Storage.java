@@ -1,7 +1,6 @@
 package net.codersky.mcutils.storage;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -48,12 +47,16 @@ import org.jetbrains.annotations.Nullable;
  */
 public abstract class Storage implements Config {
 
-	protected final HashMap<String, Object> keys = new HashMap<>();
+	private final DataMap map;
+
+	public Storage(boolean useNesting) {
+		this.map = new DataMap(useNesting);
+	}
 
 	@NotNull
 	@Override
-	public HashMap<String, Object> getMap() {
-		return keys;
+	public DataMap getMap() {
+		return map;
 	}
 
 	/**
@@ -76,28 +79,28 @@ public abstract class Storage implements Config {
 	// - Bytes - //
 
 	public byte setByte(@NotNull String key, byte value) {
-		return set(key, value);
+		return getMap().set(key, value);
 	}
 
 	@NotNull
 	public List<Byte> setBytes(@NotNull String key, @NotNull List<Byte> value) {
-		return setList(key, value);
+		return getMap().setList(key, value);
 	}
 
 	@NotNull
 	public List<Byte> setBytes(@NotNull String key, byte[] value) {
-		return setList(key, MCCollections.asByteList(value));
+		return getMap().setList(key, MCCollections.asByteList(value));
 	}
 
 	// - Shorts - //
 
 	public short setShort(@NotNull String key, short value) {
-		return set(key, value);
+		return getMap().set(key, value);
 	}
 
 	@NotNull
 	public List<Short> setShorts(@NotNull String key, @NotNull List<Short> value) {
-		return setList(key, value);
+		return getMap().setList(key, value);
 	}
 
 	/*
@@ -108,7 +111,7 @@ public abstract class Storage implements Config {
 
 	@Nullable
 	public Date setDate(@NotNull String key, @NotNull Date value) {
-		set(key, value.toInstant().toEpochMilli());
+		getMap().set(key, value.toInstant().toEpochMilli());
 		return value;
 	}
 
@@ -126,7 +129,7 @@ public abstract class Storage implements Config {
 
 	@Nullable
 	public Byte getByte(@NotNull String key) {
-		return get(key, Byte.class);
+		return getMap().get(key, Byte.class);
 	}
 
 	public byte getByte(@NotNull String key, byte def) {
@@ -136,7 +139,7 @@ public abstract class Storage implements Config {
 
 	@Nullable
 	public List<Byte> getBytes(@NotNull String key) {
-		return getList(key, Byte.class);
+		return getMap().getList(key, Byte.class);
 	}
 
 	@NotNull
@@ -149,7 +152,7 @@ public abstract class Storage implements Config {
 
 	@Nullable
 	public Short getShort(@NotNull String key) {
-		return get(key, Short.class);
+		return getMap().get(key, Short.class);
 	}
 
 	public short getShort(@NotNull String key, short def) {
@@ -159,7 +162,7 @@ public abstract class Storage implements Config {
 
 	@Nullable
 	public List<Short> getShorts(@NotNull String key) {
-		return getList(key, Short.class);
+		return getMap().getList(key, Short.class);
 	}
 
 	@NotNull

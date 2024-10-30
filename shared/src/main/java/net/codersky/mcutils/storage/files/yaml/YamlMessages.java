@@ -20,6 +20,6 @@ public class YamlMessages extends YamlFile implements MessagesFile {
 	@Nullable
 	@Override
 	public String getRawMessage(@NotNull String path) {
-		return get(path, String.class);
+		return getMap().get(path, String.class);
 	}
 }

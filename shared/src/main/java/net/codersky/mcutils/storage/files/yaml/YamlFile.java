@@ -4,6 +4,7 @@ import net.codersky.mcutils.MCUtils;
 import net.codersky.mcutils.Reloadable;
 import net.codersky.mcutils.java.MCFiles;
 import net.codersky.mcutils.storage.DataHandler;
+import net.codersky.mcutils.storage.DataMap;
 import net.codersky.mcutils.storage.files.UpdatableFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,7 +25,7 @@ import java.util.Objects;
 
 public class YamlFile implements DataHandler, Reloadable, UpdatableFile {
 
-	protected final HashMap<String, Object> keys = new HashMap<>();
+	protected final DataMap data = new DataMap(true);
 	protected final ClassLoader loader;
 	protected final Yaml yaml;
 	protected final File file;
@@ -47,8 +48,8 @@ public class YamlFile implements DataHandler, Reloadable, UpdatableFile {
 
 	@NotNull
 	@Override
-	public HashMap<String, Object> getMap() {
-		return keys;
+	public DataMap getMap() {
+		return data;
 	}
 
 	/*
@@ -86,7 +87,7 @@ public class YamlFile implements DataHandler, Reloadable, UpdatableFile {
 			return false;
 		try {
 			final FileWriter writer = new FileWriter(file, StandardCharsets.UTF_8);
-			yaml.dump(keys, writer);
+			yaml.dump(data.getInternalMap(), writer);
 			writer.close();
 			return true;
 		} catch (IOException e) {
@@ -100,8 +101,10 @@ public class YamlFile implements DataHandler, Reloadable, UpdatableFile {
 
 	public boolean reload() {
 		try {
-			keys.clear();
-			keys.putAll(this.yaml.load(new FileInputStream(this.file)));
+			data.clear();
+			final HashMap<String, Object> loadedMap = this.yaml.load(new FileInputStream(this.file));
+			if (loadedMap != null) // May be null on empty files
+				data.getInternalMap().putAll(loadedMap);
 			return true;
 		} catch (FileNotFoundException | SecurityException ex) {
 			return false;
@@ -143,10 +146,11 @@ public class YamlFile implements DataHandler, Reloadable, UpdatableFile {
 		final InputStream updated = getUpdatedStream();
 		if (updated == null)
 			return false;
+		final HashMap<String, Object> internalMap = data.getInternalMap();
 		final HashMap<String, Object> updMap = getNewYaml().load(updated);
 		for (Map.Entry<String, Object> entry : updMap.entrySet())
-			if (!keys.containsKey(entry.getKey()) && !isIgnored(entry.getKey(), ignored))
-				keys.put(entry.getKey(), entry.getValue());
+			if (!internalMap.containsKey(entry.getKey()) && !isIgnored(entry.getKey(), ignored))
+				internalMap.put(entry.getKey(), entry.getValue());
 		try {
 			updated.close();
 			return true;

@@ -36,12 +36,14 @@ public class FlatStorage extends Storage {
 	private final File file;
 
 	public FlatStorage(@NotNull File file) {
+		super(false);
 		if (!file.getName().endsWith(".mcufs"))
 			throw new IllegalArgumentException("FlatStorage only accepts files with the \".mcufs\" extension.");
 		this.file = file;
 	}
 
 	public FlatStorage(@NotNull String path) {
+		super(false);
 		this.file = new File(path.endsWith(".mcufs") ? path : path + ".mcufs");
 	}
 
@@ -77,7 +79,7 @@ public class FlatStorage extends Storage {
 		int errors = 0;
 		try {
 			final FileWriter writer = new FileWriter(file);
-			for (Entry<String, Object> entry : keys.entrySet()) {
+			for (Entry<String, Object> entry : getEntries()) {
 				final String toWrite;
 				if (entry.getValue() instanceof final List<?> lst) {
 					if (lst.isEmpty())
@@ -214,16 +216,16 @@ public class FlatStorage extends Storage {
 
 	private boolean loadObjFromLine(final char type, final String key, final String value) {
 		return switch (type) {
-		case 's' -> set(key, value.replace("\\n", "\n"));
-		case 'c' -> set(key, value.equals("\\n") ? '\n' : value.charAt(0));
-		case 'b' -> set(key, value.charAt(0) == 't');
-		case 'u' -> set(key, MCStrings.toUUID(value));
-		case 'B' -> set(key, Byte.parseByte(value));
-		case 'S' -> set(key, Short.parseShort(value));
-		case 'I' -> set(key, Integer.parseInt(value));
-		case 'L' -> set(key, Long.parseLong(value));
-		case 'F' -> set(key, Float.parseFloat(value));
-		case 'D' -> set(key, Double.parseDouble(value));
+		case 's' -> setString(key, value.replace("\\n", "\n"));
+		case 'c' -> setChar(key, value.equals("\\n") ? '\n' : value.charAt(0));
+		case 'b' -> setBoolean(key, value.charAt(0) == 't');
+		case 'u' -> setUUID(key, MCStrings.toUUID(value));
+		case 'B' -> setByte(key, Byte.parseByte(value));
+		case 'S' -> setShort(key, Short.parseShort(value));
+		case 'I' -> setInt(key, Integer.parseInt(value));
+		case 'L' -> setLong(key, Long.parseLong(value));
+		case 'F' -> setFloat(key, Float.parseFloat(value));
+		case 'D' -> setDouble(key, Double.parseDouble(value));
 		default -> null;
 		} != null;
 	}
@@ -259,7 +261,7 @@ public class FlatStorage extends Storage {
 				element.append(ch);
 		}
 		result.add(modifier.apply(element.toString()));
-		set(key, result);
+		getMap().setList(key, result);
 		return true;
 	}
 
@@ -285,7 +287,7 @@ public class FlatStorage extends Storage {
 				element.append(ch);
 		}
 		result.add(element.toString());
-		set(key, result);
+		setStrings(key, result);
 		return true;
 	}
 
@@ -302,7 +304,7 @@ public class FlatStorage extends Storage {
 			} else
 				result.add(ch);
 		}
-		set(key, result);
+		setChars(key, result);
 		return true;
 	}
 
@@ -312,7 +314,7 @@ public class FlatStorage extends Storage {
 		final LinkedList<Boolean> result = new LinkedList<>();
 		for (int i = 0; i < len; i++)
 			result.add(lstStr.charAt(i) == 't');
-		set(key, result);
+		setBooleans(key, result);
 		return true;
 	}
 }
