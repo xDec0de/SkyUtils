@@ -143,15 +143,29 @@ public class YamlFile implements DataHandler, Reloadable, UpdatableFile {
 	}
 
 	public boolean update(@Nullable List<String> ignored) {
+		int changes = 0;
 		final InputStream updated = getUpdatedStream();
 		if (updated == null)
 			return false;
 		final HashMap<String, Object> internalMap = data.getInternalMap();
 		final HashMap<String, Object> updMap = getNewYaml().load(updated);
-		for (Map.Entry<String, Object> entry : updMap.entrySet())
-			if (!internalMap.containsKey(entry.getKey()) && !isIgnored(entry.getKey(), ignored))
+		// Add new keys
+		for (Map.Entry<String, Object> entry : updMap.entrySet()) {
+			if (!internalMap.containsKey(entry.getKey()) && !isIgnored(entry.getKey(), ignored)) {
 				internalMap.put(entry.getKey(), entry.getValue());
+				changes++;
+			}
+		}
+		// Remove old keys
+		for (Map.Entry<String, Object> entry : internalMap.entrySet()) {
+			if (!updMap.containsKey(entry.getKey()) && !isIgnored(entry.getKey(), ignored)) {
+				internalMap.remove(entry.getKey());
+				changes++;
+			}
+		}
 		try {
+			if (changes != 0)
+				save();
 			updated.close();
 			return true;
 		} catch (IOException e) {
