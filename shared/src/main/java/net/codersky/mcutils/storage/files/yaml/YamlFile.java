@@ -13,11 +13,9 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
@@ -60,7 +58,7 @@ public class YamlFile implements DataHandler, Reloadable, UpdatableFile {
 	@NotNull
 	private Yaml getNewYaml() {
 		final DumperOptions dumperOptions = new DumperOptions();
-		dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
+		dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
 		return new Yaml(dumperOptions);
 	}
 
@@ -85,8 +83,8 @@ public class YamlFile implements DataHandler, Reloadable, UpdatableFile {
 		if (!exists() && !MCFiles.create(file))
 			return false;
 		try {
-			Writer writer = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
-			writer.write(yaml.dump(keys));
+			final FileWriter writer = new FileWriter(file, StandardCharsets.UTF_8);
+			yaml.dump(keys, writer);
 			writer.close();
 			return true;
 		} catch (IOException e) {
