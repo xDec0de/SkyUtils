@@ -25,15 +25,17 @@ public class MCFiles {
 	 * thrown by this method. Caught exceptions are only of type
 	 * {@link IOException} or {@link SecurityException}.
 	 *
-	 * @return {@code true} if the {@code file} created successfully
-	 * or if it already exists. {@code false} otherwise.
+	 * @return {@code true} if the {@code file} created successfully.
+	 * {@code false} if the {@code file} already exists or if an error occurred.
 	 *
 	 * @since MCUtils 1.0.0
 	 */
-	public static boolean create(@NotNull File file, @NotNull  Consumer<Exception> err) {
+	public static boolean create(@NotNull File file, @NotNull Consumer<Exception> err) {
 		if (file.exists())
-			return true;
-		file.getParentFile().mkdirs();
+			return false;
+		final File parent = file.getParentFile();
+		if (parent != null)
+			parent.mkdirs();
 		try {
 			file.createNewFile();
 			return true;
@@ -53,8 +55,8 @@ public class MCFiles {
 	 *
 	 * @param file The {@link File} to create.
 	 *
-	 * @return {@code true} if the {@code file} created successfully
-	 * or if it already exists. {@code false} otherwise.
+	 * @return {@code true} if the {@code file} created successfully.
+	 * {@code false} if the {@code file} already exists or if an error occurred.
 	 *
 	 * @since MCUtils 1.0.0
 	 */
