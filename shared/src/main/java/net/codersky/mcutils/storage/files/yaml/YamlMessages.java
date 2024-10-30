@@ -4,10 +4,12 @@ import net.codersky.mcutils.storage.files.MessagesFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
+
 public class YamlMessages extends YamlFile implements MessagesFile {
 
-	public YamlMessages(String path) {
-		super(path);
+	public YamlMessages(@Nullable File parent, @NotNull String path) {
+		super(parent, path);
 	}
 
 	@Nullable

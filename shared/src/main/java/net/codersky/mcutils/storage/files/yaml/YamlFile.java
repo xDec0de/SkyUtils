@@ -26,12 +26,15 @@ import java.util.Objects;
 public class YamlFile implements DataHandler, Reloadable, UpdatableFile {
 
 	protected final HashMap<String, Object> keys = new HashMap<>();
-	private final File file;
-	private final Yaml yaml;
 
-	YamlFile(@NotNull String path) {
+	private final Yaml yaml;
+	private final File file;
+	private final String resourcePath;
+
+	YamlFile(@Nullable File parent, @NotNull String path) {
 		this.yaml = getNewYaml();
-		this.file = new File(path);
+		this.file = new File(parent, path);
+		this.resourcePath = path;
 	}
 
 	/*
@@ -69,7 +72,7 @@ public class YamlFile implements DataHandler, Reloadable, UpdatableFile {
 	}
 
 	public boolean setup() {
-		return MCFiles.create(file);
+		return MCFiles.create(file) && update() && save();
 	}
 
 	public boolean save() {
@@ -117,7 +120,7 @@ public class YamlFile implements DataHandler, Reloadable, UpdatableFile {
 	 */
 	@Nullable
 	protected InputStream getUpdatedStream() {
-		return getClass().getResourceAsStream(file.getPath());
+		return getClass().getResourceAsStream(resourcePath);
 	}
 
 	private boolean isIgnored(String path, @Nullable List<String> ignored) {
@@ -133,7 +136,7 @@ public class YamlFile implements DataHandler, Reloadable, UpdatableFile {
 		final InputStream updated = getUpdatedStream();
 		if (updated == null)
 			return false;
-		final HashMap<String, Object> updMap = getNewYaml().load(getUpdatedStream());
+		final HashMap<String, Object> updMap = getNewYaml().load(updated);
 		for (Map.Entry<String, Object> entry : updMap.entrySet())
 			if (!keys.containsKey(entry.getKey()) && !isIgnored(entry.getKey(), ignored))
 				keys.put(entry.getKey(), entry.getValue());
