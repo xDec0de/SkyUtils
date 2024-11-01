@@ -58,8 +58,9 @@ public abstract class VelocityCommand<P> implements SimpleCommand, MCCommand<P, 
 
 	// Command logic //
 
-	@SafeVarargs
-	public final VelocityCommand<P> inject(VelocityCommand<P>... commands) {
+	@NotNull
+	@Override
+	public VelocityCommand<P> inject(MCCommand<P, VelocityCommandSender>... commands) {
 		subCmdHandler.inject(commands);
 		return this;
 	}

@@ -46,8 +46,9 @@ public abstract class SpigotCommand<P extends JavaPlugin> extends Command implem
 
 	// Command logic //
 
-	@SafeVarargs
-	public final SpigotCommand<P> inject(SpigotCommand<P>... commands) {
+	@NotNull
+	@Override
+	public SpigotCommand<P> inject(@NotNull MCCommand<P, SpigotCommandSender>... commands) {
 		subCommandHandler.inject(commands);
 		return this;
 	}

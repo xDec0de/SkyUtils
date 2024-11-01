@@ -35,7 +35,7 @@ public class AdaptedSpigotCommand<P extends JavaPlugin> extends SpigotCommand<P>
 
 	@NotNull
 	@Override
-	public MCCommand<P, SpigotCommandSender> inject(@NotNull MCCommand<P, SpigotCommandSender>... commands) {
+	public AdaptedSpigotCommand<P> inject(@NotNull MCCommand<P, SpigotCommandSender>... commands) {
 		throw new UnsupportedOperationException("Adapted commands cannot inject new commands.");
 	}
 }

@@ -33,7 +33,7 @@ public class AdaptedVelocityCommand<P> extends VelocityCommand<P> {
 
 	@NotNull
 	@Override
-	public MCCommand<P, VelocityCommandSender> inject(@NotNull MCCommand<P, VelocityCommandSender>... commands) {
+	public AdaptedVelocityCommand<P> inject(MCCommand<P, VelocityCommandSender>... commands) {
 		throw new UnsupportedOperationException("Adapted commands cannot inject new commands.");
 	}
 }
