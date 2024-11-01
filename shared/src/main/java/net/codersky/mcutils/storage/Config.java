@@ -91,8 +91,8 @@ public interface Config extends DataHandler, Reloadable {
 	}
 
 	@NotNull
-	default Set<String> getKeys(@NotNull Predicate<String> filter) {
-		return MCCollections.clone(getKeys(), filter);
+	default Set<String> getKeys(@NotNull String parent) {
+		return getMap().getKeys(parent);
 	}
 
 	default boolean containsKey(@NotNull String... keys) {

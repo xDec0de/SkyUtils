@@ -115,8 +115,8 @@ public class DataMap {
 	}
 
 	@NotNull
-	public Set<String> getKeys(@NotNull String key) {
-		final Map<String, Object> source = getNestedMap(key, false);
+	public Set<String> getKeys(@NotNull String parent) {
+		final Map<String, Object> source = getNestedMap(parent, false);
 		return source == null ? Set.of() : source.keySet();
 	}
 
