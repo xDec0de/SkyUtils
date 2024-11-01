@@ -53,10 +53,12 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	@NotNull
 	List<String> onTab(@NotNull S sender, @NotNull String[] args);
 
-	boolean hasAccess(@NotNull S sender, boolean message);
-
 	@NotNull
 	MCCommand<P, S> inject(@NotNull MCCommand<P, S>... commands);
+
+	default boolean hasAccess(@NotNull S sender, boolean message) {
+		return true;
+	}
 
 	/**
 	 * Returns whether this {@link MCCommand} removes
