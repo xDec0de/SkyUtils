@@ -130,7 +130,7 @@ public class DataMap {
 	@SuppressWarnings("unchecked")
 	private <T> T getFromMap(@NotNull Map<?, ?> source, @NotNull String key, @NotNull Class<T> type) {
 		final Object obj = source.get(key);
-		return obj != null && obj.getClass().equals(type) ? (T) obj : null;
+		return obj != null && type.isAssignableFrom(obj.getClass()) ? (T) obj : null;
 	}
 
 	// - Objects - //
@@ -154,9 +154,12 @@ public class DataMap {
 	@Nullable
 	@SuppressWarnings("unchecked")
 	public <T> List<T> getList(@NotNull String key, @NotNull Class<T> type) {
-		final Object obj = get(key, Object.class);
-		if (obj instanceof LinkedList<?> lst)
-			return lst.getClass().getTypeParameters()[0].getClass().equals(type) ? (List<T>) lst : null;
+		final Object obj = get(key, List.class);
+		if (obj instanceof List<?> lst) {
+			if (lst.isEmpty())
+				return List.of();
+			return lst.getFirst().getClass().equals(type) ? (List<T>) lst : null;
+		}
 		return null;
 	}
 
