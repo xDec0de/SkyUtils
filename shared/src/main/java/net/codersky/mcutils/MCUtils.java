@@ -1,5 +1,6 @@
 package net.codersky.mcutils;
 
+import net.codersky.mcutils.cmd.GlobalCommand;
 import net.codersky.mcutils.cmd.MCCommand;
 import net.codersky.mcutils.cmd.MCCommandSender;
 import net.codersky.mcutils.crossplatform.MCConsole;
@@ -92,7 +93,7 @@ public abstract class MCUtils<P> {
 	 * Commands
 	 */
 
-	public abstract void registerCommands(MCCommand<P, MCCommandSender>... commands);
+	public abstract void registerCommands(GlobalCommand<P>... commands);
 
 	/*
 	 * Reloadables

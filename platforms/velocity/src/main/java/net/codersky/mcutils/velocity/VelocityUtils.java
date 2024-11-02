@@ -5,11 +5,13 @@ import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import net.codersky.mcutils.MCPlatform;
+import net.codersky.mcutils.cmd.GlobalCommand;
 import net.codersky.mcutils.cmd.MCCommand;
 import net.codersky.mcutils.cmd.MCCommandSender;
 import net.codersky.mcutils.crossplatform.player.MCPlayer;
 import net.codersky.mcutils.crossplatform.player.PlayerProvider;
 import net.codersky.mcutils.crossplatform.proxy.ProxyUtils;
+import net.codersky.mcutils.java.MCCollections;
 import net.codersky.mcutils.velocity.cmd.AdaptedVelocityCommand;
 import net.codersky.mcutils.velocity.cmd.VelocityCommand;
 import org.jetbrains.annotations.NotNull;
@@ -72,20 +74,26 @@ public class VelocityUtils<P> extends ProxyUtils<P> {
 	}
 
 	@Override
-	@SuppressWarnings({"unchecked", "rawtypes"})
-	public void registerCommands(MCCommand<P, MCCommandSender>... commands) {
+	@SuppressWarnings("unchecked")
+	public void registerCommands(GlobalCommand<P>... commands) {
+		if (commands == null || commands.length == 0)
+			return;
+		registerCommands(MCCollections.map(
+				commands,
+				new AdaptedVelocityCommand[commands.length],
+				cmd -> new AdaptedVelocityCommand<>(this, cmd))
+		);
+	}
+
+	@SuppressWarnings("unchecked")
+	public void registerCommands(VelocityCommand<P>... commands) {
 		final CommandManager manager = getProxy().getCommandManager();
-		for (MCCommand<P, MCCommandSender> mcCommand : commands) {
-			final VelocityCommand<P> velocityCommand;
-			if (mcCommand instanceof VelocityCommand)
-				velocityCommand = (VelocityCommand) mcCommand;
-			else
-				velocityCommand = new AdaptedVelocityCommand<>(this, mcCommand);
-			final CommandMeta meta = manager.metaBuilder(velocityCommand.getName())
+		for (VelocityCommand<P> command : commands) {
+			final CommandMeta meta = manager.metaBuilder(command.getName())
 					.plugin(getPlugin())
-					.aliases(velocityCommand.getAliasesArray())
+					.aliases(command.getAliasesArray())
 					.build();
-			manager.register(meta, velocityCommand);
+			manager.register(meta, command);
 		}
 	}
 }

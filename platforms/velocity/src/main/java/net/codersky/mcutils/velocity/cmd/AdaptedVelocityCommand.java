@@ -1,5 +1,6 @@
 package net.codersky.mcutils.velocity.cmd;
 
+import net.codersky.mcutils.cmd.GlobalCommand;
 import net.codersky.mcutils.cmd.MCCommand;
 import net.codersky.mcutils.cmd.MCCommandSender;
 import net.codersky.mcutils.velocity.VelocityUtils;
@@ -9,9 +10,9 @@ import java.util.List;
 
 public class AdaptedVelocityCommand<P> extends VelocityCommand<P> {
 
-	private final MCCommand<P, MCCommandSender> command;
+	private final GlobalCommand<P> command;
 
-	public AdaptedVelocityCommand(@NotNull VelocityUtils<P> utils, @NotNull MCCommand<P, MCCommandSender> command) {
+	public AdaptedVelocityCommand(@NotNull VelocityUtils<P> utils, @NotNull GlobalCommand<P> command) {
 		super(utils, command.getName(), command.getAliases().toArray(new String[0]));
 		this.command = command;
 	}

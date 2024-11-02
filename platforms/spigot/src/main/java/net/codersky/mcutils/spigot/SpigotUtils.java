@@ -1,11 +1,13 @@
 package net.codersky.mcutils.spigot;
 
 import net.codersky.mcutils.MCPlatform;
+import net.codersky.mcutils.cmd.GlobalCommand;
 import net.codersky.mcutils.cmd.MCCommand;
 import net.codersky.mcutils.cmd.MCCommandSender;
 import net.codersky.mcutils.crossplatform.player.MCPlayer;
 import net.codersky.mcutils.crossplatform.player.PlayerProvider;
 import net.codersky.mcutils.crossplatform.server.ServerUtils;
+import net.codersky.mcutils.java.MCCollections;
 import net.codersky.mcutils.java.strings.MCStrings;
 import net.codersky.mcutils.spigot.cmd.AdaptedSpigotCommand;
 import net.codersky.mcutils.spigot.cmd.SpigotCommand;
@@ -29,6 +31,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -201,6 +204,18 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 		return null;
 	}
 
+	@Override
+	@SuppressWarnings("unchecked")
+	public void registerCommands(@NotNull GlobalCommand<P>... commands) {
+		if (commands == null || commands.length == 0)
+			return;
+		registerCommands(MCCollections.map(
+				commands,
+				new AdaptedSpigotCommand[commands.length],
+				cmd -> new AdaptedSpigotCommand<>(this, cmd))
+		);
+	}
+
 	/**
 	 * Registers the specified {@code commands}, allowing them to be executed.
 	 * <p>
@@ -224,22 +239,17 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 	 *
 	 * @since MCUtils 1.0.0
 	 */
-	@SuppressWarnings({"unchecked", "rawtypes"})
-	public void registerCommands(MCCommand<P, MCCommandSender>... commands) {
+	@SuppressWarnings({"unchecked"})
+	public void registerCommands(SpigotCommand<P>... commands) {
 		if (commands == null || commands.length == 0)
 			return;
 		final List<Command> remaining = new ArrayList<>();
-		for (MCCommand<P, MCCommandSender> command : commands) {
-			final SpigotCommand<P> spigotCommand;
-			if (command instanceof SpigotCommand)
-				spigotCommand = (SpigotCommand) command;
-			else
-				spigotCommand = new AdaptedSpigotCommand<>(this, command);
+		for (SpigotCommand<P> command : commands) {
 			final PluginCommand plCommand = getPlugin().getCommand(command.getName());
 			if (plCommand != null)
-				plCommand.setExecutor(spigotCommand);
+				plCommand.setExecutor(command);
 			else
-				remaining.add(spigotCommand);
+				remaining.add(command);
 		}
 		if (remaining.isEmpty())
 			return;

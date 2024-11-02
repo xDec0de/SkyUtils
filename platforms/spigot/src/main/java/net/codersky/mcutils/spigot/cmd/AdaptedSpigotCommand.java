@@ -1,5 +1,6 @@
 package net.codersky.mcutils.spigot.cmd;
 
+import net.codersky.mcutils.cmd.GlobalCommand;
 import net.codersky.mcutils.cmd.MCCommand;
 import net.codersky.mcutils.cmd.MCCommandSender;
 import net.codersky.mcutils.spigot.SpigotUtils;
@@ -10,9 +11,9 @@ import java.util.List;
 
 public class AdaptedSpigotCommand<P extends JavaPlugin> extends SpigotCommand<P> {
 
-	private final MCCommand<?, MCCommandSender> command;
+	private final GlobalCommand<P> command;
 
-	public AdaptedSpigotCommand(@NotNull SpigotUtils<P> utils, @NotNull MCCommand<?, MCCommandSender> command) {
+	public AdaptedSpigotCommand(@NotNull SpigotUtils<P> utils, @NotNull GlobalCommand<P> command) {
 		super(utils, command.getName(), command.getAliases().toArray(new String[0]));
 		this.command = command;
 	}
