@@ -68,7 +68,7 @@ public class GradientColorPattern implements ColorPattern {
 	private String[] createGradient(@NotNull Color start, @NotNull Color end, int step) {
 		String[] colors = new String[step];
 		if (step == 1) {
-			colors[0] = toHexString(start);
+			colors[0] = toLegacyColorString(start);
 			return colors;
 		}
 		int stepR = Math.abs(start.getRed() - end.getRed()) / (step - 1);
@@ -82,16 +82,18 @@ public class GradientColorPattern implements ColorPattern {
 
 		for (int i = 0; i < step; i++) {
 			Color color = new Color(start.getRed() + ((stepR * i) * direction[0]), start.getGreen() + ((stepG * i) * direction[1]), start.getBlue() + ((stepB * i) * direction[2]));
-			colors[i] = toHexString(color);
+			colors[i] = toLegacyColorString(color);
 			//colors[i] = plugin.getServerVersion().supports(MCVersion.V1_16) ? ChatColor.of(color) : getClosestColor(color);
 		}
 		return colors;
 	}
 
-	private String toHexString(@NotNull Color color) {
-		return String.format("%02X", color.getRed()) +
-				String.format("%02X", color.getGreen()) +
-				String.format("%02X", color.getBlue());
+	private String toLegacyColorString(@NotNull Color color) {
+		final String hex = String.format("#%06X", (0xFFFFFF & color.getRGB()));
+		final StringBuilder res = new StringBuilder(MCStrings.COLOR_CHAR + "x");
+		for (char ch : hex.substring(1).toCharArray())
+			res.append(MCStrings.COLOR_CHAR).append(ch);
+		return res.toString();
 	}
 
 	/**
