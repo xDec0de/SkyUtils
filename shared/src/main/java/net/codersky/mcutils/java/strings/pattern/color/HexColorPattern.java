@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 public class HexColorPattern implements ColorPattern {
 
 	@NotNull
-	public String applyColor(@Nullable final String string, boolean simple) {
+	public String applyColor(@NotNull final String string, boolean simple) {
 		final int len = string.length();
 		if (len < (simple ? 5 : 8) || string.indexOf('#') < 0)
 			return string;
