@@ -447,6 +447,13 @@ public class MCCollections {
 	 */
 
 	@NotNull
+	public static <T, O> T[] map(@NotNull O[] src, @NotNull T[] target, @NotNull Function<O, T> mapper) {
+		for(int i = 0; i < src.length; i++)
+			target[i] = mapper.apply(src[i]);
+		return target;
+	}
+
+	@NotNull
 	public static <S extends Collection<O>, T extends Collection<R>, O, R> T map(@NotNull S src, T target, @NotNull Function<O, R> mapper) {
 		for (O element : src)
 			target.add(mapper.apply(element));
