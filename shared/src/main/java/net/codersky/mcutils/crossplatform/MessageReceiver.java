@@ -1,6 +1,7 @@
 package net.codersky.mcutils.crossplatform;
 
 import net.codersky.mcutils.cmd.MCCommand;
+import net.codersky.mcutils.cmd.MCCommandSender;
 import net.codersky.mcutils.crossplatform.player.MCPlayer;
 import net.codersky.mcutils.java.strings.Replacer;
 import net.kyori.adventure.text.Component;
@@ -21,6 +22,25 @@ import org.jetbrains.annotations.NotNull;
  * @author xDec0de_
  */
 public interface MessageReceiver {
+
+	/**
+	 * Gets the name of this {@link MessageReceiver}. The way this works
+	 * can vary depending on the platform and implementation, details are
+	 * provided on the documentation of each implementation, but here is
+	 * a not so detailed list of what you can expect, this only includes
+	 * player and console types that implement {@link MCPlayer},
+	 * {@link MCConsole} and {@link MCCommandSender}:
+	 * <ul>
+	 *   <li>Spigot: <i>CommandSender#getName</i></li>
+	 *   <li>Velocity: <i>Player#getUsername</i> or <i>"Console"</i>.</li>
+	 * </ul>
+	 *
+	 * @return The name of this {@link MessageReceiver}.
+	 *
+	 * @since MCUtils 1.0.0
+	 */
+	@NotNull
+	String getName();
 
 	/*
 	 * Legacy messages (String)

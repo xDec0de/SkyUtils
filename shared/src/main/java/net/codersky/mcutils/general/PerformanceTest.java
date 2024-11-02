@@ -10,7 +10,7 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Class used to do fast performance as of right now,
+ * Class used to do fast performance tests. Currently,
  * this class uses {@link ThreadMXBean#getCurrentThreadCpuTime()}
  * to get the actual execution time of the methods, as well as creating
  * a new {@link Thread} every time a test runs, sleeping before every execution

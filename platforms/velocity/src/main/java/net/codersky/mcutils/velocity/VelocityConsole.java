@@ -19,6 +19,19 @@ public class VelocityConsole implements MCConsole {
 		return handle;
 	}
 
+	/**
+	 * Gets the name of this {@link VelocityConsole}, which just
+	 * returns "Console".
+	 *
+	 * @return The name of this {@link VelocityConsole}.
+	 *
+	 * @since MCUtils 1.0.0
+	 */
+	@Override
+	public @NotNull String getName() {
+		return "Console";
+	}
+
 	@Override
 	public boolean sendMessage(@NotNull String message) {
 		return sendMessage(Component.text(message));

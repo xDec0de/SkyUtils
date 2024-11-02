@@ -62,6 +62,22 @@ public class VelocityCommandSender implements MCCommandSender {
 	 * Messages
 	 */
 
+	/**
+	 * Gets the name of this {@link VelocityCommandSender}. If
+	 * {@link #isPlayer()} is {@code true}, {@link Player#getUsername()}
+	 * is used, otherwise <i>"Console"</i> is returned.
+	 *
+ 	 * @return The name of this {@link VelocityCommandSender}.
+	 *
+	 * @since MCUtils 1.0.0
+	 */
+	@NotNull
+	@Override
+	public String getName() {
+		final Player player = asPlayerHandle();
+		return player == null ? "Console" : player.getUsername();
+	}
+
 	@Override
 	public boolean sendMessage(@NotNull String message) {
 		source.sendPlainMessage(message);

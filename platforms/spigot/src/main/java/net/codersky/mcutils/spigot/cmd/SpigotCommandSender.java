@@ -51,6 +51,20 @@ public class SpigotCommandSender implements MCCommandSender {
 	 * Messages
 	 */
 
+	/**
+	 * Gets the name of this {@link SpigotCommandSender}. This just
+	 * falls back to {@link CommandSender#getName()}.
+	 *
+	 * @return The name of this {@link SpigotCommandSender}.
+	 *
+	 * @since MCUtils 1.0.0
+	 */
+	@NotNull
+	@Override
+	public String getName() {
+		return sender.getName();
+	}
+
 	@Override
 	public boolean sendMessage(@NotNull String message) {
 		sender.sendMessage(message);
