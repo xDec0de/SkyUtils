@@ -247,9 +247,10 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 		final List<Command> remaining = new ArrayList<>();
 		for (SpigotCommand<P> command : commands) {
 			final PluginCommand plCommand = getPlugin().getCommand(command.getName());
-			if (plCommand != null)
+			if (plCommand != null) {
 				plCommand.setExecutor(command);
-			else
+				plCommand.setTabCompleter(command);
+			} else
 				remaining.add(command);
 		}
 		if (remaining.isEmpty())

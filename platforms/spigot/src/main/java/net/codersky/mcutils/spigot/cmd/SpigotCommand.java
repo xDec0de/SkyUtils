@@ -14,6 +14,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nonnull;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -63,9 +65,15 @@ public abstract class SpigotCommand<P extends JavaPlugin> extends Command implem
 		return subCommandHandler.onCommand(this, new SpigotCommandSender(sender, getUtils()), args);
 	}
 
+	@NotNull
 	@Override
-	@Nullable
 	public final List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+		return tabComplete(sender, label, args);
+	}
+
+	@NotNull
+	@Override
+	public final List<String> tabComplete(@Nonnull CommandSender sender, @Nonnull String alias, @Nonnull String[] args) {
 		return subCommandHandler.onTab(this, new SpigotCommandSender(sender, getUtils()), args);
 	}
 
