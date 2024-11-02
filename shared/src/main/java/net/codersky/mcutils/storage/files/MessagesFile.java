@@ -26,6 +26,94 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface MessagesFile extends Reloadable {
 
+	/**
+	 * Gets the default {@link Replacer} that will be applied to every message
+	 * sent by this {@link MessagesFile}. This default {@link Replacer} may be
+	 * {@code null}, in which case no default replacements will be applied to
+	 * the messages. This is generally used for placeholders such as a plugin
+	 * prefix like "prefix". Note that this {@link Replacer} replaces <b>before</b>
+	 * any other {@link Replacer} that may be used on other methods such as
+	 * {@link #send(MessageReceiver, String, Replacer)}. Meaning that by the
+	 * time the {@link Replacer} passed to that method takes action, the message
+	 * will already be modified by this {@link Replacer}, so this default {@link Replacer}
+	 * <b>always</b> takes priority.
+	 *
+	 * @return The default {@link Replacer} of this {@link MessagesFile},
+	 * {@code null} if no default {@link Replacer} has been set.
+	 *
+	 * @since MCUtils 1.0.0
+	 */
+	@Nullable
+	Replacer getDefaultReplacer();
+
+	/**
+	 * Sets the default {@link Replacer} of this {@link MessagesFile}. This
+	 * default {@link Replacer} may be {@code null}, in which case no default
+	 * replacements will be applied to the messages. This is generally used
+	 * for placeholders such as a plugin prefix like "prefix".
+	 *
+	 * @param replacer the new default {@link Replacer}.
+	 *
+	 * @return This {@link MessagesFile}.
+	 *
+	 * @since MCUtils 1.0.0
+	 */
+	@NotNull
+	MessagesFile setDefaultReplacer(@Nullable Replacer replacer);
+
+	/**
+	 * Creates a new {@link Replacer} to be used as the default {@link Replacer}
+	 * for this {@link MessagesFile}. Keep in mind that the amount of {@code replacements}
+	 * must be even as specified by {@link Replacer#Replacer(Object...)}
+	 * 
+	 * @param replacements The replacements to use for the new default {@link Replacer}.
+	 * The format is <i>"str1", "obj1", "str2", "obj2"...</i>, so for example <i>"%test%", 1</i>
+	 * would replace every occurrence of "%test%" with 1.
+	 *
+	 * @return This {@link MessagesFile}.
+	 *
+	 * @since MCUtils 1.0.0
+	 */
+	@NotNull
+	default MessagesFile setDefaultObjReplacer(@NotNull Object... replacements) {
+		return setDefaultReplacer(new Replacer(replacements));
+	}
+
+	/**
+	 * Working in a similar way to {@link #setDefaultObjReplacer(Object...)}, this method
+	 * creates a new {@link Replacer} to be used as the default {@link Replacer} for this
+	 * {@link MessagesFile}. With the difference being that replacements will be obtained
+	 * with the {@link #getMessage(String)} method. This is useful if you have a file such
+	 * as this one:
+	 * <pre>
+	 * prefix: "&6My&ePlugin &8|&7"
+	 * test: "%prefix% Hello"
+	 * test2: "%prefix World"
+	 * </pre>
+	 * And you want to apply the message at the {@code prefix} path to every message as
+	 * the <i>%prefix%</i> placeholder. For that, you can use the parameters
+	 * <i>"%prefix%", "prefix"</i> and the replacement for <i>"%prefix%"</i> will be
+	 * "&6My&ePlugin &8|&7". Note that this is calculated on this method, so if you want
+	 * to implement a messages file reload, you will need to redefine the default replacer.
+	 *
+	 * @param replacements The replacements to use for the new default {@link Replacer}.
+	 *
+	 * @return This {@link MessagesFile}.
+	 *
+	 * @since MCUtils 1.0.0
+	 */
+	@NotNull
+	default MessagesFile setDefaultMsgReplacer(@NotNull String... replacements) {
+		final Replacer rep = new Replacer();
+		if (replacements.length % 2 != 0)
+			throw new IllegalArgumentException("Invalid Replacer size: " + replacements.length);
+		for (int i = 0; i <= replacements.length - 1; i += 2) {
+			final String msg = getRawMessage(replacements[i + 1]);
+			rep.add(replacements[i], msg == null ? "null" : msg);
+		}
+		return setDefaultReplacer(rep);
+	}
+
 	/*
 	 * Raw message getters
 	 */
@@ -33,6 +121,8 @@ public interface MessagesFile extends Reloadable {
 	/**
 	 * Gets a message {@link String} from this {@link MessagesFile}.
 	 * This {@link String} may be {@code null} if the message isn't found.
+	 * <p>
+	 * This method does <b>NOT</b> apply the {@link #getDefaultReplacer() default replacer}.
 	 *
 	 * @param path The path of the message to get.
 	 *
@@ -51,6 +141,8 @@ public interface MessagesFile extends Reloadable {
 	 * Gets a message {@link String} from this {@link MessagesFile},
 	 * applying a {@link Replacer} to it. This {@link String} may be
 	 * {@code null} if the message isn't found.
+	 * <p>
+	 * This method does <b>NOT</b> apply the {@link #getDefaultReplacer() default replacer}.
 	 *
 	 * @param path The path of the message to get.
 	 * @param replacer The {@link Replacer} to apply to the message. If
@@ -76,6 +168,8 @@ public interface MessagesFile extends Reloadable {
 	 * Gets a message {@link String} from this {@link MessagesFile},
 	 * applying a {@link Replacer} built from the specified {@code replacements} to it.
 	 * This {@link String} may be {@code null} if the message isn't found.
+	 * <p>
+	 * This method does <b>NOT</b> apply the {@link #getDefaultReplacer() default replacer}.
 	 *
 	 * @param path The path of the message to get.
 	 * @param replacements The {@link Object Objects} that will be used in
@@ -125,7 +219,8 @@ public interface MessagesFile extends Reloadable {
 	@Nullable
 	default String getMessage(@NotNull String path) {
 		final String str = getRawMessage(path);
-		return str == null ? null : MCStrings.applyColor(str);
+		final Replacer rep = this.getDefaultReplacer();
+		return str == null ? null : MCStrings.applyColor(rep == null ? str : rep.replaceAt(str));
 	}
 
 	/**
