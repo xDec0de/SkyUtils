@@ -19,5 +19,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "MCUtils"
 include(":shared")
+include(":platforms:universal")
 include(":platforms:spigot")
 include(":platforms:velocity")
+include("platforms:universal")
+findProject(":platforms:universal")?.name = "universal"
