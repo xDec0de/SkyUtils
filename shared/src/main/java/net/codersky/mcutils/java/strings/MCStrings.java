@@ -90,7 +90,7 @@ public class MCStrings {
 	public static String applyColor(@NotNull String str, boolean simple) {
 		String colored = Objects.requireNonNull(str, "The string to process cannot be null");
 		for (ColorPattern pattern : colorPatterns)
-			colored = pattern.applyColor(str, simple);
+			colored = pattern.applyColor(colored, simple);
 		return colored;
 	}
 
