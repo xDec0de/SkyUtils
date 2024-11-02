@@ -2,6 +2,7 @@ package net.codersky.mcutils.cmd;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -38,7 +39,18 @@ public class SubCommandHandler<P, S extends MCCommandSender> {
 	}
 
 	public List<String> onTab(@NotNull MCCommand<P, S> mainCommand, @NotNull S sender, @NotNull String[] args) {
-		return onUsedCommand(mainCommand, sender, args, (cmd, newArgs) -> cmd.onTab(sender, newArgs), List.of(), false);
+		return onUsedCommand(mainCommand, sender, args, (cmd, newArgs) -> {
+			if (subCommands.isEmpty() || args.length > 1)
+				return cmd.onTab(sender, newArgs);
+			final List<String> cmdTabs = cmd.onTab(sender, newArgs);
+			final List<String> tabs = new ArrayList<>(subCommands.size() + cmdTabs.size());
+			tabs.addAll(cmdTabs);
+			for (MCCommand<P, S> subCmd : subCommands) {
+				tabs.add(subCmd.getName());
+				tabs.addAll(subCmd.getAliases());
+			}
+			return tabs;
+		}, List.of(), false);
 	}
 
 	@SafeVarargs
