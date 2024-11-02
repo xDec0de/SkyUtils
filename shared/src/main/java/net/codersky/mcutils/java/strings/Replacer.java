@@ -47,11 +47,12 @@ public class Replacer {
 	 * also,  make sure that the amount of strings added to the {@link Replacer}
 	 * are <b>even</b>, otherwise, an {@link IllegalArgumentException} will be thrown.
 	 * 
-	 * @param replacements The new strings to be replaced, the format is <i>"str1", "obj1", "str2", "obj2"...</i>
-	 * 
-	 * @throws IllegalArgumentException if {@code replacements} is {@code null} or the amount of
-	 * objects is not even, more technically, if {@code replacements}
-	 * size % 2 is not equal to 0.
+	 * @param replacements The strings to be replaced, the format is <i>"str1", "obj1", "str2", "obj2"...</i>,
+	 * so for example <i>"%test%", 1</i> would replace every occurrence of "%test%" with 1.
+	 *
+	 * @throws IllegalArgumentException if the amount of {@code replacements} is not even,
+	 * more technically, if {@code replacements} size % 2 is not equal to 0.
+	 * @throws NullPointerException if {@code replacements} or any individual replacement is {@code null}.
 	 * 
 	 * @since MCUtils 1.0.0
 	 * 
@@ -61,7 +62,7 @@ public class Replacer {
 	 * @see #replaceAt(Component) 
 	 */
 	public Replacer(@NotNull Object... replacements) {
-		add(Objects.requireNonNull(replacements, "Replacements cannot be null."));
+		add(replacements);
 	}
 
 	/**
@@ -77,10 +78,9 @@ public class Replacer {
 	 * 
 	 * @return This {@link Replacer} with the new <b>replacements</b> added to it.
 	 *
-	 * @throws NullPointerException If {@code replacements} or any of the elements inside of {@code replacements}
-	 * are {@code null}.
-	 * @throws IllegalArgumentException If the amount of objects is not even, more technically, if {@code replacements}
-	 * size % 2 is not equal to 0.
+	 * @throws IllegalArgumentException if the amount of {@code replacements} is not even,
+	 * more technically, if {@code replacements} size % 2 is not equal to 0.
+	 * @throws NullPointerException if {@code replacements} or any individual replacement is {@code null}.
 	 * 
 	 * @since MCUtils 1.0.0
 	 * 
@@ -90,8 +90,9 @@ public class Replacer {
 	 */
 	@NotNull
 	public Replacer add(@NotNull Object... replacements) {
+		Objects.requireNonNull(replacements, "Replacements cannot be null");
 		if (replacements.length % 2 != 0)
-			throw new IllegalArgumentException(replacements[replacements.length -1] + " does not have a replacement! Add one more element.");
+			throw new IllegalArgumentException("Invalid Replacer size: " + replacements.length);
 		for (Object replacement : replacements) {
 			if (replacement instanceof Replacement iReplacement)
 				replaceList.add(iReplacement.asReplacement());
