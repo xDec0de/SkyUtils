@@ -23,7 +23,7 @@ public class SubCommandHandler<P, S extends MCCommandSender> {
 
 	private <T> T onUsedCommand(@NotNull MCCommand<P, S> mainCmd, @NotNull S sender, @NotNull String[] args,
 	                            @NotNull BiFunction<MCCommand<P, S>, String[], T> action, @NotNull T def, boolean message) {
-		if (mainCmd.hasAccess(sender, message))
+		if (!mainCmd.hasAccess(sender, message))
 			return def;
 		if (args.length == 0)
 			return action.apply(mainCmd, args);
