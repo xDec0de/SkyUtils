@@ -14,6 +14,7 @@ import net.codersky.mcutils.crossplatform.proxy.ProxyUtils;
 import net.codersky.mcutils.java.MCCollections;
 import net.codersky.mcutils.velocity.cmd.AdaptedVelocityCommand;
 import net.codersky.mcutils.velocity.cmd.VelocityCommand;
+import net.codersky.mcutils.velocity.player.VelocityPlayerProvider;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,6 +34,7 @@ public class VelocityUtils<P> extends ProxyUtils<P> {
 		super(plugin);
 		this.proxy = Objects.requireNonNull(proxy);
 		this.console = new VelocityConsole(proxy.getConsoleCommandSource());
+		this.playerProvider = new VelocityPlayerProvider(proxy);
 		this.dataDirectory = dataDirectory;
 	}
 

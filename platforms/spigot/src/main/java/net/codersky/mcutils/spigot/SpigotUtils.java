@@ -12,6 +12,7 @@ import net.codersky.mcutils.java.strings.MCStrings;
 import net.codersky.mcutils.spigot.cmd.AdaptedSpigotCommand;
 import net.codersky.mcutils.spigot.cmd.SpigotCommand;
 import net.codersky.mcutils.java.reflection.RefObject;
+import net.codersky.mcutils.spigot.player.SpigotPlayerProvider;
 import net.codersky.mcutils.spigot.worldgen.SingleBiomeProvider;
 import net.codersky.mcutils.spigot.worldgen.VoidGenerator;
 import org.bukkit.Bukkit;
@@ -41,7 +42,7 @@ import java.util.function.Predicate;
 public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 
 	private final SpigotConsole console;
-	private PlayerProvider<Player> playerProvider;
+	private PlayerProvider<Player> playerProvider = new SpigotPlayerProvider();
 
 	public SpigotUtils(@NotNull P plugin) {
 		super(plugin);
