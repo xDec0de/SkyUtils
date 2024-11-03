@@ -9,7 +9,6 @@ repositories {
 
 dependencies {
 	api(project(":shared"))
-	api(libs.adventure)
 	api(libs.adventure.serializer.legacy)
 	api(libs.snakeyaml)
 }
