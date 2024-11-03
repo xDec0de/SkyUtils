@@ -10,9 +10,18 @@ repositories {
 
 dependencies {
 	api(project(":shared"))
+	implementation(libs.jetbrains.annotations)
 	implementation(libs.adventure.serializer.legacy)
 	implementation(libs.adventure.serializer.bungee)
 	compileOnly(libs.spigot)
+}
+
+configurations {
+	runtimeOnly {
+		exclude("net.kyori", "option")
+		exclude("org.jetbrains")
+		exclude("org.intellij")
+	}
 }
 
 tasks {
