@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-	implementation(libs.jetbrains.annotations)
+	compileOnly(libs.jetbrains.annotations)
 	compileOnly(libs.adventure.serializer.legacy)
 	compileOnly(libs.snakeyaml)
 }
