@@ -5,8 +5,8 @@ plugins {
 
 tasks {
     shadowJar {
-        archiveFileName = "MCUtils-${project.name}-${rootProject.version}.jar"
         archiveClassifier = null
+		archiveFileName = "MCUtils-" + project.name.uppercaseFirstChar() + "-${rootProject.version}.jar"
 
         relocate("org.jetbrains.annotations", "net.codersky.mcutils.shaded.jetbrains.annotations")
         relocate("org.intellij.lang.annotations", "net.codersky.mcutils.shaded.intellij.annotations")
