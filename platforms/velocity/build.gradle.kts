@@ -12,3 +12,9 @@ dependencies {
 	implementation(libs.snakeyaml)
 	compileOnly(libs.velocity)
 }
+
+tasks {
+	shadowJar {
+		relocate("org.yaml.snakeyaml", "net.codersky.mcutils.shaded.snakeyaml")
+	}
+}

@@ -24,6 +24,11 @@ dependencies {
 }
 
 tasks {
+
+	shadowJar {
+		relocate("net.kyori", "net.codersky.mcutils.shaded.kyori")
+	}
+
 	// 1.8.8 - 1.16.5 = Java 8
 	// 1.17           = Java 16
 	// 1.18 - 1.20.4  = Java 17

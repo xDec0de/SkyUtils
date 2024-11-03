@@ -1,25 +1,25 @@
+import org.gradle.kotlin.dsl.support.uppercaseFirstChar
+
 plugins {
-    java
-    com.gradleup.shadow
+	java
+	com.gradleup.shadow
 }
 
 tasks {
-    shadowJar {
-        archiveClassifier = null
+	shadowJar {
 		archiveFileName = "MCUtils-" + project.name.uppercaseFirstChar() + "-${rootProject.version}.jar"
+		archiveClassifier = null
 
-        relocate("org.jetbrains.annotations", "net.codersky.mcutils.shaded.jetbrains.annotations")
-        relocate("org.intellij.lang.annotations", "net.codersky.mcutils.shaded.intellij.annotations")
-        relocate("net.kyori", "net.codersky.mcutils.shaded.kyori")
-        relocate("org.yaml.snakeyaml", "net.codersky.mcutils.shaded.snakeyaml")
+		relocate("org.jetbrains.annotations", "net.codersky.mcutils.shaded.jetbrains.annotations")
+		relocate("org.intellij.lang.annotations", "net.codersky.mcutils.shaded.intellij.annotations")
 
-        mergeServiceFiles()
-        minimize()
-    }
+		mergeServiceFiles()
+		minimize()
+	}
 
-    assemble {
-        dependsOn(shadowJar)
-    }
+	assemble {
+		dependsOn(shadowJar)
+	}
 }
 
 configurations.implementation.get().extendsFrom(configurations.shadow.get())
