@@ -10,8 +10,8 @@ repositories {
 
 dependencies {
 	api(project(":shared"))
-	api(libs.adventure.bukkit)
-	api(libs.adventure.legacy)
+	api(libs.adventure.serializer.legacy)
+	api(libs.adventure.serializer.bungee)
 	compileOnly(libs.spigot)
 }
 
