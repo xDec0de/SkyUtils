@@ -9,6 +9,6 @@ repositories {
 
 dependencies {
 	api(project(":shared"))
-	api(libs.snakeyaml)
+	implementation(libs.snakeyaml)
 	compileOnly(libs.velocity)
 }
