@@ -6,5 +6,6 @@ plugins {
 dependencies {
 	api(libs.jetbrains.annotations)
 	compileOnly(libs.adventure)
+	compileOnly(libs.adventure.legacy)
 	compileOnly(libs.snakeyaml)
 }

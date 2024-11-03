@@ -11,6 +11,7 @@ repositories {
 dependencies {
 	api(project(":shared"))
 	api(libs.adventure.bukkit)
+	api(libs.adventure.legacy)
 	compileOnly(libs.spigot)
 }
 

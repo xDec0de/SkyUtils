@@ -15,6 +15,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -254,9 +255,11 @@ public class MCStrings {
 	 */
 	@NotNull
 	public static Component applyEventPatterns(@NotNull String string) {
+		final LegacyComponentSerializer serializer = LegacyComponentSerializer.builder().
+				useUnusualXRepeatedCharacterHexFormat().build();
 		final TextComponent.Builder builder = Component.text();
 		searchEventPatterns(string,
-				txt -> builder.append(Component.text(txt)),
+				txt -> builder.append(serializer.deserialize(txt)),
 				(event, txt) -> applyEvents(builder, event, txt));
 		return builder.build();
 	}

@@ -12,6 +12,7 @@ jetbrains-annotations = { group = "org.jetbrains", name = "annotations", version
 snakeyaml = { group = "org.yaml", name = "snakeyaml", version.ref = "snakeyaml" }
 adventure = { group = "net.kyori", name = "adventure-api", version.ref = "adventure" }
 adventure-bukkit = { group = "net.kyori", name = "adventure-platform-bukkit", version.ref = "adventure-bukkit" }
+adventure-legacy = { group = "net.kyori", name = "adventure-text-serializer-legacy", version.ref = "adventure" }
 spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
 velocity = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
 

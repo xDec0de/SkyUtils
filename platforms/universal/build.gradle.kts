@@ -10,5 +10,6 @@ repositories {
 dependencies {
 	api(project(":shared"))
 	api(libs.adventure)
+	api(libs.adventure.legacy)
 	api(libs.snakeyaml)
 }
