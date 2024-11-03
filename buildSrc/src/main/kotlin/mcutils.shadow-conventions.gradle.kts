@@ -10,6 +10,8 @@ tasks {
 
         relocate("org.jetbrains.annotations", "net.codersky.mcutils.shaded.jetbrains.annotations")
         relocate("org.intellij.lang.annotations", "net.codersky.mcutils.shaded.intellij.annotations")
+        relocate("net.kyori", "net.codersky.mcutils.shaded.kyori")
+        relocate("org.yaml.snakeyaml", "net.codersky.mcutils.shaded.snakeyaml")
 
         mergeServiceFiles()
         minimize()
