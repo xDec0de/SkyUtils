@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -34,7 +35,7 @@ import java.util.UUID;
 public abstract class MCUtils<P> {
 
 	private final P plugin;
-	protected final Set<Reloadable> reloadables = new HashSet<>();
+	protected final LinkedHashSet<Reloadable> reloadables = new LinkedHashSet<>();
 
 	public MCUtils(@NotNull P plugin) {
 		this.plugin = Objects.requireNonNull(plugin);
