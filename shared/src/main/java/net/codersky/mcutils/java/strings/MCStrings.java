@@ -610,7 +610,9 @@ public class MCStrings {
 	 */
 	@NotNull
 	public static String match(@NotNull String src, @NotNull CharSequence from, @NotNull CharSequence to, @NotNull Consumer<String> action, boolean remove) {
-		return match(src, from, to, remove ? match -> "" : match -> match);
+		return match(src, from, to, remove ?
+				match -> {action.accept(match); return "";} :
+				match -> {action.accept(match); return match;});
 	}
 
 	/**
