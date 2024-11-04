@@ -11,16 +11,8 @@ repositories {
 dependencies {
 	api(project(":shared"))
 	compileOnly(libs.spigot)
-	// Here we add adventure-api as an implementation and set transitive to false on
-	// the serializers. Why? Well, because they include adventure-api as an api, meaning
-	// that minimize doesn't take effect, so here we are basically forcing minimize to work.
-	implementation(libs.adventure.api)
-	implementation(libs.adventure.serializer.legacy) {
-		setTransitive(false)
-	}
-	implementation(libs.adventure.serializer.bungee) {
-		setTransitive(false)
-	}
+	implementation(libs.adventure.serializer.legacy)
+	implementation(libs.adventure.serializer.bungee)
 }
 
 tasks {
