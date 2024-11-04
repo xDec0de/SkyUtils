@@ -6,10 +6,13 @@ import net.codersky.mcutils.crossplatform.player.MCPlayer;
 import net.codersky.mcutils.java.strings.Replacer;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Cross-platform interface used to handle objects that
  * may receive messages such as {@link MCPlayer} or {@link MCConsole}.
+ * This interface supports both regular string messages and Adventure
+ * {@link Component} messages.
  *
  * @since MCUtils 1.0.0
  *
@@ -18,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
  * @see #sendMessage(String, Object...)
  * @see MCConsole
  * @see MCPlayer
+ * @see MCCommandSender
  *
  * @author xDec0de_
  */
@@ -41,6 +45,48 @@ public interface MessageReceiver {
 	 */
 	@NotNull
 	String getName();
+
+	/**
+	 * Checks if this {@link MessageReceiver} can receive the specified
+	 * {@code message}. <b>Implementations</b> must make sure to use this
+	 * method before sending any type of message to the actual receiver
+	 * as {@link MessageReceiver} must ignore empty or {@code null} messages.
+	 * <p>
+	 * If you really want to send an "empty" message, you can just send a
+	 * blank one with a space on it. This is considered an intentionally
+	 * empty message and can be sent to {@link MessageReceiver MessageReceivers}.
+	 *
+	 * @param message The {@link String} message to check.
+	 *
+	 * @return {@code true} if the {@code message} can be sent to any
+	 * {@link MessageReceiver}, {@code false} otherwise.
+	 *
+	 * @since MCUtils 1.0.0
+	 */
+	default boolean canReceive(@Nullable String message) {
+		return message != null && !message.isEmpty();
+	}
+
+	/**
+	 * Checks if this {@link MessageReceiver} can receive the specified
+	 * {@code message}. <b>Implementations</b> must make sure to use this
+	 * method before sending any type of message to the actual receiver
+	 * as {@link MessageReceiver} must ignore empty or {@code null} messages.
+	 * <p>
+	 * If you really want to send an "empty" message, you can just send a
+	 * blank one with a space on it. This is considered an intentionally
+	 * empty message and can be sent to {@link MessageReceiver MessageReceivers}.
+	 *
+	 * @param message The {@link Component} message to check.
+	 *
+	 * @return {@code true} if the {@code message} can be sent to any
+	 * {@link MessageReceiver}, {@code false} otherwise.
+	 *
+	 * @since MCUtils 1.0.0
+	 */
+	default boolean canReceive(@Nullable Component message) {
+		return message != null && Component.IS_NOT_EMPTY.test(message);
+	}
 
 	/*
 	 * Legacy messages (String)
@@ -73,7 +119,7 @@ public interface MessageReceiver {
 	 * @since MCUtils 1.0.0
 	 */
 	default boolean sendMessage(@NotNull String message, @NotNull Replacer replacer) {
-		return sendMessage(replacer.replaceAt(message));
+		return !canReceive(message) || sendMessage(replacer.replaceAt(message));
 	}
 
 	/**
@@ -92,7 +138,7 @@ public interface MessageReceiver {
 	 * @since MCUtils 1.0.0
 	 */
 	default boolean sendMessage(@NotNull String message, @NotNull Object... replacements) {
-		return sendMessage(message, new Replacer(replacements));
+		return !canReceive(message) || sendMessage(message, new Replacer(replacements));
 	}
 
 	/*
@@ -126,7 +172,7 @@ public interface MessageReceiver {
 	 * @since MCUtils 1.0.0
 	 */
 	default boolean sendMessage(@NotNull Component message, @NotNull Replacer replacer) {
-		return sendMessage(replacer.replaceAt(message));
+		return !canReceive(message) || sendMessage(replacer.replaceAt(message));
 	}
 
 	/**
@@ -145,6 +191,6 @@ public interface MessageReceiver {
 	 * @since MCUtils 1.0.0
 	 */
 	default boolean sendMessage(@NotNull Component message, @NotNull Object... replacements) {
-		return sendMessage(message, new Replacer(replacements));
+		return !canReceive(message) || sendMessage(message, new Replacer(replacements));
 	}
 }

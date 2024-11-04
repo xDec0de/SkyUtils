@@ -1,7 +1,6 @@
 package net.codersky.mcutils.spigot;
 
 import net.codersky.mcutils.crossplatform.MCConsole;
-import net.codersky.mcutils.spigot.cmd.SpigotCommandSender;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.command.CommandSender;
@@ -37,13 +36,15 @@ public class SpigotConsole implements MCConsole {
 
 	@Override
 	public boolean sendMessage(@NotNull String message) {
-		handle.sendMessage(message);
+		if (canReceive(message))
+			handle.sendMessage(message);
 		return true;
 	}
 
 	@Override
 	public boolean sendMessage(@NotNull Component message) {
-		handle.sendMessage(LegacyComponentSerializer.legacySection().serialize(message));
+		if (canReceive(message))
+			handle.sendMessage(LegacyComponentSerializer.legacySection().serialize(message));
 		return true;
 	}
 }

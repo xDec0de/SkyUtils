@@ -7,8 +7,6 @@ import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Keyed;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -50,13 +48,15 @@ public class SpigotPlayer implements MCPlayer {
 
 	@Override
 	public boolean sendActionBar(@NotNull String message) {
-		handle.spigot().sendMessage(ChatMessageType.ACTION_BAR, toBase(message));
+		if (canReceive(message))
+			handle.spigot().sendMessage(ChatMessageType.ACTION_BAR, toBase(message));
 		return true;
 	}
 
 	@Override
 	public boolean sendActionBar(@NotNull Component message) {
-		handle.spigot().sendMessage(ChatMessageType.ACTION_BAR, toBase(message));
+		if (canReceive(message))
+			handle.spigot().sendMessage(ChatMessageType.ACTION_BAR, toBase(message));
 		return true;
 	}
 
@@ -72,13 +72,15 @@ public class SpigotPlayer implements MCPlayer {
 
 	@Override
 	public boolean sendMessage(@NotNull String message) {
-		handle.sendMessage(message);
+		if (canReceive(message))
+			handle.sendMessage(message);
 		return true;
 	}
 
 	@Override
 	public boolean sendMessage(@NotNull Component message) {
-		handle.spigot().sendMessage(toBase(message));
+		if (canReceive(message))
+			handle.spigot().sendMessage(toBase(message));
 		return false;
 	}
 

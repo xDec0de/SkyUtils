@@ -39,7 +39,8 @@ public class VelocityConsole implements MCConsole {
 
 	@Override
 	public boolean sendMessage(@NotNull Component message) {
-		handle.sendMessage(message);
+		if (canReceive(message))
+			handle.sendMessage(message);
 		return true;
 	}
 }

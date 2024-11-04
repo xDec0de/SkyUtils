@@ -7,7 +7,6 @@ import net.codersky.mcutils.spigot.SpigotConsole;
 import net.codersky.mcutils.spigot.SpigotUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -67,12 +66,15 @@ public class SpigotCommandSender implements MCCommandSender {
 
 	@Override
 	public boolean sendMessage(@NotNull String message) {
-		sender.sendMessage(message);
+		if (canReceive(message))
+			sender.sendMessage(message);
 		return true;
 	}
 
 	@Override
 	public boolean sendMessage(@NotNull Component message) {
+		// MCPlayer & MCConsole implementations will already check if the message
+		// can be received. Not doing it here to avoid double-checking
 		final MCPlayer player = asPlayer();
 		if (player != null)
 			return player.sendMessage(message);

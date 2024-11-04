@@ -2,7 +2,6 @@ package net.codersky.mcutils.velocity.player;
 
 import com.velocitypowered.api.proxy.Player;
 import net.codersky.mcutils.crossplatform.player.MCPlayer;
-import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -50,7 +49,8 @@ public class VelocityPlayer implements MCPlayer {
 
 	@Override
 	public boolean sendActionBar(@NotNull Component message) {
-		handle.sendActionBar(message);
+		if (canReceive(message))
+			handle.sendActionBar(message);
 		return true;
 	}
 
@@ -73,7 +73,8 @@ public class VelocityPlayer implements MCPlayer {
 
 	@Override
 	public boolean sendMessage(@NotNull Component message) {
-		handle.sendMessage(message);
+		if (canReceive(message))
+			handle.sendMessage(message);
 		return true;
 	}
 }

@@ -98,7 +98,7 @@ public interface MCPlayer extends MessageReceiver, Replacement {
 	 * @since MCUtils 1.0.0
 	 */
 	default boolean sendActionBar(@NotNull String message, @NotNull Replacer replacer) {
-		return sendActionBar(replacer.replaceAt(message));
+		return !canReceive(message) || sendActionBar(replacer.replaceAt(message));
 	}
 
 	/**
@@ -117,7 +117,7 @@ public interface MCPlayer extends MessageReceiver, Replacement {
 	 * @since MCUtils 1.0.0
 	 */
 	default boolean sendActionBar(@NotNull String message, @NotNull Object... replacements) {
-		return sendActionBar(message, new Replacer(replacements));
+		return !canReceive(message) || sendActionBar(message, new Replacer(replacements));
 	}
 
 	/*
@@ -151,7 +151,7 @@ public interface MCPlayer extends MessageReceiver, Replacement {
 	 * @since MCUtils 1.0.0
 	 */
 	default boolean sendActionBar(@NotNull Component message, @NotNull Replacer replacer) {
-		return sendActionBar(replacer.replaceAt(message));
+		return !canReceive(message) || sendActionBar(replacer.replaceAt(message));
 	}
 
 	/**
@@ -170,7 +170,7 @@ public interface MCPlayer extends MessageReceiver, Replacement {
 	 * @since MCUtils 1.0.0
 	 */
 	default boolean sendActionBar(@NotNull Component message, @NotNull Object... replacements) {
-		return sendActionBar(message, new Replacer(replacements));
+		return !canReceive(message) || sendActionBar(message, new Replacer(replacements));
 	}
 
 	/*

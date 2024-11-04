@@ -80,13 +80,15 @@ public class VelocityCommandSender implements MCCommandSender {
 
 	@Override
 	public boolean sendMessage(@NotNull String message) {
-		source.sendPlainMessage(message);
+		if (canReceive(message))
+			source.sendPlainMessage(message);
 		return true;
 	}
 
 	@Override
 	public boolean sendMessage(@NotNull Component message) {
-		source.sendMessage(message);
+		if (canReceive(message))
+			source.sendMessage(message);
 		return true;
 	}
 
