@@ -14,18 +14,21 @@ tasks {
 			.mapNotNull { it.tasks.findByName(taskName) }
 	}
 
-	register("build") {
-		val subModuleBuildTasks = subModuleTasks("build")
+	val buildTask = "build"
+	val libsPath = "libs"
+
+	register(buildTask) {
+		val subModuleBuildTasks = subModuleTasks(buildTask)
 		dependsOn(subModuleBuildTasks)
-		group = "build"
+		group = buildTask
 
 		doLast {
-			val buildOut = project.layout.buildDirectory.dir("libs").get().asFile.apply {
+			val buildOut = project.layout.buildDirectory.dir(libsPath).get().asFile.apply {
 				if (!exists()) mkdirs()
 			}
 
 			subprojects.forEach { subproject ->
-				val subIn = subproject.layout.buildDirectory.dir("libs").get().asFile
+				val subIn = subproject.layout.buildDirectory.dir(libsPath).get().asFile
 				if (subIn.exists()) {
 					copy {
 						from(subIn) {
@@ -42,9 +45,9 @@ tasks {
 	register<Delete>("clean") {
 		val cleanTasks = subModuleTasks("clean")
 		dependsOn(cleanTasks)
-		group = "build"
+		group = buildTask
 		delete(rootProject.layout.buildDirectory)
 	}
 
-	defaultTasks("build")
+	defaultTasks(buildTask)
 }

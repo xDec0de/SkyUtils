@@ -29,7 +29,7 @@ public class SubCommandHandler<P, S extends MCCommandSender> {
 		if (args.length == 0)
 			return action.apply(mainCmd, args);
 		for (MCCommand<P, S> subCommand : subCommands)
-			if (subCommand.getName().toLowerCase().equals(args[0]))
+			if (subCommand.getName().equalsIgnoreCase(args[0]))
 				return subCommand.hasAccess(sender, message) ? action.apply(subCommand, removeFirstArgument(args)) : def;
 		return action.apply(mainCmd, args);
 	}
