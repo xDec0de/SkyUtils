@@ -2,7 +2,6 @@ package net.codersky.mcutils.java.strings;
 
 import net.codersky.mcutils.cmd.MCCommand;
 import net.codersky.mcutils.crossplatform.MessageReceiver;
-import net.codersky.mcutils.crossplatform.player.MCPlayer;
 import net.codersky.mcutils.java.strings.pattern.ColorPattern;
 import net.codersky.mcutils.java.strings.pattern.TargetPattern;
 import net.codersky.mcutils.java.strings.pattern.color.GradientColorPattern;

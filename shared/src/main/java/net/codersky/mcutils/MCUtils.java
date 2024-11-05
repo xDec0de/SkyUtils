@@ -1,18 +1,14 @@
 package net.codersky.mcutils;
 
 import net.codersky.mcutils.cmd.GlobalCommand;
-import net.codersky.mcutils.cmd.MCCommand;
-import net.codersky.mcutils.cmd.MCCommandSender;
 import net.codersky.mcutils.crossplatform.MCConsole;
 import net.codersky.mcutils.crossplatform.player.MCPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 
 /**

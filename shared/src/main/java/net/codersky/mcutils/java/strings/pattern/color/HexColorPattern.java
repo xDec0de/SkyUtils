@@ -1,9 +1,8 @@
 package net.codersky.mcutils.java.strings.pattern.color;
 
-import net.codersky.mcutils.java.strings.pattern.ColorPattern;
 import net.codersky.mcutils.java.strings.MCStrings;
+import net.codersky.mcutils.java.strings.pattern.ColorPattern;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Represents a hexadecimal color pattern which can be applied to a String.

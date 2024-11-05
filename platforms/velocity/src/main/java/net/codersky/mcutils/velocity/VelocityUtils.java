@@ -6,8 +6,6 @@ import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import net.codersky.mcutils.MCPlatform;
 import net.codersky.mcutils.cmd.GlobalCommand;
-import net.codersky.mcutils.cmd.MCCommand;
-import net.codersky.mcutils.cmd.MCCommandSender;
 import net.codersky.mcutils.crossplatform.player.MCPlayer;
 import net.codersky.mcutils.crossplatform.player.PlayerProvider;
 import net.codersky.mcutils.crossplatform.proxy.ProxyUtils;

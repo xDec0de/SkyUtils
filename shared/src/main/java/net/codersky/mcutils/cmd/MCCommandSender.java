@@ -7,9 +7,6 @@ import net.codersky.mcutils.crossplatform.player.MCPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
-import java.util.UUID;
-
 public interface MCCommandSender extends MessageReceiver {
 
 	/*

@@ -2,7 +2,6 @@ package net.codersky.mcutils.velocity.cmd;
 
 import net.codersky.mcutils.cmd.GlobalCommand;
 import net.codersky.mcutils.cmd.MCCommand;
-import net.codersky.mcutils.cmd.MCCommandSender;
 import net.codersky.mcutils.velocity.VelocityUtils;
 import org.jetbrains.annotations.NotNull;
 

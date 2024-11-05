@@ -2,7 +2,6 @@ package net.codersky.mcutils.java.strings.pattern.target;
 
 import net.codersky.mcutils.crossplatform.MCConsole;
 import net.codersky.mcutils.crossplatform.MessageReceiver;
-import net.codersky.mcutils.crossplatform.player.MCPlayer;
 import net.codersky.mcutils.java.strings.MCStrings;
 import net.codersky.mcutils.java.strings.pattern.TargetPattern;
 import org.jetbrains.annotations.NotNull;

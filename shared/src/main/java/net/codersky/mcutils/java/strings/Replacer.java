@@ -1,15 +1,14 @@
 package net.codersky.mcutils.java.strings;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import net.codersky.mcutils.java.MCCollections;
 import net.codersky.mcutils.java.math.MCNumbers;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
-import net.kyori.adventure.text.TextReplacementConfig;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Represents a replacer to replace parts of a {@link String} or {@link Component} with other objects.

@@ -2,7 +2,6 @@ package net.codersky.mcutils.spigot.cmd;
 
 import net.codersky.mcutils.cmd.GlobalCommand;
 import net.codersky.mcutils.cmd.MCCommand;
-import net.codersky.mcutils.cmd.MCCommandSender;
 import net.codersky.mcutils.spigot.SpigotUtils;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
