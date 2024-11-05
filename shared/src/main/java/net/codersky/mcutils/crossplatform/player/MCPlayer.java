@@ -67,6 +67,8 @@ public interface MCPlayer extends MessageReceiver, Replacement {
 	@NotNull
 	String getName();
 
+	boolean isOnline();
+
 	/*
 	 * Legacy actionbar messages (String)
 	 */

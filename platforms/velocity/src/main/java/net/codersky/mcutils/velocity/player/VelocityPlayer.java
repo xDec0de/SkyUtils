@@ -40,6 +40,11 @@ public class VelocityPlayer implements MCPlayer {
 		return handle.getUsername();
 	}
 
+	@Override
+	public boolean isOnline() {
+		return handle.isActive();
+	}
+
 	// Messages //
 
 	@Override

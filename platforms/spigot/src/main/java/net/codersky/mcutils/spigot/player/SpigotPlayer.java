@@ -44,6 +44,11 @@ public class SpigotPlayer implements MCPlayer {
 		return handle.getName();
 	}
 
+	@Override
+	public boolean isOnline() {
+		return handle.isOnline();
+	}
+
 	// Messages //
 
 	@Override

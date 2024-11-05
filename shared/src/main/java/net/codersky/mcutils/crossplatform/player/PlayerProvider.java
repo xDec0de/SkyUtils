@@ -19,8 +19,11 @@ public abstract class PlayerProvider<T> {
 	@Nullable
 	public MCPlayer getPlayer(@NotNull UUID uuid) {
 		MCPlayer player = playerCache.get(uuid);
-		if (player != null)
-			return player;
+		if (player != null) {
+			if (player.isOnline())
+				return player;
+			playerCache.remove(uuid);
+		}
 		player = fetchPlayer(uuid);
 		if (player != null)
 			playerCache.put(uuid, player);
