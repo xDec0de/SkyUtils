@@ -1,5 +1,6 @@
 package net.codersky.mcutils.crossplatform.player;
 
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,7 +21,7 @@ public abstract class PlayerProvider<T> {
 	public MCPlayer getPlayer(@NotNull UUID uuid) {
 		MCPlayer player = playerCache.get(uuid);
 		if (player != null) {
-			if (player.isOnline())
+			if (player.isOnline()) // Player quit listeners should take care of this, but just in case...
 				return player;
 			playerCache.remove(uuid);
 		}
@@ -34,5 +35,10 @@ public abstract class PlayerProvider<T> {
 	public MCPlayer getPlayer(@NotNull T original) {
 		final UUID uuid = getUUID(original);
 		return uuid == null ? null : getPlayer(uuid);
+	}
+
+	@ApiStatus.Internal
+	protected void removeFromCache(@NotNull UUID uuid) {
+		playerCache.remove(uuid);
 	}
 }

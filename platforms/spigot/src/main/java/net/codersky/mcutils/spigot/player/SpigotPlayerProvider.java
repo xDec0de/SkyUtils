@@ -21,4 +21,9 @@ public class SpigotPlayerProvider extends PlayerProvider<Player> {
 	public @Nullable UUID getUUID(@NotNull Player handle) {
 		return handle.getUniqueId();
 	}
+
+	@Override
+	protected final void removeFromCache(@NotNull UUID uuid) {
+		super.removeFromCache(uuid);
+	}
 }

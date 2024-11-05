@@ -4,7 +4,6 @@ import net.codersky.mcutils.MCPlatform;
 import net.codersky.mcutils.cmd.GlobalCommand;
 import net.codersky.mcutils.cmd.MCCommand;
 import net.codersky.mcutils.crossplatform.player.MCPlayer;
-import net.codersky.mcutils.crossplatform.player.PlayerProvider;
 import net.codersky.mcutils.crossplatform.server.ServerUtils;
 import net.codersky.mcutils.java.MCCollections;
 import net.codersky.mcutils.java.reflection.RefObject;
@@ -12,6 +11,7 @@ import net.codersky.mcutils.java.strings.MCStrings;
 import net.codersky.mcutils.spigot.cmd.AdaptedSpigotCommand;
 import net.codersky.mcutils.spigot.cmd.SpigotCommand;
 import net.codersky.mcutils.spigot.player.SpigotPlayerProvider;
+import net.codersky.mcutils.spigot.player.SpigotPlayerQuitListener;
 import net.codersky.mcutils.spigot.worldgen.SingleBiomeProvider;
 import net.codersky.mcutils.spigot.worldgen.VoidGenerator;
 import org.bukkit.Bukkit;
@@ -25,6 +25,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.generator.BiomeProvider;
 import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.plugin.IllegalPluginAccessException;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -40,7 +41,8 @@ import java.util.function.Predicate;
 public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 
 	private final SpigotConsole console;
-	private PlayerProvider<Player> playerProvider = new SpigotPlayerProvider();
+	private SpigotPlayerProvider playerProvider = new SpigotPlayerProvider();
+	private boolean isPlayerListenerOn = false;
 
 	public SpigotUtils(@NotNull P plugin) {
 		super(plugin);
@@ -54,20 +56,81 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 	}
 
 	@NotNull
-	public SpigotUtils<P> setPlayerProvider(@NotNull PlayerProvider<Player> playerProvider) {
+	public SpigotUtils<P> setPlayerProvider(@NotNull SpigotPlayerProvider playerProvider) {
 		this.playerProvider = Objects.requireNonNull(playerProvider, "Player provider cannot be null");
 		return this;
 	}
 
+	/**
+	 * Gets the {@link SpigotPlayerProvider} being used by this {@link SpigotUtils} instance.
+	 * 
+	 * @return The {@link SpigotPlayerProvider} being used by this {@link SpigotUtils} instance.
+	 *
+	 * @throws IllegalPluginAccessException If called before the plugin attempts to enable.
+	 * This is because the very first time this method is called the {@link SpigotPlayerQuitListener}
+	 * will be registered. This is required just to clean players that quit the server from the cache.
+	 *
+	 * @since MCUtils 1.0.0
+	 * 
+	 * @see #setPlayerProvider(SpigotPlayerProvider)
+	 * @see #getPlayer(UUID)
+	 * @see #getPlayer(Player)
+	 */
 	@NotNull
-	public PlayerProvider<Player> getPlayerProvider() {
+	public SpigotPlayerProvider getPlayerProvider() {
+		if (!isPlayerListenerOn) {
+			Bukkit.getPluginManager().registerEvents(new SpigotPlayerQuitListener(this), getPlugin());
+			isPlayerListenerOn = true;
+		}
 		return playerProvider;
 	}
 
+	/**
+	 * Gets an {@link MCPlayer} by {@link UUID} from the
+	 * {@link #getPlayerProvider() SpigotPlayerProvider}
+	 * that this {@link SpigotUtils} is using.
+	 *
+	 * @param uuid The {@link UUID} of the player to get.
+	 *
+	 * @throws IllegalPluginAccessException If called before the plugin
+	 * attempts to enable, see {@link #getPlayerProvider()} for details.
+	 *
+	 * @return A possibly {@code null} {@link MCPlayer} instance of an online
+	 * {@link Player} that matches the provided {@link UUID}.
+	 *
+	 * @since MCUtils 1.0.0
+	 *
+	 * @see #getPlayerProvider()
+	 * @see #getPlayer(Player)
+	 */
 	@Nullable
 	@Override
 	public MCPlayer getPlayer(@NotNull UUID uuid) {
-		return playerProvider.getPlayer(uuid);
+		return getPlayerProvider().getPlayer(uuid);
+	}
+
+	/**
+	 * Gets an {@link MCPlayer} by {@link Player} from the
+	 * {@link #getPlayerProvider() SpigotPlayerProvider}
+	 * that this {@link SpigotUtils} is using.
+	 *
+	 * @param bukkit The {@link Player} instance to convert.
+	 *
+	 * @throws IllegalPluginAccessException If called before the plugin
+	 * attempts to enable, see {@link #getPlayerProvider()} for details.
+	 *
+	 * @return A {@link MCPlayer} instance that matches the provided {@link Player}.
+	 * This can be {@code null} if you use an instance of a {@link Player} that
+	 * is not {@link Player#isOnline() online}.
+	 *
+	 * @since MCUtils 1.0.0
+	 *
+	 * @see #getPlayerProvider()
+	 * @see #getPlayer(Player)
+	 */
+	@Nullable
+	public MCPlayer getPlayer(@NotNull Player bukkit) {
+		return getPlayerProvider().getPlayer(bukkit);
 	}
 
 	@NotNull
