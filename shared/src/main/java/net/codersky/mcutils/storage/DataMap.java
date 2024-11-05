@@ -13,6 +13,7 @@ import java.util.Set;
 
 public class DataMap {
 
+	private boolean isModified = false;
 	private final boolean useNesting;
 	private final LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 
@@ -28,6 +29,50 @@ public class DataMap {
 
 	public boolean usesNesting() {
 		return useNesting;
+	}
+
+	/**
+	 * Checks whether this {@link DataMap} has been modified
+	 * and thus its content may require to be saved or not.
+	 * <p>
+	 * Keep in mind that you need to {@link #setModified(boolean) set}
+	 * the modification status to {@code false} manually whenever
+	 * you consider that the map has been saved and needs to be modified
+	 * once again to save it.
+	 *
+	 * @return {@code true} if this {@link DataMap} has been
+	 * modified, {@code false} otherwise.
+	 *
+	 * @since MCUtils 1.0.0
+	 * 
+	 * @see #setModified(boolean)
+	 */
+	public boolean isModified() {
+		return isModified;
+	}
+
+	/**
+	 * Sets the modification status of this {@link DataMap}.
+	 * This is generally set to {@code false} by any class that
+	 * relies on a {@link DataMap} saves it. {@link DataMap}
+	 * will already set the modification status to {@code true}
+	 * whenever {@link #set(String, Object)} or {@link #setList(String, List)}
+	 * are successfully called and actually modifies the map, though
+	 * it is not checked if the previously stored object is the exact
+	 * same as the new one for performance reasons.
+	 *
+	 * @param modified the new modification status.
+	 *
+	 * @return This {@link DataMap}.
+	 *
+	 * @since MCUtils 1.0.0
+	 *
+	 * @see #isModified()
+	 */
+	@NotNull
+	public DataMap setModified(boolean modified) {
+		this.isModified = modified;
+		return this;
 	}
 
 	/*
@@ -183,8 +228,10 @@ public class DataMap {
 		}
 		final String actualKey = getActualKey(key);
 		final Map<String, Object> source = getActualMap(key, true);
-		if (source != null)
+		if (source != null) {
+			isModified = true;
 			source.put(actualKey, value);
+		}
 		return value;
 	}
 
@@ -194,6 +241,7 @@ public class DataMap {
 		final Map<String, Object> source = getActualMap(key, true);
 		if (source == null)
 			return value;
+		isModified = true;
 		if (value instanceof LinkedList<T> lst)
 			source.put(actualKey, lst);
 		else

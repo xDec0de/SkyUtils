@@ -1,5 +1,6 @@
 package net.codersky.mcutils.storage;
 
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -18,6 +19,23 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface DataHandler {
 
+	/**
+	 * Provides access to the <b>internal</b> {@link DataMap} that
+	 * this {@link DataHandler} is using. Keep in mind once again
+	 * that this is for <b>internal</b> usage only, and you should
+	 * not use it unless you <b>really</b> know what you are doing.
+	 * That being said, for any {@link DataHandler} implementation
+	 * that saves this map, please remember that it features a
+	 * {@link DataMap#isModified() modification} check and that you
+	 * should {@link DataMap#setModified(boolean) reset} it every
+	 * time you save in order to avoid saving unmodified data.
+	 *
+	 * @return the <b>internal</b> {@link DataMap} that this
+	 * {@link DataHandler} is using.
+	 *
+	 * @since MCUtils 1.0.0
+	 */
+	@ApiStatus.Internal
 	@NotNull
 	DataMap getMap();
 

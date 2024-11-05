@@ -1,7 +1,6 @@
 package net.codersky.mcutils.storage;
 
 import net.codersky.mcutils.Reloadable;
-import net.codersky.mcutils.java.MCCollections;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -10,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.function.Predicate;
 
 public interface Config extends DataHandler, Reloadable {
 
@@ -33,6 +31,13 @@ public interface Config extends DataHandler, Reloadable {
 	 * time to save, so it is recommended to call this
 	 * method <b>asynchronously</b> in order to prevent
 	 * possible performance issues.
+	 * <p>
+	 * Also, for {@link Config} implementations, remember that
+	 * {@link DataMap} features a {@link DataMap#isModified() modification}
+	 * check and that you should {@link DataMap#setModified(boolean) reset}
+	 * it every time you save in order to avoid saving unmodified
+	 * data. If you are just using a {@link Config} and not
+	 * implementing one, you don't have to worry about this.
 	 *
 	 * @return {@code true} if this {@link Config} was
 	 * able to save correctly, {@code false} otherwise.

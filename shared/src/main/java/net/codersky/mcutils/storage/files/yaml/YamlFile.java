@@ -83,12 +83,15 @@ public class YamlFile implements DataHandler, Reloadable, UpdatableFile {
 	}
 
 	public boolean save() {
+		if (!getMap().isModified())
+			return true;
 		if (!exists() && !MCFiles.create(file))
 			return false;
 		try {
 			final FileWriter writer = new FileWriter(file, StandardCharsets.UTF_8);
 			yaml.dump(data.getInternalMap(), writer);
 			writer.close();
+			getMap().setModified(false);
 			return true;
 		} catch (IOException e) {
 			return false;

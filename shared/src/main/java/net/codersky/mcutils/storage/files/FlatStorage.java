@@ -74,6 +74,8 @@ public class FlatStorage extends Storage {
 
 	@Override
 	public boolean save() {
+		if (!getMap().isModified())
+			return true;
 		if (!setup())
 			return false;
 		int errors = 0;
@@ -99,6 +101,8 @@ public class FlatStorage extends Storage {
 		}
 		if (errors != 0)
 			System.err.println("Failed to save " + file.getPath() + " because of " + errors + " error(s) shown above.");
+		else
+			getMap().setModified(false);
 		return errors == 0;
 	}
 
