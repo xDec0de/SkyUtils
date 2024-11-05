@@ -1,8 +1,6 @@
 package net.codersky.mcutils.cmd;
 
 import net.codersky.mcutils.MCUtils;
-import net.codersky.mcutils.crossplatform.MCConsole;
-import net.codersky.mcutils.crossplatform.player.MCPlayer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
