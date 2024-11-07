@@ -96,12 +96,64 @@ public abstract class MCUtils<P> {
 	 * Reloadables
 	 */
 
+	/**
+	 * Registers a new {@link Reloadable} and optionally {@link Reloadable#reload() reloads}
+	 * if after its registration. Registered {@link Reloadable Reloadables} will be
+	 * {@link Reloadable#reload() reloaded} when calling {@link #reload()}.
+	 *
+	 * @param reloadable The {@link Reloadable} to register.
+	 * @param reload Whether to reload {@link Reloadable#reload() reloaded}
+	 * the {@code reloadable} or not upon registering it.
+	 *
+	 * @return The provided {@link Reloadable}.
+	 *
+	 * @since MCUtils 1.0.0
+	 * 
+	 * @see Reloadable
+	 * @see #registerReloadable(Reloadable)
+	 * @see #reload()
+	 */
 	@NotNull
-	public MCUtils<P> registerReloadable(@NotNull Reloadable reloadable) {
+	public Reloadable registerReloadable(@NotNull Reloadable reloadable, boolean reload) {
 		reloadables.add(Objects.requireNonNull(reloadable));
-		return this;
+		if (reload)
+			reloadable.reload();
+		return reloadable;
 	}
 
+	/**
+	 * Registers and {@link Reloadable#reload() reloads} a new {@link Reloadable}.
+	 * Registered {@link Reloadable Reloadables} will be {@link Reloadable#reload() reloaded}
+	 * when calling {@link #reload()}. To choose whether you want to {@link Reloadable#reload() reload}
+	 * the {@link Reloadable} use {@link #registerReloadable(Reloadable, boolean)}
+	 *
+	 * @param reloadable The {@link Reloadable} to register.
+	 *
+	 * @return The provided {@link Reloadable}.
+	 *
+	 * @since MCUtils 1.0.0
+	 *
+	 * @see Reloadable
+	 * @see #registerReloadable(Reloadable, boolean)
+	 * @see #reload()
+	 */
+	@NotNull
+	public Reloadable registerReloadable(@NotNull Reloadable reloadable) {
+		return registerReloadable(reloadable, true);
+	}
+
+	/**
+	 * {@link Reloadable#reload() Reloads} every {@link Reloadable} that
+	 * has been registered on this instance of {@link MCUtils}.
+	 *
+	 * @return The number of {@link Reloadable Reloadables} that failed to {@link Reloadable#reload() reload}.
+	 *
+	 * @since MCUtils 1.0.0
+	 *
+	 * @see Reloadable
+	 * @see #registerReloadable(Reloadable)
+	 * @see #registerReloadable(Reloadable, boolean)
+	 */
 	public int reload() {
 		int failures = 0;
 		for (Reloadable reloadable : reloadables)
