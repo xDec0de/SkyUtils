@@ -1,17 +1,6 @@
 package net.codersky.mcutils.spigot.builders;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
+import com.google.common.collect.Multimap;
 import net.codersky.mcutils.java.MCCollections;
 import net.codersky.mcutils.java.strings.MCStrings;
 import org.bukkit.Bukkit;
@@ -29,8 +18,17 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 
-import com.google.common.collect.Multimap;
+import javax.annotation.Nullable;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * A class made to provide easy and fast
@@ -57,7 +55,7 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	public ItemBuilder(@Nonnull Material material) {
+	public ItemBuilder(@NotNull Material material) {
 		this.item = new ItemStack(Objects.requireNonNull(material));
 		this.meta = Bukkit.getItemFactory().getItemMeta(material);
 	}
@@ -76,7 +74,7 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @see #ItemBuilder(ItemStack)
 	 */
-	public ItemBuilder(@Nonnull ItemStack stack, boolean clone) {
+	public ItemBuilder(@NotNull ItemStack stack, boolean clone) {
 		if (stack == null)
 			throw new IllegalArgumentException("Stack cannot be null.");
 		if (clone) {
@@ -100,11 +98,11 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @see #ItemBuilder(ItemStack, boolean)
 	 */
-	public ItemBuilder(@Nonnull ItemStack stack) {
+	public ItemBuilder(@NotNull ItemStack stack) {
 		this(stack, false);
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	public ItemBuilder clone() {
 		return new ItemBuilder(item);
@@ -117,7 +115,7 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	@Nonnull
+	@NotNull
 	public ItemMeta meta() {
 		return meta;
 	}
@@ -130,7 +128,7 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	@Nonnull
+	@NotNull
 	public ItemStack build() {
 		item.setItemMeta(meta());
 		return item;
@@ -156,7 +154,7 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	@Nonnull
+	@NotNull
 	public ItemBuilder setAmount(int amount) {
 		if (amount > item.getMaxStackSize())
 			item.setAmount(item.getMaxStackSize());
@@ -177,7 +175,7 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	@Nonnull
+	@NotNull
 	public ItemBuilder addAmount(int amount) {
 		setAmount(item.getAmount() + amount);
 		return this;
@@ -195,7 +193,7 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	@Nonnull
+	@NotNull
 	public ItemBuilder removeAmount(int amount) {
 		setAmount(item.getAmount() - amount);
 		return this;
@@ -212,116 +210,45 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	@Nonnull
+	@NotNull
 	@Deprecated
 	public ItemBuilder setData(@Nullable MaterialData data) {
 		item.setData(data);
 		return this;
 	}
 
+	// META MODIFIERS //
+
 	// Enchantment //
 
 	/**
-	 * Adds the specified {@link Enchantment} to the {@link ItemStack} being
+	 * Adds the specified {@link Enchantment} to the {@link ItemMeta} being
 	 * used by this {@link ItemBuilder}
 	 * <p>
-	 * If this item stack already contained the given enchantment (at any level), it will be replaced.
+	 * If the meta contained the given enchantment (at any level), it will be replaced.
 	 *
-	 * @param ench the {@link Enchantment} to add.
-	 * @param level the level of the {@link Enchantment} to add.
+	 * @param ench The {@link Enchantment} to add.
+	 * @param level The level of the {@link Enchantment} to add.
+	 * @param ignoreLevelRestriction Whether to ignore Minecraft's enchantment level
+	 * restrictions or not.
 	 * 
 	 * @return This {@link ItemBuilder}.
 	 * 
 	 * @throws IllegalArgumentException if {@code ench} is null, or not applicable.
 	 * 
 	 * @since MCUtils 1.0.0
-	 * 
-	 * @see #addEnchantments(Map)
-	 * @see #addUnsafeEnchantment(Enchantment, int)
-	 * @see #addUnsafeEnchantments(Map)
 	 */
-	@Nonnull
-	public ItemBuilder addEnchantment(@Nonnull Enchantment ench, int level) {
-		item.addEnchantment(ench, level);
+	@NotNull
+	public ItemBuilder addEnchant(@NotNull Enchantment ench, int level, boolean ignoreLevelRestriction) {
+		meta.addEnchant(ench, level, ignoreLevelRestriction);
 		return this;
 	}
 
 	/**
-	 * Adds the specified {@link Enchantment Enchantments} to the {@link ItemStack} being
+	 * Removes the specified {@link Enchantment} to the {@link ItemMeta} being
 	 * used by this {@link ItemBuilder}
-	 * <p>
-	 * This method is the same as calling {@link #addEnchantment(Enchantment, int)} for each element of the map.
 	 * 
-	 * @param enchantments the {@link Map} of {@link Enchantment enchantments} to add.
-	 * 
-	 * @return This {@link ItemBuilder}.
-	 * 
-	 * @since MCUtils 1.0.0
-	 * 
-	 * @see #addEnchantment(Enchantment, int)
-	 * @see #addUnsafeEnchantment(Enchantment, int)
-	 * @see #addUnsafeEnchantments(Map)
-	 */
-	@Nonnull
-	public ItemBuilder addEnchantments(@Nonnull Map<Enchantment, Integer> enchantments) {
-		item.addEnchantments(enchantments);
-		return this;
-	}
-
-	/**
-	 * Adds the specified {@link Enchantment} to the {@link ItemStack} being
-	 * used by this {@link ItemBuilder}.
-	 * <p>
-	 * If this item stack already contained the given enchantment (at any level), it will be replaced.
-	 * <p>
-	 * This method is unsafe and will ignore level restrictions or item type. Use at your own discretion.
-	 * 
-	 * @param ench the {@link Enchantment} to add.
-	 * @param level the level of the {@link Enchantment} to add.
-	 * 
-	 * @return This {@link ItemBuilder}.
-	 * 
-	 * @since MCUtils 1.0.0
-	 * 
-	 * @see #addEnchantment(Enchantment, int)
-	 * @see #addEnchantments(Map)
-	 * @see #addUnsafeEnchantments(Map)
-	 */
-	@Nonnull
-	public ItemBuilder addUnsafeEnchantment(@Nonnull Enchantment ench, int level) {
-		item.addUnsafeEnchantment(ench, level);
-		return this;
-	}
-
-	/**
-	 * Adds the specified {@link Enchantment Enchantments} to the {@link ItemStack} being
-	 * used by this {@link ItemBuilder} in an unsafe manner. 
-	 * <p>
-	 * This method is the same as calling {@link #addEnchantment(Enchantment, int)} for each element of the map.
-	 * <p>
-	 * This method is unsafe and will ignore level restrictions or item type. Use at your own discretion.
-	 * 
-	 * @param enchantments the {@link Enchantment Enchantments} to add.
-	 * 
-	 * @return This {@link ItemBuilder}.
-	 * 
-	 * @since MCUtils 1.0.0
-	 * 
-	 * @see #addEnchantment(Enchantment, int)
-	 * @see #addEnchantments(Map)
-	 * @see #addUnsafeEnchantment(Enchantment, int)
-	 */
-	@Nonnull
-	public ItemBuilder addUnsafeEnchantments(@Nonnull Map<Enchantment, Integer> enchantments) {
-		item.addUnsafeEnchantments(enchantments);
-		return this;
-	}
-
-	/**
-	 * Removes the specified {@link Enchantment} to the {@link ItemStack} being
-	 * used by this {@link ItemBuilder}.
-	 * 
-	 * @param enchantments the {@link Enchantment Enchantments} to remove, if null, nothing will be done.
+	 * @param enchantments the {@link Enchantment Enchantments} to remove.
 	 * 
 	 * @return This {@link ItemBuilder}.
 	 * 
@@ -329,18 +256,16 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @see #clearEnchants()
 	 */
-	@Nonnull
-	public ItemBuilder removeEnchantment(@Nonnull Enchantment... enchantments) {
-		if (enchantments == null)
-			return this;
+	@NotNull
+	public ItemBuilder removeEnchantment(@NotNull Enchantment... enchantments) {
 		for (Enchantment ench : enchantments)
-			item.removeEnchantment(ench);
+			meta.removeEnchant(ench);
 		return this;
 	}
 
 	/**
-	 * Clears the {@link Enchantment Enchantments} of the {@link ItemStack} being
-	 * used by this {@link ItemBuilder}.
+	 * Clears the {@link Enchantment Enchantments} of the {@link ItemMeta} being
+	 * used by this {@link ItemBuilder}
 	 * 
 	 * @return This {@link ItemBuilder}.
 	 * 
@@ -348,14 +273,12 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @see #removeEnchantment(Enchantment...)
 	 */
-	@Nonnull
+	@NotNull
 	public ItemBuilder clearEnchants() {
-		Set<Enchantment> safeSet = new HashSet<>(item.getEnchantments().keySet());
-		safeSet.forEach(item::removeEnchantment);
+		final Set<Enchantment> enchants = new HashSet<>(meta.getEnchants().keySet());
+		enchants.forEach(meta::removeEnchant);
 		return this;
 	}
-
-	// META MODIFIERS //
 
 	// Names //
 
@@ -369,7 +292,7 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	@Nonnull
+	@NotNull
 	public ItemBuilder setLocalizedName(@Nullable String name) {
 		meta.setLocalizedName(name);
 		return this;
@@ -386,7 +309,7 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	@Nonnull
+	@NotNull
 	public ItemBuilder setDisplayName(@Nullable String name) {
 		meta.setDisplayName(MCStrings.applyColor(name));
 		return this;
@@ -407,7 +330,7 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @see #setLore(List)
 	 */
-	@Nonnull
+	@NotNull
 	public ItemBuilder setLore(@Nullable List<String> lore) {
 		meta.setLore(MCCollections.map(lore, MCStrings::applyColor));
 		return this;
@@ -424,7 +347,7 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	@Nonnull
+	@NotNull
 	public ItemBuilder setLore(@Nullable String... lore) {
 		return setLore(Arrays.asList(lore));
 	}
@@ -439,7 +362,7 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	@Nonnull
+	@NotNull
 	public ItemBuilder clearLore() {
 		meta.setLore(null);
 		return this;
@@ -477,7 +400,7 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	@Nonnull
+	@NotNull
 	public ItemBuilder addLore(@Nullable String... lines) {
 		return lines == null ? this : addLore(Arrays.asList(lines));
 	}
@@ -495,7 +418,7 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	@Nonnull
+	@NotNull
 	public ItemBuilder setDamage(short damage) {
 		if (meta instanceof Damageable)
 			((Damageable)meta).setDamage(damage);
@@ -513,7 +436,7 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	@Nonnull
+	@NotNull
 	public ItemBuilder setDurability(short durability) {
 		if (meta instanceof Damageable)
 			((Damageable)meta).setDamage(item.getType().getMaxDurability() - durability);
@@ -530,7 +453,7 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	@Nonnull
+	@NotNull
 	public ItemBuilder setUnbreakable(boolean unbreakable) {
 		meta.setUnbreakable(unbreakable);
 		return this;
@@ -564,8 +487,8 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	@Nonnull
-	public <T, Z> ItemBuilder setPersistentData(@Nonnull NamespacedKey key, @Nonnull PersistentDataType<T, Z> type, @Nonnull Z value) {
+	@NotNull
+	public <T, Z> ItemBuilder setPersistentData(@NotNull NamespacedKey key, @NotNull PersistentDataType<T, Z> type, @NotNull Z value) {
 		meta.getPersistentDataContainer().set(key, type, value);
 		return this;
 	}
@@ -582,8 +505,8 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	@Nonnull
-	public ItemBuilder removePersistentData(@Nonnull NamespacedKey key) {
+	@NotNull
+	public ItemBuilder removePersistentData(@NotNull NamespacedKey key) {
 		meta.getPersistentDataContainer().remove(key);
 		return this;
 	}
@@ -609,8 +532,8 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	@Nonnull
-	public ItemBuilder addAttributeModifier(@Nonnull Attribute attribute, @Nonnull AttributeModifier modifier) {
+	@NotNull
+	public ItemBuilder addAttributeModifier(@NotNull Attribute attribute, @NotNull AttributeModifier modifier) {
 		meta.addAttributeModifier(attribute, modifier);
 		return this;
 	}
@@ -629,7 +552,7 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	@Nonnull
+	@NotNull
 	public ItemBuilder setAttributeModifiers(@Nullable Multimap<Attribute, AttributeModifier> attributeModifiers) {
 		meta.setAttributeModifiers(attributeModifiers);
 		return this;
@@ -648,8 +571,8 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	@Nonnull
-	public ItemBuilder removeAttributeModifier(@Nonnull Attribute attribute, @Nonnull AttributeModifier modifier) {
+	@NotNull
+	public ItemBuilder removeAttributeModifier(@NotNull Attribute attribute, @NotNull AttributeModifier modifier) {
 		meta.removeAttributeModifier(attribute, modifier);
 		return this;
 	}
@@ -664,8 +587,8 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	@Nonnull
-	public ItemBuilder removeAttributeModifier(@Nonnull Attribute attribute) {
+	@NotNull
+	public ItemBuilder removeAttributeModifier(@NotNull Attribute attribute) {
 		meta.removeAttributeModifier(attribute);
 		return this;
 	}
@@ -684,8 +607,8 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	@Nonnull
-	public ItemBuilder removeAttributeModifier(@Nonnull EquipmentSlot slot) {
+	@NotNull
+	public ItemBuilder removeAttributeModifier(@NotNull EquipmentSlot slot) {
 		meta.removeAttributeModifier(slot);
 		return this;
 	}
@@ -702,8 +625,8 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	@Nonnull
-	public ItemBuilder addItemFlags(@Nonnull ItemFlag... flags) {
+	@NotNull
+	public ItemBuilder addItemFlags(@NotNull ItemFlag... flags) {
 		meta.addItemFlags(flags);
 		return this;
 	}
@@ -718,8 +641,8 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	@Nonnull
-	public ItemBuilder removeitemFlags(@Nonnull ItemFlag... flags) {
+	@NotNull
+	public ItemBuilder removeitemFlags(@NotNull ItemFlag... flags) {
 		meta.removeItemFlags(flags);
 		return this;
 	}
@@ -738,7 +661,7 @@ public class ItemBuilder implements Cloneable {
 	 * 
 	 * @since MCUtils 1.0.0
 	 */
-	@Nonnull
+	@NotNull
 	public ItemBuilder setCustomModelData(@Nullable Integer data) {
 		meta.setCustomModelData(data);
 		return this;
