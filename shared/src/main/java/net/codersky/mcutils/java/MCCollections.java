@@ -506,20 +506,35 @@ public class MCCollections {
 	}
 
 	/*
-	 * Element getters
+	 - Element getters
 	 */
 
 	@Nullable
-	public static <E> E get(@NotNull Iterable<E> iterable, @NotNull Predicate<E> condition, @Nullable E def) {
-		for (E element : iterable)
+	public static <E> E get(@NotNull E[] array, @NotNull Predicate<E> condition) {
+		for (E element : array)
 			if (condition.test(element))
 				return element;
-		return def;
+		return null;
+	}
+
+	@NotNull
+	public static <E> E get(@NotNull E[] array, @NotNull Predicate<E> condition, @NotNull E def) {
+		final E element = get(array, condition);
+		return element == null ? def : element;
 	}
 
 	@Nullable
 	public static <E> E get(@NotNull Iterable<E> iterable, @NotNull Predicate<E> condition) {
-		return get(iterable, condition, null);
+		for (E element : iterable)
+			if (condition.test(element))
+				return element;
+		return null;
+	}
+
+	@NotNull
+	public static <E> E get(@NotNull Iterable<E> iterable, @NotNull Predicate<E> condition, @NotNull E def) {
+		final E element = get(iterable, condition);
+		return element == null ? def : element;
 	}
 
 	public static <E> E get(@NotNull Iterable<E> iterable, int index) {
@@ -535,6 +550,10 @@ public class MCCollections {
 	/*
 	 * Contains element
 	 */
+
+	public static <E> boolean contains(@NotNull E[] array, @NotNull Predicate<E> condition) {
+		return get(array, condition) != null;
+	}
 
 	public static <E> boolean contains(@NotNull Iterable<E> iterable, @NotNull Predicate<E> condition) {
 		return get(iterable, condition) != null;
