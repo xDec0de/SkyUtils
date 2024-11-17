@@ -12,7 +12,7 @@ public class VelocityPlayer implements MCPlayer {
 
 	private final Player handle;
 
-	public VelocityPlayer(@NotNull Player handle) {
+	protected VelocityPlayer(@NotNull Player handle) {
 		this.handle = handle;
 	}
 
@@ -24,7 +24,7 @@ public class VelocityPlayer implements MCPlayer {
 
 	@NotNull
 	@Override
-	public Player getHandle() {
+	public final Player getHandle() {
 		return handle;
 	}
 

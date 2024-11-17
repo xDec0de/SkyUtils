@@ -16,7 +16,7 @@ public class SpigotPlayer implements MCPlayer {
 
 	private final Player handle;
 
-	SpigotPlayer(@NotNull Player handle) {
+	protected SpigotPlayer(@NotNull Player handle) {
 		this.handle = handle;
 	}
 
@@ -28,7 +28,7 @@ public class SpigotPlayer implements MCPlayer {
 
 	@NotNull
 	@Override
-	public Player getHandle() {
+	public final Player getHandle() {
 		return handle;
 	}
 

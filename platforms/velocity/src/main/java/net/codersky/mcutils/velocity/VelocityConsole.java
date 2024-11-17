@@ -9,13 +9,13 @@ public class VelocityConsole implements MCConsole {
 
 	private final ConsoleCommandSource handle;
 
-	VelocityConsole(@NotNull ConsoleCommandSource handle) {
+	protected VelocityConsole(@NotNull ConsoleCommandSource handle) {
 		this.handle = handle;
 	}
 
 	@NotNull
 	@Override
-	public ConsoleCommandSource getHandle() {
+	public final ConsoleCommandSource getHandle() {
 		return handle;
 	}
 

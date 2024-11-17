@@ -11,13 +11,13 @@ public class SpigotConsole implements MCConsole {
 
 	private final ConsoleCommandSender handle;
 
-	SpigotConsole(@NotNull ConsoleCommandSender handle) {
+	protected SpigotConsole(@NotNull ConsoleCommandSender handle) {
 		this.handle = handle;
 	}
 
 	@NotNull
 	@Override
-	public ConsoleCommandSender getHandle() {
+	public final ConsoleCommandSender getHandle() {
 		return handle;
 	}
 
