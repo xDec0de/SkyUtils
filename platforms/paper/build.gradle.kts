@@ -18,7 +18,19 @@ dependencies {
 tasks {
 
 	shadowJar {
-		exclude("net/codersky/mcutils/shaded/**")
+		// Exclude dependencies included by Paper, so they don't get added into the jar
+		val shaded = "net/codersky/mcutils/shaded/"
+		exclude(shaded + "kyori/**", shaded + "jetbrains/**", shaded + "intellij/**")
+		// Relocate included dependencies back to their original packages
+		relocate("net.codersky.mcutils.shaded.kyori", "net.kyori")
+		relocate("net.codersky.mcutils.shaded.jetbrains", "org.jetbrains")
+		relocate("net.codersky.mcutils.shaded.intellij", "org.intellij")
+	}
+
+	configurations {
+		runtimeOnly {
+			exclude("net.codersky.mcutils.shaded.kyori")
+		}
 	}
 
 	// 1.8.8 - 1.16.5 = Java 8
