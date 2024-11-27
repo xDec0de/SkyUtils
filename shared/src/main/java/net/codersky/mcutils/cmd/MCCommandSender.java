@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 public interface MCCommandSender extends MessageReceiver {
 
 	/*
-	 * Player related
+	 - Player related
 	 */
 
 	boolean isPlayer();
@@ -25,7 +25,7 @@ public interface MCCommandSender extends MessageReceiver {
 	}
 
 	/*
-	 * Console related
+	 - Console related
 	 */
 
 	default boolean isConsole() {
@@ -42,10 +42,14 @@ public interface MCCommandSender extends MessageReceiver {
 	}
 
 	/*
-	 * Utilities
+	 - Shared methods
 	 */
 
 	boolean hasPermission(@NotNull String permission);
+
+	/*
+	 - Utilities
+	 */
 
 	@NotNull
 	MCUtils<?> getUtils();

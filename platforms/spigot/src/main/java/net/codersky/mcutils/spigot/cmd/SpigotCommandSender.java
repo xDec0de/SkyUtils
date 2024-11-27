@@ -7,6 +7,7 @@ import net.codersky.mcutils.spigot.SpigotConsole;
 import net.codersky.mcutils.spigot.SpigotUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -32,6 +33,12 @@ public class SpigotCommandSender implements MCCommandSender {
 
 	@Nullable
 	@Override
+	public Player asPlayerHandle() {
+		return sender instanceof Player player ? player : null;
+	}
+
+	@Nullable
+	@Override
 	public MCPlayer asPlayer() {
 		return sender instanceof Player player ? utils.getPlayer(player.getUniqueId()) : null;
 	}
@@ -39,6 +46,12 @@ public class SpigotCommandSender implements MCCommandSender {
 	/*
 	 * Console related
 	 */
+
+	@Nullable
+	@Override
+	public ConsoleCommandSender asConsoleHandle() {
+		return sender instanceof ConsoleCommandSender console ? console : null;
+	}
 
 	@Nullable
 	@Override
