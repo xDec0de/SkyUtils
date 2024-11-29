@@ -17,9 +17,9 @@ body:
   - type: input
     id: software
     attributes:
-      label: Server software
-      description: What server software are you using?
-      placeholder: Spigot, Paper, Purpur...
+      label: Server or proxy software
+      description: What server or proxy software are you using?
+      placeholder: Spigot, Paper, Velocity...
     validations:
       required: false
 
@@ -29,15 +29,16 @@ body:
       label: Minecraft version
       description: What Minecraft version are you using?
       options:
-        - 1.20
-        - 1.19
-        - 1.18
-        - 1.17
-        - 1.16
-        - 1.15
-        - 1.14
-        - 1.13
-        - 1.12
+        - "1.21"
+        - "1.20"
+        - "1.19"
+        - "1.18"
+        - "1.17"
+        - "1.16"
+        - "1.15"
+        - "1.14"
+        - "1.13"
+        - "1.12"
     validations:
       required: true
 
