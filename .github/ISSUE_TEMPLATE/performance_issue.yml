@@ -1,5 +1,5 @@
 name: Performance issue
-description: Memory leaks or excesive resource usage
+description: Memory leaks or excessive resource usage
 labels: [ "Status: Unverified", "Type: Performance" ]
 body:
   - type: checkboxes
@@ -32,7 +32,7 @@ body:
 
   - type: textarea
     attributes:
-      label: Additional iformation
+      label: Additional information
       description: Anything that may help us solve the issue faster, such as a theory on why this is happening
       placeholder: I think this is caused due to some statements not being closed
     validations:
