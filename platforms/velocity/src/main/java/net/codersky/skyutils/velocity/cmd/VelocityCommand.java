@@ -3,7 +3,7 @@ package net.codersky.skyutils.velocity.cmd;
 import com.velocitypowered.api.command.SimpleCommand;
 import net.codersky.skyutils.cmd.MCCommand;
 import net.codersky.skyutils.cmd.SubCommandHandler;
-import net.codersky.skyutils.java.MCCollections;
+import net.codersky.skyutils.java.SkyCollections;
 import net.codersky.skyutils.velocity.VelocityUtils;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -48,7 +48,7 @@ public abstract class VelocityCommand<P> implements SimpleCommand, MCCommand<P, 
 	@NotNull
 	@Override
 	public final List<String> getAliases() {
-		return MCCollections.asArrayList(aliases);
+		return SkyCollections.asArrayList(aliases);
 	}
 
 	@NotNull

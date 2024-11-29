@@ -43,7 +43,7 @@ import java.util.function.Predicate;
  *
  * @author xDec0de_
  */
-public class MCCollections {
+public class SkyCollections {
 
 	/*
 	 * Creation

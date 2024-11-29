@@ -8,7 +8,7 @@ import net.codersky.skyutils.MCPlatform;
 import net.codersky.skyutils.cmd.GlobalCommand;
 import net.codersky.skyutils.crossplatform.player.MCPlayer;
 import net.codersky.skyutils.crossplatform.proxy.ProxyUtils;
-import net.codersky.skyutils.java.MCCollections;
+import net.codersky.skyutils.java.SkyCollections;
 import net.codersky.skyutils.velocity.cmd.AdaptedVelocityCommand;
 import net.codersky.skyutils.velocity.cmd.VelocityCommand;
 import net.codersky.skyutils.velocity.player.VelocityPlayerProvider;
@@ -130,7 +130,7 @@ public class VelocityUtils<P> extends ProxyUtils<P> {
 	public void registerCommands(GlobalCommand<P>... commands) {
 		if (commands == null || commands.length == 0)
 			return;
-		registerCommands(MCCollections.map(
+		registerCommands(SkyCollections.map(
 				commands,
 				new AdaptedVelocityCommand[commands.length],
 				cmd -> new AdaptedVelocityCommand<>(this, cmd))

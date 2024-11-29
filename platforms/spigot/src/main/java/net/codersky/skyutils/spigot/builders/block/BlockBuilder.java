@@ -1,13 +1,6 @@
 package net.codersky.skyutils.spigot.builders.block;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import net.codersky.skyutils.java.MCCollections;
+import net.codersky.skyutils.java.SkyCollections;
 import net.codersky.skyutils.spigot.SpigotUtils;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -25,6 +18,13 @@ import org.bukkit.block.data.Rotatable;
 import org.bukkit.block.sign.Side;
 import org.bukkit.inventory.DoubleChestInventory;
 import org.bukkit.inventory.Inventory;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 public class BlockBuilder {
 
@@ -457,9 +457,9 @@ public class BlockBuilder {
 			return null;
 		final org.bukkit.block.Sign sign = (org.bukkit.block.Sign) block.getState();
 		if (!SpigotUtils.serverSupports("1.20"))
-			return MCCollections.asArrayList(sign.getLines());
-		final List<String> lines = MCCollections.asArrayList(sign.getSide(Side.FRONT).getLines());
-		return MCCollections.add(lines, sign.getSide(Side.BACK).getLines());
+			return SkyCollections.asArrayList(sign.getLines());
+		final List<String> lines = SkyCollections.asArrayList(sign.getSide(Side.FRONT).getLines());
+		return SkyCollections.add(lines, sign.getSide(Side.BACK).getLines());
 	}
 
 	/**
@@ -479,7 +479,7 @@ public class BlockBuilder {
 		if (!isSign())
 			return null;
 		final org.bukkit.block.Sign sign = (org.bukkit.block.Sign) block.getState();
-		return MCCollections.asArrayList(SpigotUtils.serverSupports("1.20") ? sign.getLines() : sign.getSide(side.bukkit()).getLines());
+		return SkyCollections.asArrayList(SpigotUtils.serverSupports("1.20") ? sign.getLines() : sign.getSide(side.bukkit()).getLines());
 	}
 
 	/**

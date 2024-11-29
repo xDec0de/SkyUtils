@@ -1,7 +1,7 @@
 package net.codersky.skyutils.spigot.builders;
 
 import com.google.common.collect.Multimap;
-import net.codersky.skyutils.java.MCCollections;
+import net.codersky.skyutils.java.SkyCollections;
 import net.codersky.skyutils.java.strings.MCStrings;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -332,7 +332,7 @@ public class ItemBuilder implements Cloneable {
 	 */
 	@NotNull
 	public ItemBuilder setLore(@Nullable List<String> lore) {
-		meta.setLore(MCCollections.map(lore, MCStrings::applyColor));
+		meta.setLore(SkyCollections.map(lore, MCStrings::applyColor));
 		return this;
 	}
 

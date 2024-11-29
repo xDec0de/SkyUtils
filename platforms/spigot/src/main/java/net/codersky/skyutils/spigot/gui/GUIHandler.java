@@ -1,16 +1,6 @@
 package net.codersky.skyutils.spigot.gui;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import net.codersky.skyutils.java.MCCollections;
+import net.codersky.skyutils.java.SkyCollections;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -23,8 +13,17 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import org.jetbrains.annotations.ApiStatus;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * A {@link Listener} class that handles {@link GUI}
@@ -83,7 +82,7 @@ public class GUIHandler implements Listener {
 		if (inv == null)
 			return false;
 		if (!guis.containsKey(gui))
-			guis.put(gui, MCCollections.asHashSet(target.getUniqueId()));
+			guis.put(gui, SkyCollections.asHashSet(target.getUniqueId()));
 		else
 			guis.get(gui).add(target.getUniqueId());
 		target.openInventory(inv);

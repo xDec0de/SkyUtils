@@ -5,7 +5,7 @@ import net.codersky.skyutils.cmd.GlobalCommand;
 import net.codersky.skyutils.cmd.MCCommand;
 import net.codersky.skyutils.crossplatform.player.MCPlayer;
 import net.codersky.skyutils.crossplatform.server.ServerUtils;
-import net.codersky.skyutils.java.MCCollections;
+import net.codersky.skyutils.java.SkyCollections;
 import net.codersky.skyutils.java.reflection.RefObject;
 import net.codersky.skyutils.java.strings.MCStrings;
 import net.codersky.skyutils.spigot.cmd.AdaptedSpigotCommand;
@@ -271,7 +271,7 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 	public void registerCommands(@NotNull GlobalCommand<P>... commands) {
 		if (commands == null || commands.length == 0)
 			return;
-		registerCommands(MCCollections.map(
+		registerCommands(SkyCollections.map(
 				commands,
 				new AdaptedSpigotCommand[commands.length],
 				cmd -> new AdaptedSpigotCommand<>(this, cmd))

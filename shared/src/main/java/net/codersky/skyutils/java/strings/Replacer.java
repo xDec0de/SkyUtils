@@ -1,6 +1,6 @@
 package net.codersky.skyutils.java.strings;
 
-import net.codersky.skyutils.java.MCCollections;
+import net.codersky.skyutils.java.SkyCollections;
 import net.codersky.skyutils.java.math.MCNumbers;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
@@ -204,7 +204,7 @@ public class Replacer {
 	 */
 	@NotNull
 	public List<String> replaceAtStrings(@NotNull List<String> list) {
-		return MCCollections.map(list, this::replaceAt);
+		return SkyCollections.map(list, this::replaceAt);
 	}
 
 	/**
@@ -287,7 +287,7 @@ public class Replacer {
 	 */
 	@NotNull
 	public List<Component> replaceAtComponents(@NotNull List<Component> list) {
-		return MCCollections.map(list, this::replaceAt);
+		return SkyCollections.map(list, this::replaceAt);
 	}
 
 	/**

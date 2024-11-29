@@ -1,14 +1,14 @@
 package net.codersky.skyutils.storage;
 
+import net.codersky.skyutils.java.SkyCollections;
+import net.codersky.skyutils.storage.files.FlatStorage;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
-import net.codersky.skyutils.java.MCCollections;
-import net.codersky.skyutils.storage.files.FlatStorage;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Abstract class for any type of storage that
@@ -89,7 +89,7 @@ public abstract class Storage implements Config {
 
 	@NotNull
 	public List<Byte> setBytes(@NotNull String key, byte[] value) {
-		return getMap().setList(key, MCCollections.asByteList(value));
+		return getMap().setList(key, SkyCollections.asByteList(value));
 	}
 
 	// - Shorts - //
@@ -117,7 +117,7 @@ public abstract class Storage implements Config {
 
 	@NotNull
 	public List<Date> setDates(@NotNull String key, @NotNull List<Date> value) {
-		setLongs(key, MCCollections.map(value, date -> date.toInstant().toEpochMilli()));
+		setLongs(key, SkyCollections.map(value, date -> date.toInstant().toEpochMilli()));
 		return value;
 	}
 
