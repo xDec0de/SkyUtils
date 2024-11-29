@@ -19,7 +19,7 @@ tasks {
 
 	shadowJar {
 		// Exclude dependencies included by Paper, so they don't get added into the jar
-		val shaded = "net/codersky/mcutils/shaded/"
+		val shaded = "net/codersky/skyutils/shaded/"
 		exclude(shaded + "kyori/**", shaded + "jetbrains/**", shaded + "intellij/**")
 		// Relocate included dependencies back to their original packages
 		relocate("net.codersky.skyutils.shaded.kyori", "net.kyori")
