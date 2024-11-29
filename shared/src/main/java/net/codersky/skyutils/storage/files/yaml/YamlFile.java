@@ -1,8 +1,8 @@
 package net.codersky.skyutils.storage.files.yaml;
 
-import net.codersky.skyutils.SkyUtils;
 import net.codersky.skyutils.Reloadable;
-import net.codersky.skyutils.java.MCFiles;
+import net.codersky.skyutils.SkyUtils;
+import net.codersky.skyutils.java.SkyFiles;
 import net.codersky.skyutils.storage.DataHandler;
 import net.codersky.skyutils.storage.DataMap;
 import net.codersky.skyutils.storage.files.UpdatableFile;
@@ -79,13 +79,13 @@ public class YamlFile implements DataHandler, Reloadable, UpdatableFile {
 	public boolean setup() {
 		if (exists())
 			return reload();
-		return MCFiles.create(file) && update() && save();
+		return SkyFiles.create(file) && update() && save();
 	}
 
 	public boolean save() {
 		if (!getMap().isModified())
 			return true;
-		if (!exists() && !MCFiles.create(file))
+		if (!exists() && !SkyFiles.create(file))
 			return false;
 		try {
 			final FileWriter writer = new FileWriter(file, StandardCharsets.UTF_8);

@@ -13,7 +13,7 @@ import java.util.function.Consumer;
  *
  * @author xDec0de_
  */
-public class MCFiles {
+public class SkyFiles {
 
 	/**
 	 * Ensures a {@link File} is created, creating any necessary

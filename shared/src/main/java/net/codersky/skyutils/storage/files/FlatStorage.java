@@ -1,5 +1,10 @@
 package net.codersky.skyutils.storage.files;
 
+import net.codersky.skyutils.java.SkyFiles;
+import net.codersky.skyutils.java.strings.MCStrings;
+import net.codersky.skyutils.storage.Storage;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,11 +17,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.function.Function;
-
-import net.codersky.skyutils.java.MCFiles;
-import net.codersky.skyutils.java.strings.MCStrings;
-import net.codersky.skyutils.storage.Storage;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * {@link Storage} class used to store data on
@@ -52,7 +52,7 @@ public class FlatStorage extends Storage {
 	 */
 
 	public boolean setup() {
-		return MCFiles.create(file);
+		return SkyFiles.create(file);
 	}
 
 	@NotNull
