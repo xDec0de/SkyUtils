@@ -17,7 +17,7 @@ body:
     attributes:
       label: Feature description
       description: Explain the new feature / change, be as detailed as possible.
-      placeholder: Hexadecimal color support for MCStrings and MessagesFile, such as "#F00Hello"
+      placeholder: Hexadecimal color support for SkyStrings, such as "#F00Hello"
     validations:
       required: true
 
@@ -33,6 +33,6 @@ body:
     attributes:
       label: Additional information
       description: Anything that may help, such as how this feature could be used or implemented.
-      placeholder: The usage could be something like MCStrings.applyColor("#F00Hello");
+      placeholder: The usage could be something like SkyStrings.applyColor("#F00Hello");
     validations:
       required: false

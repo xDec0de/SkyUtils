@@ -7,7 +7,7 @@ import net.codersky.skyutils.crossplatform.player.MCPlayer;
 import net.codersky.skyutils.crossplatform.server.ServerUtils;
 import net.codersky.skyutils.java.SkyCollections;
 import net.codersky.skyutils.java.reflection.RefObject;
-import net.codersky.skyutils.java.strings.MCStrings;
+import net.codersky.skyutils.java.strings.SkyStrings;
 import net.codersky.skyutils.spigot.cmd.AdaptedSpigotCommand;
 import net.codersky.skyutils.spigot.cmd.SpigotCommand;
 import net.codersky.skyutils.spigot.player.SpigotPlayerProvider;
@@ -496,7 +496,7 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 	@Deprecated(forRemoval = true)
 	public boolean logCol(@Nullable String... strings) {
 		for (String str : strings)
-			Bukkit.getConsoleSender().sendMessage(MCStrings.applyColor(str));
+			Bukkit.getConsoleSender().sendMessage(SkyStrings.applyColor(str));
 		return true;
 	}
 

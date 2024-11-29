@@ -1,6 +1,6 @@
 package net.codersky.skyutils.java.strings.pattern.color;
 
-import net.codersky.skyutils.java.strings.MCStrings;
+import net.codersky.skyutils.java.strings.SkyStrings;
 import net.codersky.skyutils.java.strings.pattern.ColorPattern;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,7 +34,7 @@ public class GradientColorPattern implements ColorPattern {
 		for (int i = simple ? 2 : 1; i > 0; i--) { // i will be 1 for simplePattern, 2 for pattern.
 			final Matcher matcher = i == 1 ? simplePattern.matcher(res) : pattern.matcher(res);
 			while (matcher.find()) {
-				final int step = MCStrings.stripColor(matcher.group(2), '&').length();
+				final int step = SkyStrings.stripColor(matcher.group(2), '&').length();
 				final Color start = i == 1 ? getSimpleColor(matcher.group(1)) : new Color(Integer.parseInt(matcher.group(1), 16));
 				final Color end = i == 1 ? getSimpleColor(matcher.group(3)) : new Color(Integer.parseInt(matcher.group(3), 16));
 				res = matcher.replaceFirst(apply(matcher.group(2), createGradient(start, end, step)));
@@ -90,9 +90,9 @@ public class GradientColorPattern implements ColorPattern {
 
 	private String toLegacyColorString(@NotNull Color color) {
 		final String hex = String.format("#%06X", (0xFFFFFF & color.getRGB()));
-		final StringBuilder res = new StringBuilder(MCStrings.COLOR_CHAR + "x");
+		final StringBuilder res = new StringBuilder(SkyStrings.COLOR_CHAR + "x");
 		for (char ch : hex.substring(1).toCharArray())
-			res.append(MCStrings.COLOR_CHAR).append(ch);
+			res.append(SkyStrings.COLOR_CHAR).append(ch);
 		return res.toString();
 	}
 
@@ -113,10 +113,10 @@ public class GradientColorPattern implements ColorPattern {
 		int colorIndex = 0;
 		for (int strIndex = 0; strIndex < characters.length; strIndex++) {
 			char current = characters[strIndex];
-			if (current == '&' || current == MCStrings.COLOR_CHAR) {
+			if (current == '&' || current == SkyStrings.COLOR_CHAR) {
 				char next = characters[++strIndex];
 				if (next >= 'k' && next <= 'o') {// if next == k, l, m, n or o
-					formatting.append(MCStrings.COLOR_CHAR);
+					formatting.append(SkyStrings.COLOR_CHAR);
 					formatting.append(next);
 					continue;
 				} else if (next == 'r') {

@@ -1,6 +1,6 @@
 package net.codersky.skyutils.java.strings.pattern.color;
 
-import net.codersky.skyutils.java.strings.MCStrings;
+import net.codersky.skyutils.java.strings.SkyStrings;
 import net.codersky.skyutils.java.strings.pattern.ColorPattern;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,9 +33,9 @@ public class HexColorPattern implements ColorPattern {
 				final int hexSize = getHexSize(string, i + 1, len, simple);
 				if (hexSize != 0) {
 					final int[] positions = hexSize == 3 ? new int[] {1, 1, 2, 2, 3, 3} : new int[] {1, 2, 3, 4, 5, 6};
-					result.append(MCStrings.COLOR_CHAR + "x");
+					result.append(SkyStrings.COLOR_CHAR + "x");
 					for (final int pos : positions)
-						result.append(MCStrings.COLOR_CHAR + Character.toString(string.charAt(i + pos)));
+						result.append(SkyStrings.COLOR_CHAR + Character.toString(string.charAt(i + pos)));
 					i += hexSize;
 				} else
 					result.append(current);

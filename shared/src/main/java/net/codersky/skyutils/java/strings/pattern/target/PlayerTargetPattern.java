@@ -2,7 +2,7 @@ package net.codersky.skyutils.java.strings.pattern.target;
 
 import net.codersky.skyutils.crossplatform.MessageReceiver;
 import net.codersky.skyutils.crossplatform.player.MCPlayer;
-import net.codersky.skyutils.java.strings.MCStrings;
+import net.codersky.skyutils.java.strings.SkyStrings;
 import net.codersky.skyutils.java.strings.pattern.TargetPattern;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,10 +27,10 @@ public class PlayerTargetPattern implements TargetPattern {
 	@NotNull
 	@Override
 	public String process(@NotNull MessageReceiver target, @NotNull String string, boolean applyEventPatterns) {
-		return MCStrings.match(string, "<p:", "/p>", message -> {
+		return SkyStrings.match(string, "<p:", "/p>", message -> {
 			if (target instanceof MCPlayer player) {
 				if (applyEventPatterns)
-					player.sendMessage(MCStrings.applyEventPatterns(message));
+					player.sendMessage(SkyStrings.applyEventPatterns(message));
 				else
 					player.sendMessage(message);
 			}

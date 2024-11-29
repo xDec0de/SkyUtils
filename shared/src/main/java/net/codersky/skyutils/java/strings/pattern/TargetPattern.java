@@ -2,15 +2,15 @@ package net.codersky.skyutils.java.strings.pattern;
 
 import net.codersky.skyutils.crossplatform.MessageReceiver;
 import net.codersky.skyutils.crossplatform.player.MCPlayer;
-import net.codersky.skyutils.java.strings.MCStrings;
+import net.codersky.skyutils.java.strings.SkyStrings;
 import net.codersky.skyutils.java.strings.pattern.target.ActionBarTargetPattern;
 import net.codersky.skyutils.java.strings.pattern.target.ConsoleTargetPattern;
 import net.codersky.skyutils.java.strings.pattern.target.PlayerTargetPattern;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Functional interface used to represent a target pattern that {@link MCStrings}
- * will then use on its {@link MCStrings#applyTargetPatterns(MessageReceiver, String, boolean)}.
+ * Functional interface used to represent a target pattern that {@link SkyStrings}
+ * will then use on its {@link SkyStrings#applyTargetPatterns(MessageReceiver, String, boolean)}.
  * <p>
  * Target patterns have two purposes. The first one is that they can be used as a filter,
  * meaning that matching parts of the message will only be sent to the {@link MessageReceiver target}
@@ -54,7 +54,7 @@ public interface TargetPattern {
 	 * @param target The {@link MessageReceiver target} that will receive matching elements
 	 * of this pattern, if eligible.
 	 * @param string The {@link String} to apply the {@link TargetPattern} to.
-	 * @param applyEventPatterns Whether to {@link MCStrings#applyEventPatterns(String) apply} event patterns
+	 * @param applyEventPatterns Whether to {@link SkyStrings#applyEventPatterns(String) apply} event patterns
 	 * to the content matched by this pattern. Details about this can be found {@link TargetPattern here},
 	 * under the "<b>ABOUT EVENT PATTERNS</b>" section.
 	 *

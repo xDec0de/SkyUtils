@@ -28,7 +28,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class MCStrings {
+public class SkyStrings {
 
 	/** The color character used for Minecraft color codes. */
 	public static char COLOR_CHAR = '§';
@@ -119,7 +119,7 @@ public class MCStrings {
 	 */
 
 	/**
-	 * Replaces every occurrence of <b>ch</b> with {@link MCStrings#COLOR_CHAR} if
+	 * Replaces every occurrence of <b>ch</b> with {@link SkyStrings#COLOR_CHAR} if
 	 * followed by a valid color character ({@link #isColorChar(char)}).
 	 *
 	 * @param ch the character to replace, normally '&', as this is the standard.
@@ -144,10 +144,10 @@ public class MCStrings {
 	 * that is, color and text formatting, for example, assuming that
 	 * {@code colorChar} is '&', this method will remove all occurrences
 	 * of &[a-f], &[0-9], &[k-o] and &r, leaving the string as an uncolored,
-	 * unformatted, simple string, doing the same with {@link MCStrings#COLOR_CHAR}
+	 * unformatted, simple string, doing the same with {@link SkyStrings#COLOR_CHAR}
 	 *
 	 * @param sequence the {@link CharSequence} to strip colors from.
-	 * @param colorChar an additional color character to use besides {@link MCStrings#COLOR_CHAR},
+	 * @param colorChar an additional color character to use besides {@link SkyStrings#COLOR_CHAR},
 	 * generally '&'.
 	 *
 	 * @return A new {@code String} with all the contents of the specified char
@@ -196,7 +196,7 @@ public class MCStrings {
 	 *
 	 * @param target The {@link MessageReceiver} that will receive any matching message.
 	 * @param str the {@link String} to process.
-	 * @param applyEventPatterns Whether to {@link MCStrings#applyEventPatterns(String) apply} event patterns
+	 * @param applyEventPatterns Whether to {@link SkyStrings#applyEventPatterns(String) apply} event patterns
 	 * to the content matched by {@link TargetPattern target patterns}. Details about this can be found
 	 * {@link TargetPattern here}, under the "<b>ABOUT EVENT PATTERNS</b>" section.
 	 *
@@ -422,7 +422,7 @@ public class MCStrings {
 	 */
 	@NotNull
 	public static String asString(@NotNull Iterable<CharSequence> iterable, @Nullable CharSequence separator) {
-		return asString(iterable, separator, MCStrings::hasContent);
+		return asString(iterable, separator, SkyStrings::hasContent);
 	}
 
 	/*

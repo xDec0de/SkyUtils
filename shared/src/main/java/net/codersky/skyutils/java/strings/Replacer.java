@@ -316,7 +316,7 @@ public class Replacer {
 	 * Numeric support
 	 */
 
-	// TODO Redo this method to work with Components, maybe a new MCStrings pattern?
+	// TODO Redo this method to work with Components, maybe a new SkyStrings pattern?
 	// TODO Seems weird to have a pattern on the Replacer class at this point...
 
 	@Deprecated(forRemoval = true)

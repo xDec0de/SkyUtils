@@ -1,7 +1,7 @@
 package net.codersky.skyutils.storage.files;
 
 import net.codersky.skyutils.java.SkyFiles;
-import net.codersky.skyutils.java.strings.MCStrings;
+import net.codersky.skyutils.java.strings.SkyStrings;
 import net.codersky.skyutils.storage.Storage;
 import org.jetbrains.annotations.NotNull;
 
@@ -223,7 +223,7 @@ public class FlatStorage extends Storage {
 		case 's' -> setString(key, value.replace("\\n", "\n"));
 		case 'c' -> setChar(key, value.equals("\\n") ? '\n' : value.charAt(0));
 		case 'b' -> setBoolean(key, value.charAt(0) == 't');
-		case 'u' -> setUUID(key, MCStrings.toUUID(value));
+		case 'u' -> setUUID(key, SkyStrings.toUUID(value));
 		case 'B' -> setByte(key, Byte.parseByte(value));
 		case 'S' -> setShort(key, Short.parseShort(value));
 		case 'I' -> setInt(key, Integer.parseInt(value));
@@ -241,7 +241,7 @@ public class FlatStorage extends Storage {
 		case 's' -> loadStringList(key, value);
 		case 'c' -> loadCharList(key, value);
 		case 'b' -> loadBoolList(key, value);
-		case 'u' -> loadList(key, value, MCStrings::toUUID);
+		case 'u' -> loadList(key, value, SkyStrings::toUUID);
 		case 'B' -> loadList(key, value, Byte::parseByte);
 		case 'S' -> loadList(key, value, Short::parseShort);
 		case 'I' -> loadList(key, value, Integer::parseInt);

@@ -1,10 +1,9 @@
 package net.codersky.skyutils.storage.files;
 
-import net.codersky.skyutils.crossplatform.MessageReceiver;
-import net.codersky.skyutils.java.strings.MCStrings;
-import net.codersky.skyutils.java.strings.Replacer;
-
 import net.codersky.skyutils.Reloadable;
+import net.codersky.skyutils.crossplatform.MessageReceiver;
+import net.codersky.skyutils.java.strings.Replacer;
+import net.codersky.skyutils.java.strings.SkyStrings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -202,7 +201,7 @@ public interface MessagesFile extends Reloadable {
 	 * Gets a message {@link String} from this {@link MessagesFile}.
 	 * This {@link String} may be {@code null} if the message isn't found.
 	 * <br>
-	 * This method will {@link MCStrings#applyColor(String) apply} color patterns.
+	 * This method will {@link SkyStrings#applyColor(String) apply} color patterns.
 	 * If you don't want this, you can use {@link #getRawMessage(String)} to get
 	 * the unmodified stored {@link String} as is, without any processing.
 	 *
@@ -220,7 +219,7 @@ public interface MessagesFile extends Reloadable {
 	default String getMessage(@NotNull String path) {
 		final String str = getRawMessage(path);
 		final Replacer rep = this.getDefaultReplacer();
-		return str == null ? null : MCStrings.applyColor(rep == null ? str : rep.replaceAt(str));
+		return str == null ? null : SkyStrings.applyColor(rep == null ? str : rep.replaceAt(str));
 	}
 
 	/**
@@ -228,7 +227,7 @@ public interface MessagesFile extends Reloadable {
 	 * applying a {@link Replacer} to it. This {@link String} may be
 	 * {@code null} if the message isn't found.
 	 * <br>
-	 * This method will {@link MCStrings#applyColor(String) apply} color patterns.
+	 * This method will {@link SkyStrings#applyColor(String) apply} color patterns.
 	 * If you don't want this, you can use {@link #getRawMessage(String, Replacer)} to get
 	 * the unmodified stored {@link String} as is, without any processing.
 	 *
@@ -257,7 +256,7 @@ public interface MessagesFile extends Reloadable {
 	 * applying a {@link Replacer} built from the specified {@code replacements} to it.
 	 * This {@link String} may be {@code null} if the message isn't found.
 	 * <br>
-	 * This method will {@link MCStrings#applyColor(String) apply} color patterns.
+	 * This method will {@link SkyStrings#applyColor(String) apply} color patterns.
 	 * If you don't want this, you can use {@link #getRawMessage(String, Object...)} to get
 	 * the unmodified stored {@link String} as is, without any processing.
 	 *
@@ -291,7 +290,7 @@ public interface MessagesFile extends Reloadable {
 
 	private boolean processMessage(@NotNull MessageReceiver target, @Nullable String message) {
 		if (message != null && !message.isBlank())
-			MCStrings.sendMessage(target, message);
+			SkyStrings.sendMessage(target, message);
 		return true;
 	}
 

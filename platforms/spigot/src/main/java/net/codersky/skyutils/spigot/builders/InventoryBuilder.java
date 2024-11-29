@@ -1,14 +1,7 @@
 package net.codersky.skyutils.spigot.builders;
 
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import net.codersky.skyutils.java.strings.MCStrings;
+import net.codersky.skyutils.java.math.MCNumbers;
+import net.codersky.skyutils.java.strings.SkyStrings;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryType;
@@ -17,7 +10,13 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import net.codersky.skyutils.java.math.MCNumbers;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * A class made to provide easy an fast
@@ -60,7 +59,7 @@ public class InventoryBuilder implements Cloneable {
 	 * Creates an {@link InventoryBuilder} with the type {@link InventoryType#CHEST}
 	 * and the specified <b>title</b> and amount of <b>rows</b>.
 	 * 
-	 * @param title the title of the inventory, will be colored with {@link MCStrings#applyColor(String)},
+	 * @param title the title of the inventory, will be colored with {@link SkyStrings#applyColor(String)},
 	 * if null, the inventory will have no custom title.
 	 * @param rows the amount of rows from 1 to 6, if a higher or lower number is specified, the minimum
 	 * (1) or maximum (6) number of rows will be used instead.
@@ -69,7 +68,7 @@ public class InventoryBuilder implements Cloneable {
 	 */
 	public InventoryBuilder(@Nullable String title, int rows) {
 		final int size = getRowsAsSize(rows);
-		inv = title == null ? Bukkit.createInventory(null, size) : Bukkit.createInventory(null, size, MCStrings.applyColor(title));
+		inv = title == null ? Bukkit.createInventory(null, size) : Bukkit.createInventory(null, size, SkyStrings.applyColor(title));
 	}
 
 	/**
@@ -77,7 +76,7 @@ public class InventoryBuilder implements Cloneable {
 	 * and the specified <b>title</b>, <b>holder</b> and amount of <b>rows</b>.
 	 * 
 	 * @param holder the {@link InventoryHolder} (or owner) of the {@link Inventory}.
-	 * @param title the title of the inventory, will be colored with {@link MCStrings#applyColor(String)},
+	 * @param title the title of the inventory, will be colored with {@link SkyStrings#applyColor(String)},
 	 * if null, the inventory will have no custom title.
 	 * @param rows the amount of rows from 1 to 6, if a higher or lower number is specified, the minimum
 	 * (1) or maximum (6) number of rows will be used instead.
@@ -86,13 +85,13 @@ public class InventoryBuilder implements Cloneable {
 	 */
 	public InventoryBuilder(@Nullable InventoryHolder holder,  @Nullable String title, int rows) {
 		final int size = getRowsAsSize(rows);
-		inv = title == null ? Bukkit.createInventory(holder, size) : Bukkit.createInventory(holder, size, MCStrings.applyColor(title));
+		inv = title == null ? Bukkit.createInventory(holder, size) : Bukkit.createInventory(holder, size, SkyStrings.applyColor(title));
 	}
 
 	/**
 	 * Creates an {@link InventoryBuilder} with the specified <b>type</b> and a custom <b>title</b>.
 	 * 
-	 * @param title the title of the inventory, will be colored with {@link MCStrings#applyColor(String)},
+	 * @param title the title of the inventory, will be colored with {@link SkyStrings#applyColor(String)},
 	 * if null, the inventory will have no custom title.
 	 * @param type the {@link InventoryType} of the {@link Inventory}, check {@link InventoryType#isCreatable()}
 	 * first as some {@link Inventory inventories} cannot be created and showed to players, see
@@ -104,14 +103,14 @@ public class InventoryBuilder implements Cloneable {
 	 */
 	public InventoryBuilder(@Nullable String title, @Nonnull InventoryType type) {
 		Objects.requireNonNull(type, "Inventory type cannot be null.");
-		inv = title == null ? Bukkit.createInventory(null, type) : Bukkit.createInventory(null, type, MCStrings.applyColor(title));
+		inv = title == null ? Bukkit.createInventory(null, type) : Bukkit.createInventory(null, type, SkyStrings.applyColor(title));
 	}
 
 	/**
 	 * Creates an {@link InventoryBuilder} with the specified <b>type</b>, <b>holder</b> and a custom <b>title</b>.
 	 * 
 	 * @param holder the {@link InventoryHolder} (or owner) of the {@link Inventory}.
-	 * @param title the title of the inventory, will be colored with {@link MCStrings#applyColor(String)},
+	 * @param title the title of the inventory, will be colored with {@link SkyStrings#applyColor(String)},
 	 * if null, the inventory will have no custom title.
 	 * @param type the {@link InventoryType} of the {@link Inventory}, check {@link InventoryType#isCreatable()}
 	 * first as some {@link Inventory inventories} cannot be created and showed to players, see
@@ -123,7 +122,7 @@ public class InventoryBuilder implements Cloneable {
 	 */
 	public InventoryBuilder(@Nullable InventoryHolder holder,  @Nullable String title, @Nonnull InventoryType type) {
 		Objects.requireNonNull(type, "Inventory type cannot be null.");
-		inv = title == null ? Bukkit.createInventory(holder, type) : Bukkit.createInventory(holder, type, MCStrings.applyColor(title));
+		inv = title == null ? Bukkit.createInventory(holder, type) : Bukkit.createInventory(holder, type, SkyStrings.applyColor(title));
 	}
 
 	/*
@@ -217,7 +216,7 @@ public class InventoryBuilder implements Cloneable {
 	 * of the current one but with the new title.
 	 * 
 	 * @param title the new title of the {@link Inventory}, colors
-	 * will be applied to it with {@link MCStrings#applyColor(String).
+	 * will be applied to it with {@link SkyStrings#applyColor(String).
 	 * 
 	 * @return This {@link InventoryBuilder}.
 	 * 
@@ -350,7 +349,7 @@ public class InventoryBuilder implements Cloneable {
 	 * @param material The {@link Material} of the {@link ItemStack} to use.
 	 * @param amount The amount of the stack.
 	 * @param displayName The display name of the stack, this <b>won't</b> be
-	 * {@link MCStrings#applyColor(String) colored} for performance reasons.
+	 * {@link SkyStrings#applyColor(String) colored} for performance reasons.
 	 * @param slots the slots to set this item to, any out of bounds slot will
 	 * just be ignored without throwing any exception.
 	 * 
@@ -386,7 +385,7 @@ public class InventoryBuilder implements Cloneable {
 	 * 
 	 * @param material The {@link Material} of the {@link ItemStack} to use.
 	 * @param displayName The display name of the stack, this <b>won't</b> be
-	 * {@link MCStrings#applyColor(String) colored} for performance reasons.
+	 * {@link SkyStrings#applyColor(String) colored} for performance reasons.
 	 * @param slots the slots to set this item to, any out of bounds slot will
 	 * just be ignored without throwing any exception.
 	 * 

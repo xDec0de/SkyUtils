@@ -61,7 +61,7 @@ body:
     attributes:
       label: Steps to reproduce
       description: This may include a video, screenshots or detailed instructions to help to reproduce the issue.
-      placeholder: Just get a player and do player.sendMessage(MCStrings.applyColor("#F00Hello"));
+      placeholder: Just get a player and do player.sendMessage(SkyStrings.applyColor("#F00Hello"));
     validations:
       required: true
 

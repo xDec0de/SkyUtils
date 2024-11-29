@@ -1,14 +1,14 @@
 package net.codersky.skyutils.java.strings.pattern;
 
-import net.codersky.skyutils.java.strings.MCStrings;
+import net.codersky.skyutils.java.strings.SkyStrings;
 import net.codersky.skyutils.java.strings.pattern.color.GradientColorPattern;
 import net.codersky.skyutils.java.strings.pattern.color.HexColorPattern;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Functional interface used to represent a color pattern that {@link MCStrings}
- * will then use on its {@link MCStrings#applyColor(String, boolean)}
- * and {@link MCStrings#applyColor(String)} methods.
+ * Functional interface used to represent a color pattern that {@link SkyStrings}
+ * will then use on its {@link SkyStrings#applyColor(String, boolean)}
+ * and {@link SkyStrings#applyColor(String)} methods.
  *
  * @see HexColorPattern
  * @see GradientColorPattern

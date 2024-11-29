@@ -2,7 +2,7 @@ package net.codersky.skyutils.cmd;
 
 import net.codersky.skyutils.SkyUtils;
 import net.codersky.skyutils.java.math.MCNumbers;
-import net.codersky.skyutils.java.strings.MCStrings;
+import net.codersky.skyutils.java.strings.SkyStrings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -165,7 +165,7 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	default String asString(int arg, @NotNull String[] args, @NotNull String def) {
 		Objects.requireNonNull(def, "def cannot be null. Remove the parameter instead.");
 		final String result = args.length > arg ? args[arg] : def;
-		return removesEventPatterns() ? MCStrings.stripEventPatterns(result) : result;
+		return removesEventPatterns() ? SkyStrings.stripEventPatterns(result) : result;
 	}
 
 	/**
@@ -182,7 +182,7 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	@Nullable
 	default String asString(int arg, @NotNull String[] args) {
 		final String result = args.length > arg ? args[arg] : null;
-		return result != null && removesEventPatterns() ? MCStrings.stripEventPatterns(result) : result;
+		return result != null && removesEventPatterns() ? SkyStrings.stripEventPatterns(result) : result;
 	}
 
 	// With modifier //
@@ -242,9 +242,9 @@ public interface MCCommand<P, S extends MCCommandSender> {
 		final boolean removeEvents = removesEventPatterns();
 		Function<String, String> finalModifier = null;
 		if (modifier == null && removeEvents)
-			finalModifier = MCStrings::stripEventPatterns;
+			finalModifier = SkyStrings::stripEventPatterns;
 		else if (modifier != null)
-			finalModifier = str -> modifier.apply(MCStrings.stripEventPatterns(str));
+			finalModifier = str -> modifier.apply(SkyStrings.stripEventPatterns(str));
 		for (int i = fromArg + 1; i < args.length; i++)
 			builder.append(' ').append(finalModifier == null ? args[i] : finalModifier.apply(args[i]));
 		return builder.toString();
@@ -362,7 +362,7 @@ public interface MCCommand<P, S extends MCCommandSender> {
 			return def;
 		final List<String> lst = new ArrayList<>(args.length - fromArg);
 		for (int i = fromArg + 1; i < args.length; i++)
-			lst.add(MCStrings.stripEventPatterns(args[i]));
+			lst.add(SkyStrings.stripEventPatterns(args[i]));
 		return lst;
 	}
 

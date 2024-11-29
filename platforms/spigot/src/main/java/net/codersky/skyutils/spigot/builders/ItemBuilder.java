@@ -2,7 +2,7 @@ package net.codersky.skyutils.spigot.builders;
 
 import com.google.common.collect.Multimap;
 import net.codersky.skyutils.java.SkyCollections;
-import net.codersky.skyutils.java.strings.MCStrings;
+import net.codersky.skyutils.java.strings.SkyStrings;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -301,7 +301,7 @@ public class ItemBuilder implements Cloneable {
 	/**
 	 * Sets the display name of the {@link ItemMeta} being
 	 * used by this {@link ItemBuilder}, applying colors to
-	 * it by using {@link MCStrings#applyColor(String)}.
+	 * it by using {@link SkyStrings#applyColor(String)}.
 	 * 
 	 * @param name the name to set.
 	 * 
@@ -311,7 +311,7 @@ public class ItemBuilder implements Cloneable {
 	 */
 	@NotNull
 	public ItemBuilder setDisplayName(@Nullable String name) {
-		meta.setDisplayName(MCStrings.applyColor(name));
+		meta.setDisplayName(SkyStrings.applyColor(name));
 		return this;
 	}
 
@@ -320,7 +320,7 @@ public class ItemBuilder implements Cloneable {
 	/**
 	 * Sets the lore of the {@link ItemMeta} being
 	 * used by this {@link ItemBuilder}, applying colors to
-	 * it by using {@link MCStrings#applyColor(List)}.
+	 * it by using {@link SkyStrings#applyColor(List)}.
 	 * 
 	 * @param lore the lore to set, if null, the lore will be removed.
 	 * 
@@ -332,14 +332,14 @@ public class ItemBuilder implements Cloneable {
 	 */
 	@NotNull
 	public ItemBuilder setLore(@Nullable List<String> lore) {
-		meta.setLore(SkyCollections.map(lore, MCStrings::applyColor));
+		meta.setLore(SkyCollections.map(lore, SkyStrings::applyColor));
 		return this;
 	}
 
 	/**
 	 * Sets the lore of the {@link ItemMeta} being
 	 * used by this {@link ItemBuilder}, applying colors to
-	 * it by using {@link MCStrings#applyColor(List)}.
+	 * it by using {@link SkyStrings#applyColor(List)}.
 	 * 
 	 * @param lore the lore to set, if null, the lore will be removed.
 	 * 
@@ -371,7 +371,7 @@ public class ItemBuilder implements Cloneable {
 	/**
 	 * Adds the specified {@code lines} to the lore of the
 	 * {@link ItemMeta} being used by this {@link ItemBuilder},
-	 * applying colors to them by using {@link MCStrings#applyColor(String)}.
+	 * applying colors to them by using {@link SkyStrings#applyColor(String)}.
 	 * 
 	 * @param lines the lines to add, if null, nothing will be done.
 	 * 
@@ -384,7 +384,7 @@ public class ItemBuilder implements Cloneable {
 			return this;
 		final List<String> lore = meta.getLore() == null ? new ArrayList<>(lines.size()) : meta.getLore();
 		for (String line : lines)
-			lore.add(MCStrings.applyColor(line));
+			lore.add(SkyStrings.applyColor(line));
 		meta.setLore(lore);
 		return this;
 	}
@@ -392,7 +392,7 @@ public class ItemBuilder implements Cloneable {
 	/**
 	 * Adds the specified {@code lines} to the lore of the
 	 * {@link ItemMeta} being used by this {@link ItemBuilder},
-	 * applying colors to them by using {@link MCStrings#applyColor(String)}.
+	 * applying colors to them by using {@link SkyStrings#applyColor(String)}.
 	 * 
 	 * @param lines the lines to add, if null, nothing will be done.
 	 * 
