@@ -9,7 +9,7 @@ body:
       options:
         - label: I have checked that this bug report doesn't already exist
           required: true
-        - label: I am using the latest version of MCUtils
+        - label: I am using the latest version of SkyUtils
           required: true
         - label: I am using the latest build of my server software
           required: true

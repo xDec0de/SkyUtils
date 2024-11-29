@@ -1,6 +1,6 @@
 plugins {
-	mcutils.`shadow-conventions`
-	mcutils.`library-conventions`
+	skyutils.`shadow-conventions`
+	skyutils.`library-conventions`
 }
 
 repositories {
@@ -15,6 +15,6 @@ dependencies {
 
 tasks {
 	shadowJar {
-		relocate("org.yaml.snakeyaml", "net.codersky.mcutils.shaded.snakeyaml")
+		relocate("org.yaml.snakeyaml", "net.codersky.skyutils.shaded.snakeyaml")
 	}
 }

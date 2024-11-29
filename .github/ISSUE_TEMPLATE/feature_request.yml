@@ -1,5 +1,5 @@
 name: Feature request
-description: Do you need a new feature on MCUtils?
+description: Do you need a new feature on SkyUtils?
 labels: [ "Status: Unverified", "Type: Feature" ]
 body:
   - type: checkboxes
@@ -9,7 +9,7 @@ body:
       options:
         - label: I have checked that this feature isn't already requested
           required: true
-        - label: I am using the latest version of MCUtils and this feature doesn't exist
+        - label: I am using the latest version of SkyUtils and this feature doesn't exist
           required: true
 
   - type: textarea

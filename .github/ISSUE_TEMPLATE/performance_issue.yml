@@ -9,9 +9,9 @@ body:
       options:
         - label: I have checked that this issue doesn't already exist
           required: true
-        - label: I am using the latest version of MCUtils
+        - label: I am using the latest version of SkyUtils
           required: true
-        - label: I am sure that MCUtils is causing this issue
+        - label: I am sure that SkyUtils is causing this issue
           required: true
 
   - type: textarea

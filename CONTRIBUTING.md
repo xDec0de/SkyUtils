@@ -1,14 +1,14 @@
-# Contributing to MCUtils
+# Contributing to SkyUtils
 
-Thank you for taking your time to contrubute to MCUtils! Any help is much
+Thank you for taking your time to contrubute to SkyUtils! Any help is much
 appreciated, however, there are some guidelines you can follow to ensure
 your PR gets accepted, as well as some conditions.
 
 ## License and code authorship
 
-MCUtils is under the MIT license as specified by [LICENSE.md](https://github.com/xDec0de/MCUtils/blob/master/LICENSE.md),
-by contributing to MCUtils you agree that your contribution will now be
-a part of MCUtils and under the MIT license too. As a contrubutor, you are
+SkyUtils is under the MIT license as specified by [LICENSE.md](https://github.com/xDec0de/SkyUtils/blob/master/LICENSE.md),
+by contributing to SkyUtils you agree that your contribution will now be
+a part of SkyUtils and under the MIT license too. As a contrubutor, you are
 allowed to use the javadoc `@author` tag on your methods or classes, however,
 you are not allowed to remove an existing author on any tag, you must only add
 your name to the existing tag. Please note that, while very, very unlikely,
@@ -21,18 +21,18 @@ you will most likely be kept as an author on the tag.
 
 ## Requirements
 
-MCUtils is built to have the lowest amount of requirements / dependencies
+SkyUtils is built to have the lowest amount of requirements / dependencies
 possible, however, you still need some things:
 
 - A Java 17 or later JDK
-- Maven, 3.8.6 has been used to compile MCUtils, however, it might work with
+- Maven, 3.8.6 has been used to compile SkyUtils, however, it might work with
 previous versions
 
 ## Adding new features
 
-You are more than welcome to add new features to MCUtils, however, please do it
+You are more than welcome to add new features to SkyUtils, however, please do it
 in a way that makes sense, remember that this changes don't only affect you and
-your plugins but also every plugin using MCUtils.
+your plugins but also every plugin using SkyUtils.
 
 You must be able to justify your changes in your PR description, if you are not
 able to do so, it is a clear indicator that you are on the wrong track.
@@ -68,16 +68,16 @@ be avoided, reflection is still preferred over this.
 Testing must be done before making any PR, [I](https://github.com/xDec0de)
 will test them anyways to ensure everything works as expected, but if
 everything works beforehand, that really helps saving up some time.
-Please remember that MCUtils is expected to work on a wide range of versions
+Please remember that SkyUtils is expected to work on a wide range of versions
 and platforms, if your change is incompatible with any supported version
 (1.12 and higher), you must fix it or mention the issue on your PR if you don't
 know how to fix it.
 
-You can compile MCUtils as a plugin by running `mvn install`, the jar file will
+You can compile SkyUtils as a plugin by running `mvn install`, the jar file will
 be in the target folder of your project.
 
-In order to test your modified version of MCUtils, just add it to your plugins
+In order to test your modified version of SkyUtils, just add it to your plugins
 folder and make sure that your test plugin (The one that will use your version
-of MCUtils) is not shading MCUtils by using `<scope>provided</scope>` on
+of SkyUtils) is not shading SkyUtils by using `<scope>provided</scope>` on
 MCUtil's dependency on your `pom.xml`, just like you do with, for example,
 Spigot's dependency.

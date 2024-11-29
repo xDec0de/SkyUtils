@@ -32,7 +32,7 @@ tasks {
 				if (subIn.exists()) {
 					copy {
 						from(subIn) {
-							include("MCUtils-*.jar")
+							include("SkyUtils-*.jar")
 							exclude("*-javadoc.jar", "*-sources.jar")
 						}
 						into(buildOut)

@@ -1,6 +1,6 @@
 plugins {
-	mcutils.`shadow-conventions`
-	mcutils.`library-conventions`
+	skyutils.`shadow-conventions`
+	skyutils.`library-conventions`
 }
 
 dependencies {

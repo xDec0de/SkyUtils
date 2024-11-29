@@ -1,6 +1,6 @@
 plugins {
-	mcutils.`shadow-conventions`
-	mcutils.`library-conventions`
+	skyutils.`shadow-conventions`
+	skyutils.`library-conventions`
 	alias(libs.plugins.run.paper)
 }
 
@@ -22,14 +22,14 @@ tasks {
 		val shaded = "net/codersky/mcutils/shaded/"
 		exclude(shaded + "kyori/**", shaded + "jetbrains/**", shaded + "intellij/**")
 		// Relocate included dependencies back to their original packages
-		relocate("net.codersky.mcutils.shaded.kyori", "net.kyori")
-		relocate("net.codersky.mcutils.shaded.jetbrains", "org.jetbrains")
-		relocate("net.codersky.mcutils.shaded.intellij", "org.intellij")
+		relocate("net.codersky.skyutils.shaded.kyori", "net.kyori")
+		relocate("net.codersky.skyutils.shaded.jetbrains", "org.jetbrains")
+		relocate("net.codersky.skyutils.shaded.intellij", "org.intellij")
 	}
 
 	configurations {
 		runtimeOnly {
-			exclude("net.codersky.mcutils.shaded.kyori")
+			exclude("net.codersky.skyutils.shaded.kyori")
 		}
 	}
 

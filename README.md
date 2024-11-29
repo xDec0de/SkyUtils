@@ -1,36 +1,36 @@
-# About MCUtils
+# About SkyUtils
 
-MCUtils is a free to use open-source plugin API to help you develop your own
+SkyUtils is a free to use open-source plugin API to help you develop your own
 Spigot plugins, designed to be shaded under your plugin so you don't have to
 worry about new versions releasing that administrators may need to download,
 they don't need to download anything! Once you compile your plugin,
-the behavior of MCUtils won't change, unless you explicitly change to another
+the behavior of SkyUtils won't change, unless you explicitly change to another
 version of it, of course.
 
-![MCUtils banner](https://user-images.githubusercontent.com/63256529/192231939-b606878c-4436-4d74-9cb6-b78ce6850240.jpg)
+![SkyUtils banner](https://user-images.githubusercontent.com/63256529/192231939-b606878c-4436-4d74-9cb6-b78ce6850240.jpg)
 <div align=center>
 <a href="https://www.codefactor.io/repository/github/xdec0de/mcutils"><img src="https://www.codefactor.io/repository/github/xdec0de/mcutils/badge"</img></a>
-<a href="https://app.codacy.com/gh/xDec0de/MCUtils/"><img src="https://app.codacy.com/project/badge/Grade/2d121db7e16749f49cdc3cdd897da9fe"></img></a>
-<a href="https://github.com/xDec0de/MCUtils/actions/workflows/build.yml"><img src="https://img.shields.io/github/actions/workflow/status/xDec0de/MCUtils/build.yml?branch=master"</img></a>
+<a href="https://app.codacy.com/gh/xDec0de/SkyUtils/"><img src="https://app.codacy.com/project/badge/Grade/2d121db7e16749f49cdc3cdd897da9fe"></img></a>
+<a href="https://github.com/xDec0de/SkyUtils/actions/workflows/build.yml"><img src="https://img.shields.io/github/actions/workflow/status/xDec0de/SkyUtils/build.yml?branch=master"</img></a>
 </div>
 
-## The reliability of MCUtils
+## The reliability of SkyUtils
 
 Well, you can never be sure that a program is 100% reliable on any environment
 with an almost infinite amount of conditions that Minecraft servers tend to
 have, of course, bugs may appear sooner or later, it's part of the development
-process of any program. However, MCUtils is used by my own plugins which are
+process of any program. However, SkyUtils is used by my own plugins which are
 tested quite a lot, in fact, I even use it as a part of the core of my own
 network, so you don't have to worry about the project being abandoned any time
 soon either. Most bugs / performance issues will be solved before a version is
 even released or they get reported. But, if you do find a bug, critical or not,
-feel free to [contribute](https://github.com/xDec0de/MCUtils/blob/master/CONTRIBUTING.md)
-/ [create an issue](https://github.com/xDec0de/MCUtils/issues/new/choose) to
+feel free to [contribute](https://github.com/xDec0de/SkyUtils/blob/master/CONTRIBUTING.md)
+/ [create an issue](https://github.com/xDec0de/SkyUtils/issues/new/choose) to
 fix it!
 
-## The current state of MCUtils, not ready for production yet
+## The current state of SkyUtils, not ready for production yet
 
-One thing that is important to note is that MCUtils is currently on the early
+One thing that is important to note is that SkyUtils is currently on the early
 stages of development, features may *(And will)* change, methods may be renamed
 or removed, and of course issues are expected to appear. This is normal right
 now! **API-breaking** changes will happen with a lower and lower frequency as
@@ -39,12 +39,12 @@ that we can change most of the code without worrying about a ton of plugins
 breaking, making sure that all features are robust and easy to use in the
 better way possible. A great example of this is how the whole command API
 changed in order to add a more minimalistic and simple approach to it, this
-**WON'T** happen once the first stable build of MCUtils gets released, so
+**WON'T** happen once the first stable build of SkyUtils gets released, so
 **don't panic!**
 
-## Why should I use MCUtils? (Documentation in progress)
+## Why should I use SkyUtils? (Documentation in progress)
 
-As previously mentioned, MCUtils is designed to make your plugin development
+As previously mentioned, SkyUtils is designed to make your plugin development
 process easier and faster, but, what does it actually offer? Well... Here is
 the current list of features.
 

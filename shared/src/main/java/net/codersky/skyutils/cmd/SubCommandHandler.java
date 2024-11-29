@@ -1,0 +1,60 @@
+package net.codersky.skyutils.cmd;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.function.BiFunction;
+
+public class SubCommandHandler<P, S extends MCCommandSender> {
+
+	private final HashSet<MCCommand<P, S>> subCommands = new HashSet<>();
+
+	@NotNull
+	private String[] removeFirstArgument(@NotNull String[] args) {
+		if (args.length == 1)
+			return new String[0];
+		final String[] newArgs = new String[args.length - 1];
+		for (int i = 1; i < args.length; i++)
+			newArgs[i - 1] = args[1];
+		return newArgs;
+	}
+
+	private <T> T onUsedCommand(@NotNull MCCommand<P, S> mainCmd, @NotNull S sender, @NotNull String[] args,
+	                            @NotNull BiFunction<MCCommand<P, S>, String[], T> action, @NotNull T def, boolean message) {
+		if (!mainCmd.hasAccess(sender, message))
+			return def;
+		if (args.length == 0)
+			return action.apply(mainCmd, args);
+		for (MCCommand<P, S> subCommand : subCommands)
+			if (subCommand.getName().equalsIgnoreCase(args[0]))
+				return subCommand.hasAccess(sender, message) ? action.apply(subCommand, removeFirstArgument(args)) : def;
+		return action.apply(mainCmd, args);
+	}
+
+	public boolean onCommand(@NotNull MCCommand<P, S> mainCmd, @NotNull S sender, @NotNull String[] args) {
+		return onUsedCommand(mainCmd, sender, args, (cmd, newArgs) -> cmd.onCommand(sender, newArgs), true, true);
+	}
+
+	public List<String> onTab(@NotNull MCCommand<P, S> mainCommand, @NotNull S sender, @NotNull String[] args) {
+		return onUsedCommand(mainCommand, sender, args, (cmd, newArgs) -> {
+			if (subCommands.isEmpty() || args.length > 1)
+				return cmd.onTab(sender, newArgs);
+			final List<String> cmdTabs = cmd.onTab(sender, newArgs);
+			final List<String> tabs = new ArrayList<>(subCommands.size() + cmdTabs.size());
+			tabs.addAll(cmdTabs);
+			for (MCCommand<P, S> subCmd : subCommands) {
+				tabs.add(subCmd.getName());
+				tabs.addAll(subCmd.getAliases());
+			}
+			return tabs;
+		}, List.of(), false);
+	}
+
+	@SafeVarargs
+	public final void inject(@NotNull MCCommand<P, S>... commands) {
+		Collections.addAll(subCommands, commands);
+	}
+}

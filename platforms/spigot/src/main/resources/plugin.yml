@@ -1,5 +1,5 @@
-name: MCUtils
-main: net.codersky.mcutils.spigot.MCUtilsSpigot
+name: SkyUtils
+main: net.codersky.skyutils.spigot.SkyUtilsSpigot
 author: xDec0de_
 api-version: 1.13
 version: ${version}

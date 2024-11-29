@@ -17,12 +17,10 @@ dependencyResolutionManagement {
 	}
 }
 
-rootProject.name = "MCUtils"
+rootProject.name = "SkyUtils"
 include(":shared")
 include(":platforms:universal")
 include(":platforms:spigot")
 include(":platforms:velocity")
 include("platforms:universal")
-findProject(":platforms:universal")?.name = "universal"
 include("platforms:paper")
-findProject(":platforms:paper")?.name = "paper"

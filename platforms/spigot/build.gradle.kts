@@ -1,6 +1,6 @@
 plugins {
-	mcutils.`shadow-conventions`
-	mcutils.`library-conventions`
+	skyutils.`shadow-conventions`
+	skyutils.`library-conventions`
 	alias(libs.plugins.run.paper)
 }
 
@@ -18,7 +18,7 @@ dependencies {
 tasks {
 
 	shadowJar {
-		relocate("net.kyori", "net.codersky.mcutils.shaded.kyori")
+		relocate("net.kyori", "net.codersky.skyutils.shaded.kyori")
 	}
 
 	// 1.8.8 - 1.16.5 = Java 8
