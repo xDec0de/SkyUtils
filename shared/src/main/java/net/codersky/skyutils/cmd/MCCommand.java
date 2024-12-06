@@ -1,6 +1,7 @@
 package net.codersky.skyutils.cmd;
 
 import net.codersky.skyutils.SkyUtils;
+import net.codersky.skyutils.java.SkyCollections;
 import net.codersky.skyutils.java.math.MCNumbers;
 import net.codersky.skyutils.java.strings.SkyStrings;
 import org.jetbrains.annotations.NotNull;
@@ -26,11 +27,15 @@ import java.util.function.Function;
  */
 public interface MCCommand<P, S extends MCCommandSender> {
 
+	/*
+	 - Command information
+	 */
+
 	/**
 	 * Gets the name of this  {@link MCCommand}, which is used in order
 	 * to execute it as "/name".
 	 *
-	 * @return The name of this  {@link MCCommand}.
+	 * @return The name of this {@link MCCommand}.
 	 *
 	 * @since SkyUtils 1.0.0
 	 */
@@ -40,6 +45,28 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	@NotNull
 	List<String> getAliases();
 
+	/**
+	 * Checks whether this {@link MCCommand} matches the specified {@code name}.
+	 * A command is considered to match when its {@link #getName() name} or any
+	 * of its {@link #getAliases() aliases} {@link String#equalsIgnoreCase(String) equal}
+	 * (Case insensitive) the provided {@code name}.
+	 *
+	 * @param name The name to check.
+	 *
+	 * @return {@code true} if this {@link MCCommand} matches the provided
+	 * {@code name}, {@code false} otherwise.
+	 *
+	 * @since SkyUtils 1.0.0
+	 */
+	default boolean matches(@NotNull String name) {
+		return name.equalsIgnoreCase(getName()) || SkyCollections.contains(getAliases(), alias ->
+				alias.equalsIgnoreCase(name));
+	}
+
+	/*
+	 - Utilities
+	 */
+
 	@NotNull
 	SkyUtils<P> getUtils();
 
@@ -48,17 +75,37 @@ public interface MCCommand<P, S extends MCCommandSender> {
 		return getUtils().getPlugin();
 	}
 
+	/*
+	 - Command execution
+	 */
+
 	boolean onCommand(@NotNull S sender, @NotNull String[] args);
 
-	@NotNull
+	/*
+	 - Tab complete
+	 */
+
+	@Nullable
 	List<String> onTab(@NotNull S sender, @NotNull String[] args);
+
+	/*
+	 - SubCommand injection
+	 */
 
 	@NotNull
 	MCCommand<P, S> inject(@NotNull MCCommand<P, S>... commands);
 
+	/*
+	 - Access check
+	 */
+
 	default boolean hasAccess(@NotNull S sender, boolean message) {
 		return true;
 	}
+
+	/*
+	 - Argument conversion - Event pattern removal
+	 */
 
 	/**
 	 * Returns whether this {@link MCCommand} removes
@@ -81,10 +128,8 @@ public interface MCCommand<P, S extends MCCommandSender> {
 		return true;
 	}
 
-	// ARGUMENT CONVERSION //
-
 	/*
-	 * Generic
+	 - Argument conversion - Generic
 	 */
 
 	/**
@@ -142,7 +187,7 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	}
 
 	/*
-	 * Strings
+	 - Argument conversion - Strings
 	 */
 
 	// Regular //
@@ -233,7 +278,7 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	}
 
 	/*
-	 * String ranges
+	 - Argument conversion - String ranges
 	 */
 
 	@NotNull
@@ -338,7 +383,7 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	}
 
 	/*
-	 * List ranges
+	 - Argument conversion - List ranges
 	 */
 
 	@Nullable
@@ -372,7 +417,7 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	}
 
 	/*
-	 * Numbers
+	 - Argument conversion - Numbers
 	 */
 
 	/**
@@ -419,7 +464,7 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	}
 
 	/*
-	 * Enums
+	 - Argument conversion - Enums
 	 */
 
 	/**
