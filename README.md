@@ -6,7 +6,8 @@ that many plugins share while providing a standard, aiming for the highest
 performance and reliability at the same time while keeping a detailed
 documentation, so plugin creation is as easy as possible.
 
-![SkyUtils banner](https://user-images.githubusercontent.com/63256529/192231939-b606878c-4436-4d74-9cb6-b78ce6850240.jpg)
+![SkyUtils banner](https://github.com/user-attachments/assets/24f61e9a-819a-4f0d-b8ff-65930106e2a2)
+
 <div align=center>
 <a href="https://www.codefactor.io/repository/github/xdec0de/skyutils"><img src="https://www.codefactor.io/repository/github/xdec0de/skyutils/badge"></a>
 <a href="https://app.codacy.com/gh/xDec0de/SkyUtils/"><img src="https://app.codacy.com/project/badge/Grade/2d121db7e16749f49cdc3cdd897da9fe"></a>
