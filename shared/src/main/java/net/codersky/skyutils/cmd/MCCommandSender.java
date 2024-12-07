@@ -1,8 +1,8 @@
 package net.codersky.skyutils.cmd;
 
 import net.codersky.skyutils.SkyUtils;
-import net.codersky.skyutils.crossplatform.MCConsole;
 import net.codersky.skyutils.crossplatform.MessageReceiver;
+import net.codersky.skyutils.crossplatform.SkyConsole;
 import net.codersky.skyutils.crossplatform.player.MCPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -33,11 +33,11 @@ public interface MCCommandSender extends MessageReceiver {
 	}
 
 	@Nullable
-	MCConsole asConsole();
+	SkyConsole asConsole();
 
 	@Nullable
 	default Object asConsoleHandle() {
-		final MCConsole console = asConsole();
+		final SkyConsole console = asConsole();
 		return console == null ? null : console.getHandle();
 	}
 

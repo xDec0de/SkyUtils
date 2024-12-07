@@ -24,7 +24,6 @@ import java.util.UUID;
 public class VelocityUtils<P> extends ProxyUtils<P> {
 
 	private final ProxyServer proxy;
-	private final VelocityConsole console;
 	private VelocityPlayerProvider playerProvider;
 	private final Path dataDirectory;
 	private boolean isPlayerListenerOn = false;
@@ -32,7 +31,6 @@ public class VelocityUtils<P> extends ProxyUtils<P> {
 	public VelocityUtils(@NotNull P plugin, @NotNull ProxyServer proxy, @NotNull Path dataDirectory) {
 		super(plugin);
 		this.proxy = Objects.requireNonNull(proxy);
-		this.console = new VelocityConsole(proxy.getConsoleCommandSource());
 		this.playerProvider = new VelocityPlayerProvider(proxy);
 		this.dataDirectory = dataDirectory;
 	}
@@ -115,9 +113,16 @@ public class VelocityUtils<P> extends ProxyUtils<P> {
 		return this.dataDirectory.toFile();
 	}
 
+	@NotNull
 	@Override
-	public @NotNull VelocityConsole getConsole() {
-		return console;
+	protected VelocityConsole getConsoleInstance() {
+		return new VelocityConsole(getProxy().getConsoleCommandSource());
+	}
+
+	@NotNull
+	@Override
+	public VelocityConsole getConsole() {
+		return (VelocityConsole) console;
 	}
 
 	@Override

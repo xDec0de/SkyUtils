@@ -1,7 +1,7 @@
 package net.codersky.skyutils.spigot.cmd;
 
 import net.codersky.skyutils.cmd.MCCommandSender;
-import net.codersky.skyutils.crossplatform.MCConsole;
+import net.codersky.skyutils.crossplatform.SkyConsole;
 import net.codersky.skyutils.crossplatform.player.MCPlayer;
 import net.codersky.skyutils.spigot.SpigotConsole;
 import net.codersky.skyutils.spigot.SpigotUtils;
@@ -86,12 +86,12 @@ public class SpigotCommandSender implements MCCommandSender {
 
 	@Override
 	public boolean sendMessage(@NotNull Component message) {
-		// MCPlayer & MCConsole implementations will already check if the message
+		// MCPlayer & SkyConsole implementations will already check if the message
 		// can be received. Not doing it here to avoid double-checking
 		final MCPlayer player = asPlayer();
 		if (player != null)
 			return player.sendMessage(message);
-		final MCConsole console = asConsole();
+		final SkyConsole console = asConsole();
 		if (console != null)
 			return console.sendMessage(message);
 		return true;

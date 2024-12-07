@@ -1,11 +1,11 @@
 package net.codersky.skyutils.velocity;
 
 import com.velocitypowered.api.proxy.ConsoleCommandSource;
-import net.codersky.skyutils.crossplatform.MCConsole;
+import net.codersky.skyutils.crossplatform.SkyConsole;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 
-public class VelocityConsole implements MCConsole {
+public class VelocityConsole implements SkyConsole {
 
 	private final ConsoleCommandSource handle;
 

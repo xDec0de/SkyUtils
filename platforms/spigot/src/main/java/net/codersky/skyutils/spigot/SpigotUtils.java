@@ -40,13 +40,11 @@ import java.util.function.Predicate;
 
 public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 
-	private final SpigotConsole console;
 	private SpigotPlayerProvider playerProvider = new SpigotPlayerProvider();
 	private boolean isPlayerListenerOn = false;
 
 	public SpigotUtils(@NotNull P plugin) {
 		super(plugin);
-		this.console = new SpigotConsole(Bukkit.getConsoleSender());
 	}
 
 	@NotNull
@@ -135,8 +133,14 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 
 	@NotNull
 	@Override
+	protected SpigotConsole getConsoleInstance() {
+		return new SpigotConsole(Bukkit.getConsoleSender());
+	}
+
+	@NotNull
+	@Override
 	public SpigotConsole getConsole() {
-		return console;
+		return (SpigotConsole) this.console;
 	}
 
 	@Override

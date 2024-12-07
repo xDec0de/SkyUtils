@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Cross-platform interface used to handle objects that
- * may receive messages such as {@link MCPlayer} or {@link MCConsole}.
+ * may receive messages such as {@link MCPlayer} or {@link SkyConsole}.
  * This interface supports both regular string messages and Adventure
  * {@link Component} messages.
  *
@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
  * @see #sendMessage(String)
  * @see #sendMessage(String, Replacer)
  * @see #sendMessage(String, Object...)
- * @see MCConsole
+ * @see SkyConsole
  * @see MCPlayer
  * @see MCCommandSender
  *
@@ -33,7 +33,7 @@ public interface MessageReceiver {
 	 * provided on the documentation of each implementation, but here is
 	 * a not so detailed list of what you can expect, this only includes
 	 * player and console types that implement {@link MCPlayer},
-	 * {@link MCConsole} and {@link MCCommandSender}:
+	 * {@link SkyConsole} and {@link MCCommandSender}:
 	 * <ul>
 	 *   <li>Spigot: <i>CommandSender#getName</i></li>
 	 *   <li>Velocity: <i>Player#getUsername</i> or <i>"Console"</i>.</li>

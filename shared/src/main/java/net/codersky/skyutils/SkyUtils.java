@@ -1,7 +1,7 @@
 package net.codersky.skyutils;
 
 import net.codersky.skyutils.cmd.GlobalCommand;
-import net.codersky.skyutils.crossplatform.MCConsole;
+import net.codersky.skyutils.crossplatform.SkyConsole;
 import net.codersky.skyutils.crossplatform.player.MCPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -32,6 +32,7 @@ public abstract class SkyUtils<P> {
 
 	private final P plugin;
 	protected final LinkedHashSet<Reloadable> reloadables = new LinkedHashSet<>();
+	protected final SkyConsole console = getConsoleInstance();
 
 	public SkyUtils(@NotNull P plugin) {
 		this.plugin = Objects.requireNonNull(plugin);
@@ -45,18 +46,33 @@ public abstract class SkyUtils<P> {
 	@NotNull
 	public abstract File getDataFolder();
 
+	/*
+	 - Players
+	 */
+
 	@Nullable
 	public abstract MCPlayer getPlayer(@NotNull UUID uuid);
 
+	/*
+	 - Console
+	 */
+
+	@NotNull
+	protected abstract SkyConsole getConsoleInstance();
+
 	/**
-	 * Provides a cross-platform {@link MCConsole} instance.
+	 * Provides a cross-platform {@link SkyConsole} instance.
 	 *
-	 * @return A cross-platform {@link MCConsole} instance.
+	 * @return A cross-platform {@link SkyConsole} instance.
 	 *
 	 * @since SkyUtils 1.0.0
 	 */
 	@NotNull
-	public abstract MCConsole getConsole();
+	public abstract SkyConsole getConsole();
+
+	/*
+	 - Platform
+	 */
 
 	/**
 	 * Gets the {@link MCPlatform} this {@link SkyUtils} class
@@ -72,6 +88,10 @@ public abstract class SkyUtils<P> {
 	@NotNull
 	public abstract MCPlatform getPlatform();
 
+	/*
+	 - Version
+	 */
+
 	/**
 	 * Gets the version of SkyUtils being used by this utility
 	 * class.
@@ -83,17 +103,17 @@ public abstract class SkyUtils<P> {
 	 */
 	@NotNull
 	public final String getSkyUtilsVersion() {
-		return "1.0.0"; // Keep it the same as the project version from pom.xml
+		return "1.0.0"; // Keep it the same as the project version from build.gradle.kts
 	}
 
 	/*
-	 * Commands
+	 - Commands
 	 */
 
 	public abstract void registerCommands(GlobalCommand<P>... commands);
 
 	/*
-	 * Reloadables
+	 - Reloadables
 	 */
 
 	/**

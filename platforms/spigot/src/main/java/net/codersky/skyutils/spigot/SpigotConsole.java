@@ -1,13 +1,13 @@
 package net.codersky.skyutils.spigot;
 
-import net.codersky.skyutils.crossplatform.MCConsole;
+import net.codersky.skyutils.crossplatform.SkyConsole;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.jetbrains.annotations.NotNull;
 
-public class SpigotConsole implements MCConsole {
+public class SpigotConsole implements SkyConsole {
 
 	private final ConsoleCommandSender handle;
 
