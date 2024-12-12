@@ -10,7 +10,8 @@ import net.codersky.skyutils.crossplatform.player.MCPlayer;
 import net.codersky.skyutils.crossplatform.proxy.ProxyUtils;
 import net.codersky.skyutils.java.SkyCollections;
 import net.codersky.skyutils.velocity.cmd.AdaptedVelocityCommand;
-import net.codersky.skyutils.velocity.cmd.VelocityCommand;
+import net.codersky.skyutils.velocity.cmd.CustomVelocityCommand;
+import net.codersky.skyutils.velocity.cmd.VelocityCommandSender;
 import net.codersky.skyutils.velocity.player.VelocityPlayerProvider;
 import net.codersky.skyutils.velocity.player.VelocityPlayerQuitListener;
 import org.jetbrains.annotations.NotNull;
@@ -143,9 +144,9 @@ public class VelocityUtils<P> extends ProxyUtils<P> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void registerCommands(VelocityCommand<P>... commands) {
+	public void registerCommands(CustomVelocityCommand<P, ? extends VelocityCommandSender>... commands) {
 		final CommandManager manager = getProxy().getCommandManager();
-		for (VelocityCommand<P> command : commands) {
+		for (CustomVelocityCommand<P, ? extends VelocityCommandSender> command : commands) {
 			final CommandMeta meta = manager.metaBuilder(command.getName())
 					.plugin(getPlugin())
 					.aliases(command.getAliasesArray())
