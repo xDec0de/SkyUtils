@@ -1,8 +1,8 @@
 package net.codersky.skyutils.velocity.cmd;
 
 import com.velocitypowered.api.command.SimpleCommand;
-import net.codersky.skyutils.cmd.MCCommandSender;
 import net.codersky.skyutils.cmd.SkyCommand;
+import net.codersky.skyutils.cmd.SkyCommandSender;
 import net.codersky.skyutils.cmd.SubCommandHandler;
 import net.codersky.skyutils.java.SkyCollections;
 import net.codersky.skyutils.velocity.VelocityUtils;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
-public abstract class CustomVelocityCommand<P, S extends MCCommandSender> implements SimpleCommand, SkyCommand<P, S> {
+public abstract class CustomVelocityCommand<P, S extends SkyCommandSender> implements SimpleCommand, SkyCommand<P, S> {
 
 	private final VelocityUtils<P> utils;
 	private final String name;

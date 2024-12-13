@@ -1,6 +1,6 @@
 package net.codersky.skyutils.spigot.cmd;
 
-import net.codersky.skyutils.cmd.MCCommandSender;
+import net.codersky.skyutils.cmd.SkyCommandSender;
 import net.codersky.skyutils.crossplatform.SkyConsole;
 import net.codersky.skyutils.crossplatform.player.MCPlayer;
 import net.codersky.skyutils.spigot.SpigotConsole;
@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class SpigotCommandSender implements MCCommandSender {
+public class SpigotCommandSender implements SkyCommandSender {
 
 	private final CommandSender sender;
 	private final SpigotUtils<?> utils;

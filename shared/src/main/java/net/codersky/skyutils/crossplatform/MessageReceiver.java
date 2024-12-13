@@ -1,7 +1,7 @@
 package net.codersky.skyutils.crossplatform;
 
-import net.codersky.skyutils.cmd.MCCommandSender;
 import net.codersky.skyutils.cmd.SkyCommand;
+import net.codersky.skyutils.cmd.SkyCommandSender;
 import net.codersky.skyutils.crossplatform.player.MCPlayer;
 import net.codersky.skyutils.java.strings.Replacer;
 import net.kyori.adventure.text.Component;
@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
  * @see #sendMessage(String, Object...)
  * @see SkyConsole
  * @see MCPlayer
- * @see MCCommandSender
+ * @see SkyCommandSender
  *
  * @author xDec0de_
  */
@@ -33,7 +33,7 @@ public interface MessageReceiver {
 	 * provided on the documentation of each implementation, but here is
 	 * a not so detailed list of what you can expect, this only includes
 	 * player and console types that implement {@link MCPlayer},
-	 * {@link SkyConsole} and {@link MCCommandSender}:
+	 * {@link SkyConsole} and {@link SkyCommandSender}:
 	 * <ul>
 	 *   <li>Spigot: <i>CommandSender#getName</i></li>
 	 *   <li>Velocity: <i>Player#getUsername</i> or <i>"Console"</i>.</li>

@@ -3,7 +3,7 @@ package net.codersky.skyutils.velocity.cmd;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.ConsoleCommandSource;
 import com.velocitypowered.api.proxy.Player;
-import net.codersky.skyutils.cmd.MCCommandSender;
+import net.codersky.skyutils.cmd.SkyCommandSender;
 import net.codersky.skyutils.crossplatform.player.MCPlayer;
 import net.codersky.skyutils.velocity.VelocityConsole;
 import net.codersky.skyutils.velocity.VelocityUtils;
@@ -11,7 +11,7 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class VelocityCommandSender implements MCCommandSender {
+public class VelocityCommandSender implements SkyCommandSender {
 
 	private final CommandSource source;
 	private final VelocityUtils<?> utils;

@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.function.BiFunction;
 
-public class SubCommandHandler<P, S extends MCCommandSender> {
+public class SubCommandHandler<P, S extends SkyCommandSender> {
 
 	private final HashSet<SkyCommand<P, S>> subCommands = new HashSet<>();
 
@@ -59,7 +59,7 @@ public class SubCommandHandler<P, S extends MCCommandSender> {
 	}
 
 	/**
-	 * Prepares a list of {@code suggestions} to be used by {@link #onTab(SkyCommand, MCCommandSender, String[])}.
+	 * Prepares a list of {@code suggestions} to be used by {@link #onTab(SkyCommand, SkyCommandSender, String[])}.
 	 * By default, this method will:
 	 * <ul>
 	 * <li>Return an {@link List#of() empty list} if {@code suggestions} is {@code null}.</li>
@@ -71,7 +71,7 @@ public class SubCommandHandler<P, S extends MCCommandSender> {
 	 * @param args The command arguments to use for filtering.
 	 *
 	 * @return A {@link NotNull} list of suggestions to be used on the
-	 * {@link #onTab(SkyCommand, MCCommandSender, String[])} method.
+	 * {@link #onTab(SkyCommand, SkyCommandSender, String[])} method.
 	 *
 	 * @since SkyUtils 1.0.0
 	 */

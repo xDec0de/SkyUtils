@@ -5,12 +5,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public abstract class GlobalCommand<P> implements SkyCommand<P, MCCommandSender> {
+public abstract class GlobalCommand<P> implements SkyCommand<P, SkyCommandSender> {
 
 	private final SkyUtils<P> utils;
 	private final String name;
 	private final List<String> aliases;
-	private final SubCommandHandler<P, MCCommandSender> subCmdHandler = new SubCommandHandler<>();
+	private final SubCommandHandler<P, SkyCommandSender> subCmdHandler = new SubCommandHandler<>();
 
 	public GlobalCommand(SkyUtils<P> utils, @NotNull String name, List<String> aliases) {
 		this.utils = utils;
@@ -44,7 +44,7 @@ public abstract class GlobalCommand<P> implements SkyCommand<P, MCCommandSender>
 	}
 
 	@Override
-	public @NotNull SkyCommand<P, MCCommandSender> inject(@NotNull SkyCommand<P, MCCommandSender>... commands) {
+	public @NotNull SkyCommand<P, SkyCommandSender> inject(@NotNull SkyCommand<P, SkyCommandSender>... commands) {
 		subCmdHandler.inject(commands);
 		return this;
 	}

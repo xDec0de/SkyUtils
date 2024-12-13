@@ -24,9 +24,9 @@ import java.util.function.Function;
  * @author xDec0de_
  *
  * @param <P> The plugin class that owns this {@link SkyCommand}.
- * @param <S> The {@link MCCommandSender} type of this {@link SkyCommand}.
+ * @param <S> The {@link SkyCommandSender} type of this {@link SkyCommand}.
  */
-public interface SkyCommand<P, S extends MCCommandSender> {
+public interface SkyCommand<P, S extends SkyCommandSender> {
 
 	/*
 	 - Command information
@@ -178,8 +178,8 @@ public interface SkyCommand<P, S extends MCCommandSender> {
 	/**
 	 * Checks if the provided {@link S sender} has access to this {@link SkyCommand command}.
 	 * This is taken into account by the {@link SubCommandHandler} of this {@link SkyCommand command}
-	 * To cancel {@link #onCommand(MCCommandSender, String[]) execution} or {@link
-	 * #onTab(MCCommandSender, String[]) tab complete} if {@code false} is returned.
+	 * To cancel {@link #onCommand(SkyCommandSender, String[]) execution} or {@link
+	 * #onTab(SkyCommandSender, String[]) tab complete} if {@code false} is returned.
 	 * <p>
 	 * This method just returns {@code true} by default and exists for you to
 	 * specify custom access rules for commands such as required permissions.
@@ -211,7 +211,7 @@ public interface SkyCommand<P, S extends MCCommandSender> {
 	 * from string getters or not. This is enabled by default and it is recommended.
 	 * <p>
 	 * Keep in mind that this doesn't modify the {@code args} {@link String} array from the
-	 * {@link #onCommand(MCCommandSender, String[])} and {@link #onTab(MCCommandSender, String[])}
+	 * {@link #onCommand(SkyCommandSender, String[])} and {@link #onTab(SkyCommandSender, String[])}
 	 * methods but instead affects string getter methods such as {@link #asString(int, String[])},
 	 * methods that convert arguments to other objects such as {@link #asNumber(int, String[], Class)}
 	 * remain unaffected because they don't have this issue.

@@ -7,7 +7,7 @@ import net.codersky.skyutils.crossplatform.player.MCPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public interface MCCommandSender extends MessageReceiver {
+public interface SkyCommandSender extends MessageReceiver {
 
 	/*
 	 - Player related
