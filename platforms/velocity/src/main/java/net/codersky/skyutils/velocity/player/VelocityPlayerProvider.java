@@ -2,8 +2,8 @@ package net.codersky.skyutils.velocity.player;
 
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
-import net.codersky.skyutils.crossplatform.player.MCPlayer;
 import net.codersky.skyutils.crossplatform.player.PlayerProvider;
+import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,7 +20,7 @@ public class VelocityPlayerProvider extends PlayerProvider<Player> {
 
 	@Nullable
 	@Override
-	protected MCPlayer fetchPlayer(@NotNull UUID uuid) {
+	protected SkyPlayer fetchPlayer(@NotNull UUID uuid) {
 		final Optional<Player> player = server.getPlayer(uuid);
 		return player.map(VelocityPlayer::new).orElse(null);
 	}

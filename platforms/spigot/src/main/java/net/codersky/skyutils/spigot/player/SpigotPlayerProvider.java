@@ -1,7 +1,7 @@
 package net.codersky.skyutils.spigot.player;
 
-import net.codersky.skyutils.crossplatform.player.MCPlayer;
 import net.codersky.skyutils.crossplatform.player.PlayerProvider;
+import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +12,7 @@ import java.util.UUID;
 public class SpigotPlayerProvider extends PlayerProvider<Player> {
 
 	@Override
-	protected @Nullable MCPlayer fetchPlayer(@NotNull UUID uuid) {
+	protected @Nullable SkyPlayer fetchPlayer(@NotNull UUID uuid) {
 		final Player bukkit = Bukkit.getPlayer(uuid);
 		return bukkit == null ? null : new SpigotPlayer(bukkit);
 	}

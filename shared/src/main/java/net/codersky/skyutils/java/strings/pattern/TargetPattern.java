@@ -1,7 +1,7 @@
 package net.codersky.skyutils.java.strings.pattern;
 
 import net.codersky.skyutils.crossplatform.MessageReceiver;
-import net.codersky.skyutils.crossplatform.player.MCPlayer;
+import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.codersky.skyutils.java.strings.SkyStrings;
 import net.codersky.skyutils.java.strings.pattern.target.ActionBarTargetPattern;
 import net.codersky.skyutils.java.strings.pattern.target.ConsoleTargetPattern;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
  * Target patterns have two purposes. The first one is that they can be used as a filter,
  * meaning that matching parts of the message will only be sent to the {@link MessageReceiver target}
  * if it meets certain criteria. For example, the {@link PlayerTargetPattern} will only send its contents
- * to the {@link MessageReceiver target} if it implements the {@link MCPlayer} interface. The other
+ * to the {@link MessageReceiver target} if it implements the {@link SkyPlayer} interface. The other
  * purpose is to choose where the message is sent, for example, the {@link ActionBarTargetPattern}
  * will send its contents to the ActionBar of the {@link MessageReceiver target}.
  * <p>
@@ -33,7 +33,7 @@ import org.jetbrains.annotations.NotNull;
  * {@code <p:<show_text;Hover>Only for players/>/p>}
  * <p>
  * This will send "Only for players" with a hover effect that says "Hover" to the {@link MessageReceiver}
- * if it is an instance of {@link MCPlayer}, that is if event patterns are being applied, if not,
+ * if it is an instance of {@link SkyPlayer}, that is if event patterns are being applied, if not,
  * the literal text {@literal "<show_text:Hover>Only for players/>"} will be sent.
  *
  * @see ActionBarTargetPattern

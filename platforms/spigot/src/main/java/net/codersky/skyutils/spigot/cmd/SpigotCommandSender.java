@@ -2,7 +2,7 @@ package net.codersky.skyutils.spigot.cmd;
 
 import net.codersky.skyutils.cmd.SkyCommandSender;
 import net.codersky.skyutils.crossplatform.SkyConsole;
-import net.codersky.skyutils.crossplatform.player.MCPlayer;
+import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.codersky.skyutils.spigot.SpigotConsole;
 import net.codersky.skyutils.spigot.SpigotUtils;
 import net.kyori.adventure.text.Component;
@@ -39,7 +39,7 @@ public class SpigotCommandSender implements SkyCommandSender {
 
 	@Nullable
 	@Override
-	public MCPlayer asPlayer() {
+	public SkyPlayer asPlayer() {
 		return sender instanceof Player player ? utils.getPlayer(player.getUniqueId()) : null;
 	}
 
@@ -86,9 +86,9 @@ public class SpigotCommandSender implements SkyCommandSender {
 
 	@Override
 	public boolean sendMessage(@NotNull Component message) {
-		// MCPlayer & SkyConsole implementations will already check if the message
+		// SkyPlayer & SkyConsole implementations will already check if the message
 		// can be received. Not doing it here to avoid double-checking
-		final MCPlayer player = asPlayer();
+		final SkyPlayer player = asPlayer();
 		if (player != null)
 			return player.sendMessage(message);
 		final SkyConsole console = asConsole();

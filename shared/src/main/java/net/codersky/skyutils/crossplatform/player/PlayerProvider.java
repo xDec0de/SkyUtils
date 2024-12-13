@@ -9,17 +9,17 @@ import java.util.UUID;
 
 public abstract class PlayerProvider<T> {
 
-	private final HashMap<UUID, MCPlayer> playerCache = new HashMap<>();
+	private final HashMap<UUID, SkyPlayer> playerCache = new HashMap<>();
 
 	@Nullable
-	protected abstract MCPlayer fetchPlayer(@NotNull UUID uuid);
+	protected abstract SkyPlayer fetchPlayer(@NotNull UUID uuid);
 
 	@Nullable
 	public abstract UUID getUUID(@NotNull T handle);
 
 	@Nullable
-	public MCPlayer getPlayer(@NotNull UUID uuid) {
-		MCPlayer player = playerCache.get(uuid);
+	public SkyPlayer getPlayer(@NotNull UUID uuid) {
+		SkyPlayer player = playerCache.get(uuid);
 		if (player != null) {
 			if (player.isOnline()) // Player quit listeners should take care of this, but just in case...
 				return player;
@@ -32,7 +32,7 @@ public abstract class PlayerProvider<T> {
 	}
 
 	@Nullable
-	public MCPlayer getPlayer(@NotNull T original) {
+	public SkyPlayer getPlayer(@NotNull T original) {
 		final UUID uuid = getUUID(original);
 		return uuid == null ? null : getPlayer(uuid);
 	}

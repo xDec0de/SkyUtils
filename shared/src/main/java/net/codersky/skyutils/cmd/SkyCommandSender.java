@@ -3,7 +3,7 @@ package net.codersky.skyutils.cmd;
 import net.codersky.skyutils.SkyUtils;
 import net.codersky.skyutils.crossplatform.MessageReceiver;
 import net.codersky.skyutils.crossplatform.SkyConsole;
-import net.codersky.skyutils.crossplatform.player.MCPlayer;
+import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,11 +16,11 @@ public interface SkyCommandSender extends MessageReceiver {
 	boolean isPlayer();
 
 	@Nullable
-	MCPlayer asPlayer();
+	SkyPlayer asPlayer();
 
 	@Nullable
 	default Object asPlayerHandle() {
-		final MCPlayer player = asPlayer();
+		final SkyPlayer player = asPlayer();
 		return player == null ? null : player.getHandle();
 	}
 

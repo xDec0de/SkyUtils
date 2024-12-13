@@ -1,6 +1,6 @@
 package net.codersky.skyutils.spigot.player;
 
-import net.codersky.skyutils.crossplatform.player.MCPlayer;
+import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public class SpigotPlayer implements MCPlayer {
+public class SpigotPlayer implements SkyPlayer {
 
 	private final Player handle;
 
@@ -21,7 +21,7 @@ public class SpigotPlayer implements MCPlayer {
 	}
 
 	/*
-	 * MCPlayer implementation
+	 * SkyPlayer implementation
 	 */
 
 	// Player identification //

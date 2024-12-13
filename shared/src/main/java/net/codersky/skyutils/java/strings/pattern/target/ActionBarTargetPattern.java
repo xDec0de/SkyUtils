@@ -1,7 +1,7 @@
 package net.codersky.skyutils.java.strings.pattern.target;
 
 import net.codersky.skyutils.crossplatform.MessageReceiver;
-import net.codersky.skyutils.crossplatform.player.MCPlayer;
+import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.codersky.skyutils.java.strings.SkyStrings;
 import net.codersky.skyutils.java.strings.pattern.TargetPattern;
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +12,7 @@ public class ActionBarTargetPattern implements TargetPattern {
 	@Override
 	public String process(@NotNull MessageReceiver target, @NotNull String string, boolean applyEventPatterns) {
 		return SkyStrings.match(string, "<ab:", "/ab>", message -> {
-			if (target instanceof MCPlayer player)
+			if (target instanceof SkyPlayer player)
 				player.sendActionBar(message);
 		});
 	}
