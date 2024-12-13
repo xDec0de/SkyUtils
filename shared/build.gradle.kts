@@ -1,5 +1,4 @@
 plugins {
-	skyutils.`shadow-conventions`
 	skyutils.`library-conventions`
 }
 
