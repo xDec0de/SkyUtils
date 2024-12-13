@@ -49,6 +49,8 @@ public class SubCommandHandler<P, S extends MCCommandSender> {
 			final List<String> tabs = new ArrayList<>(subCommands.size() + cmdTabs.size());
 			tabs.addAll(cmdTabs);
 			for (MCCommand<P, S> subCmd : subCommands) {
+				if (!subCmd.hasAccess(sender, false))
+					continue;
 				tabs.add(subCmd.getName());
 				tabs.addAll(subCmd.getAliases());
 			}
