@@ -73,12 +73,14 @@ public abstract class CustomSpigotCommand<P extends JavaPlugin, S extends Spigot
 	 */
 
 	@Override
+	@Deprecated
 	@ApiStatus.Internal
 	public final boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
 		return subCommandHandler.onCommand(this, getSender(sender), args);
 	}
 
 	@Override
+	@Deprecated
 	@ApiStatus.Internal
 	public final boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 		return execute(sender, label, args);
@@ -90,6 +92,7 @@ public abstract class CustomSpigotCommand<P extends JavaPlugin, S extends Spigot
 
 	@NotNull
 	@Override
+	@Deprecated
 	@ApiStatus.Internal
 	public final List<String> tabComplete(@Nonnull CommandSender sender, @Nonnull String alias, @Nonnull String[] args) {
 		return subCommandHandler.onTab(this, getSender(sender), args);
@@ -97,6 +100,7 @@ public abstract class CustomSpigotCommand<P extends JavaPlugin, S extends Spigot
 
 	@NotNull
 	@Override
+	@Deprecated
 	@ApiStatus.Internal
 	public final List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 		return tabComplete(sender, label, args);
@@ -106,11 +110,43 @@ public abstract class CustomSpigotCommand<P extends JavaPlugin, S extends Spigot
 	 - Argument conversion - Players
 	 */
 
-	@Nullable
-	public Player asPlayer(int arg, @NotNull String[] args, @Nullable Player def) {
+	/**
+	 * Argument conversion method to get an <b>online</b> {@link Player}.
+	 * The method used to check for a matching <b>online</b> {@link Player}
+	 * is {@link Bukkit#getPlayerExact(String)}.
+	 *
+	 * @param arg The array position of the argument to get, can be out of bounds.
+	 * @param args The array of arguments to use.
+	 * @param def The default {@link Player} to return if {@code arg} is out of bounds or
+	 * no <b>online</b> {@link Player} matches the found argument.
+	 *
+	 * @return The matching {@link Player} instance with the name found
+	 * on position {@code arg} from the {@code args} array. If no <b>online</b>
+	 * {@link Player} matches the provided name, or if the name hasn't been
+	 * provided to begin with, {@code def} is returned.
+	 *
+	 * @since SkyUtils 1.0.0
+	 */
+	@NotNull
+	public Player asPlayer(int arg, @NotNull String[] args, @NotNull Player def) {
 		return asGeneric(Bukkit::getPlayerExact, arg, args, def);
 	}
 
+	/**
+	 * Argument conversion method to get an <b>online</b> {@link Player}.
+	 * The method used to check for a matching <b>online</b> {@link Player}
+	 * is {@link Bukkit#getPlayerExact(String)}.
+	 *
+	 * @param arg The array position of the argument to get, can be out of bounds.
+	 * @param args The array of arguments to use.
+	 *
+	 * @return The matching {@link Player} instance with the name found
+	 * on position {@code arg} from the {@code args} array. If no <b>online</b>
+	 * {@link Player} matches the provided name, or if the name hasn't been
+	 * provided to begin with, {@code null} is returned.
+	 *
+	 * @since SkyUtils 1.0.0
+	 */
 	@Nullable
 	public Player asPlayer(int arg, @NotNull String[] args) {
 		return asGeneric(Bukkit::getPlayerExact, arg, args);
@@ -120,15 +156,57 @@ public abstract class CustomSpigotCommand<P extends JavaPlugin, S extends Spigot
 	 - Argument conversion - Offline players
 	 */
 
-	@Nullable
-	public OfflinePlayer asOfflinePlayer(int arg, @NotNull String[] args, @Nullable OfflinePlayer def) {
+	/**
+	 * Argument conversion method to get an <b>online</b> or <b>offline</b>
+	 * {@link OfflinePlayer}. The method used to check for a matching {@link OfflinePlayer}
+	 * is {@link Bukkit#getOfflinePlayer(String)}. Then, {@link OfflinePlayer#hasPlayedBefore()}
+	 * is used to check if the {@link OfflinePlayer} actually exists.
+	 *
+	 * @param arg The array position of the argument to get, can be out of bounds.
+	 * @param args The array of arguments to use.
+	 * @param def The default {@link OfflinePlayer} to return if {@code arg} is out of bounds or
+	 * no {@link OfflinePlayer} matches the found argument.
+	 *
+	 * @return The matching {@link OfflinePlayer} instance with the name found
+	 * on position {@code arg} from the {@code args} array. If no {@link OfflinePlayer}
+	 * tha {@link OfflinePlayer#hasPlayedBefore() has played before} matches the provided
+	 * name, or if the name hasn't been provided to begin with, {@code def} is returned.
+	 *
+	 * @since SkyUtils 1.0.0
+	 */
+	@NotNull
+	public OfflinePlayer asOfflinePlayer(int arg, @NotNull String[] args, @NotNull OfflinePlayer def) {
+		final String name = asString(arg, args);
+		if (name == null)
+			return def;
 		@SuppressWarnings("deprecation")
-		final OfflinePlayer offline = Bukkit.getOfflinePlayer(args.length > arg ? args[arg] : null);
-		return offline == null || !offline.hasPlayedBefore() ? def : offline;
+		final OfflinePlayer off = Bukkit.getOfflinePlayer(name);
+		return off.hasPlayedBefore() ? off : def;
 	}
 
+	/**
+	 * Argument conversion method to get an <b>online</b> or <b>offline</b>
+	 * {@link OfflinePlayer}. The method used to check for a matching {@link OfflinePlayer}
+	 * is {@link Bukkit#getOfflinePlayer(String)}. Then, {@link OfflinePlayer#hasPlayedBefore()}
+	 * is used to check if the {@link OfflinePlayer} actually exists.
+	 *
+	 * @param arg The array position of the argument to get, can be out of bounds.
+	 * @param args The array of arguments to use.
+	 *
+	 * @return The matching {@link OfflinePlayer} instance with the name found
+	 * on position {@code arg} from the {@code args} array. If no {@link OfflinePlayer}
+	 * tha {@link OfflinePlayer#hasPlayedBefore() has played before} matches the provided
+	 * name, or if the name hasn't been provided to begin with, {@code null} is returned.
+	 *
+	 * @since SkyUtils 1.0.0
+	 */
 	@Nullable
 	public OfflinePlayer asOfflinePlayer(int arg, @NotNull String[] args) {
-		return asOfflinePlayer(arg, args, null);
+		final String name = asString(arg, args);
+		if (name == null)
+			return null;
+		@SuppressWarnings("deprecation")
+		final OfflinePlayer off = Bukkit.getOfflinePlayer(name);
+		return off.hasPlayedBefore() ? off : null;
 	}
 }
