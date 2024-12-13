@@ -9,6 +9,7 @@ repositories {
 }
 
 dependencies {
+	api(project(":shared"))
 	api(project(":platforms:spigot")) {
 		setTransitive(false)
 	}
