@@ -2,7 +2,7 @@ package net.codersky.skyutils;
 
 import net.codersky.skyutils.cmd.GlobalCommand;
 import net.codersky.skyutils.crossplatform.SkyConsole;
-import net.codersky.skyutils.crossplatform.player.MCPlayer;
+import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -51,7 +51,7 @@ public abstract class SkyUtils<P> {
 	 */
 
 	@Nullable
-	public abstract MCPlayer getPlayer(@NotNull UUID uuid);
+	public abstract SkyPlayer getPlayer(@NotNull UUID uuid);
 
 	/*
 	 - Console

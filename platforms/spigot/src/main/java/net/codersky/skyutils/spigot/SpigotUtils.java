@@ -4,7 +4,7 @@ import net.codersky.skyutils.MCPlatform;
 import net.codersky.skyutils.SkyUtils;
 import net.codersky.skyutils.cmd.GlobalCommand;
 import net.codersky.skyutils.cmd.SkyCommand;
-import net.codersky.skyutils.crossplatform.player.MCPlayer;
+import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.codersky.skyutils.crossplatform.server.ServerUtils;
 import net.codersky.skyutils.java.SkyCollections;
 import net.codersky.skyutils.java.reflection.RefObject;
@@ -96,7 +96,7 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 	}
 
 	/**
-	 * Gets an {@link MCPlayer} by {@link UUID} from the
+	 * Gets an {@link SkyPlayer} by {@link UUID} from the
 	 * {@link #getPlayerProvider() SpigotPlayerProvider}
 	 * that this {@link SpigotUtils} is using.
 	 *
@@ -105,7 +105,7 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 	 * @throws IllegalPluginAccessException If called before the plugin
 	 * attempts to enable, see {@link #getPlayerProvider()} for details.
 	 *
-	 * @return A possibly {@code null} {@link MCPlayer} instance of an online
+	 * @return A possibly {@code null} {@link SkyPlayer} instance of an online
 	 * {@link Player} that matches the provided {@link UUID}.
 	 *
 	 * @since SkyUtils 1.0.0
@@ -115,12 +115,12 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 	 */
 	@Nullable
 	@Override
-	public MCPlayer getPlayer(@NotNull UUID uuid) {
+	public SkyPlayer getPlayer(@NotNull UUID uuid) {
 		return getPlayerProvider().getPlayer(uuid);
 	}
 
 	/**
-	 * Gets an {@link MCPlayer} by {@link Player} from the
+	 * Gets an {@link SkyPlayer} by {@link Player} from the
 	 * {@link #getPlayerProvider() SpigotPlayerProvider}
 	 * that this {@link SpigotUtils} is using.
 	 *
@@ -129,7 +129,7 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 	 * @throws IllegalPluginAccessException If called before the plugin
 	 * attempts to enable, see {@link #getPlayerProvider()} for details.
 	 *
-	 * @return A {@link MCPlayer} instance that matches the provided {@link Player}.
+	 * @return A {@link SkyPlayer} instance that matches the provided {@link Player}.
 	 * This can be {@code null} if you use an instance of a {@link Player} that
 	 * is not {@link Player#isOnline() online}.
 	 *
@@ -139,7 +139,7 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 	 * @see #getPlayer(Player)
 	 */
 	@Nullable
-	public MCPlayer getPlayer(@NotNull Player bukkit) {
+	public SkyPlayer getPlayer(@NotNull Player bukkit) {
 		return getPlayerProvider().getPlayer(bukkit);
 	}
 

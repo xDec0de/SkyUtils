@@ -2,7 +2,7 @@ package net.codersky.skyutils.crossplatform;
 
 import net.codersky.skyutils.cmd.SkyCommand;
 import net.codersky.skyutils.cmd.SkyCommandSender;
-import net.codersky.skyutils.crossplatform.player.MCPlayer;
+import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.codersky.skyutils.java.strings.Replacer;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Cross-platform interface used to handle objects that
- * may receive messages such as {@link MCPlayer} or {@link SkyConsole}.
+ * may receive messages such as {@link SkyPlayer} or {@link SkyConsole}.
  * This interface supports both regular string messages and Adventure
  * {@link Component} messages.
  *
@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
  * @see #sendMessage(String, Replacer)
  * @see #sendMessage(String, Object...)
  * @see SkyConsole
- * @see MCPlayer
+ * @see SkyPlayer
  * @see SkyCommandSender
  *
  * @author xDec0de_
@@ -32,7 +32,7 @@ public interface MessageReceiver {
 	 * can vary depending on the platform and implementation, details are
 	 * provided on the documentation of each implementation, but here is
 	 * a not so detailed list of what you can expect, this only includes
-	 * player and console types that implement {@link MCPlayer},
+	 * player and console types that implement {@link SkyPlayer},
 	 * {@link SkyConsole} and {@link SkyCommandSender}:
 	 * <ul>
 	 *   <li>Spigot: <i>CommandSender#getName</i></li>

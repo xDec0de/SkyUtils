@@ -4,7 +4,7 @@ import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.ConsoleCommandSource;
 import com.velocitypowered.api.proxy.Player;
 import net.codersky.skyutils.cmd.SkyCommandSender;
-import net.codersky.skyutils.crossplatform.player.MCPlayer;
+import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.codersky.skyutils.velocity.VelocityConsole;
 import net.codersky.skyutils.velocity.VelocityUtils;
 import net.kyori.adventure.text.Component;
@@ -32,7 +32,7 @@ public class VelocityCommandSender implements SkyCommandSender {
 
 	@Nullable
 	@Override
-	public MCPlayer asPlayer() {
+	public SkyPlayer asPlayer() {
 		return source instanceof Player player ? utils.getPlayer(player.getUniqueId()) : null;
 	}
 

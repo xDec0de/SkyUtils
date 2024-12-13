@@ -26,15 +26,15 @@ import java.util.UUID;
  *
  * @author xDec0de_
  */
-public interface MCPlayer extends MessageReceiver, Replacement {
+public interface SkyPlayer extends MessageReceiver, Replacement {
 
 	/**
 	 * Gets the platform-specific object that is being wrapped by
-	 * this {@link MCPlayer} instance. This can be, for example, a
+	 * this {@link SkyPlayer} instance. This can be, for example, a
 	 * Bukkit Player instance.
 	 *
 	 * @return The platform-specific object that is being wrapped by
-	 * this {@link MCPlayer} instance.
+	 * this {@link SkyPlayer} instance.
 	 *
 	 * @since SkyUtils 1.0.0
 	 */
@@ -42,11 +42,11 @@ public interface MCPlayer extends MessageReceiver, Replacement {
 	Object getHandle();
 
 	/**
-	 * Gets the {@link UUID} that belongs to this {@link MCPlayer}.
+	 * Gets the {@link UUID} that belongs to this {@link SkyPlayer}.
 	 * This {@link UUID} is persistent and can be used as a way to
 	 * identify players in the future, as player names can change.
 	 *
-	 * @return The {@link UUID} that belongs to this {@link MCPlayer}.
+	 * @return The {@link UUID} that belongs to this {@link SkyPlayer}.
 	 *
 	 * @since SkyUtils 1.0.0
 	 */
@@ -54,13 +54,13 @@ public interface MCPlayer extends MessageReceiver, Replacement {
 	UUID getUniqueId();
 
 	/**
-	 * Gets the name of this {@link MCPlayer}. Keep in mind that player
+	 * Gets the name of this {@link SkyPlayer}. Keep in mind that player
 	 * names may change at any given time and should not be used
 	 * for storage. {@link #getUniqueId() UUIDs} can be used for that purpose
 	 * instead, names are only guaranteed to remain unchanged for a single session
 	 * (Until the player logs out).
 	 *
-	 * @return The name of this {@link MCPlayer}.
+	 * @return The name of this {@link SkyPlayer}.
 	 *
 	 * @since SkyUtils 1.0.0
 	 */
@@ -74,9 +74,9 @@ public interface MCPlayer extends MessageReceiver, Replacement {
 	 */
 
 	/**
-	 * Sends an ActionBar {@code message} to this {@link MCPlayer}.
+	 * Sends an ActionBar {@code message} to this {@link SkyPlayer}.
 	 *
-	 * @param message The message to send to this {@link MCPlayer}.
+	 * @param message The message to send to this {@link SkyPlayer}.
 	 *
 	 * @return Always {@code true} to make it easier to create {@link SkyCommand MCCommands}.
 	 *
@@ -87,10 +87,10 @@ public interface MCPlayer extends MessageReceiver, Replacement {
 	boolean sendActionBar(@NotNull String message);
 
 	/**
-	 * Sends an ActionBar {@code message} to this {@link MCPlayer}, applying {@code replacer}
+	 * Sends an ActionBar {@code message} to this {@link SkyPlayer}, applying {@code replacer}
 	 * to {@code message} before sending it.
 	 *
-	 * @param message The ActionBar message to send to this {@link MCPlayer}.
+	 * @param message The ActionBar message to send to this {@link SkyPlayer}.
 	 * @param replacer The {@link Replacer} to apply to the {@code message} before sending it.
 	 *
 	 * @return Always {@code true} to make it easier to create {@link SkyCommand MCCommands}.
@@ -127,9 +127,9 @@ public interface MCPlayer extends MessageReceiver, Replacement {
 	 */
 
 	/**
-	 * Sends an ActionBar {@link Component} {@code message} to this {@link MCPlayer}.
+	 * Sends an ActionBar {@link Component} {@code message} to this {@link SkyPlayer}.
 	 *
-	 * @param message The Adventure {@link Component} to send to this {@link MCPlayer}.
+	 * @param message The Adventure {@link Component} to send to this {@link SkyPlayer}.
 	 *
 	 * @return Always {@code true} to make it easier to create {@link SkyCommand MCCommands}.
 	 *
@@ -140,10 +140,10 @@ public interface MCPlayer extends MessageReceiver, Replacement {
 	boolean sendActionBar(@NotNull Component message);
 
 	/**
-	 * Sends an ActionBar {@link Component} {@code message} to this {@link MCPlayer}, applying {@code replacer}
+	 * Sends an ActionBar {@link Component} {@code message} to this {@link SkyPlayer}, applying {@code replacer}
 	 * to {@code message} before sending it.
 	 *
-	 * @param message The Adventure {@link Component} to send to this {@link MCPlayer}.
+	 * @param message The Adventure {@link Component} to send to this {@link SkyPlayer}.
 	 * @param replacer The {@link Replacer} to apply to the {@code message} before sending it.
 	 *
 	 * @return Always {@code true} to make it easier to create {@link SkyCommand MCCommands}.
@@ -157,10 +157,10 @@ public interface MCPlayer extends MessageReceiver, Replacement {
 	}
 
 	/**
-	 * Sends an ActionBar {@link Component} {@code message} to this {@link MCPlayer}, applying
+	 * Sends an ActionBar {@link Component} {@code message} to this {@link SkyPlayer}, applying
 	 * a {@link Replacer} made with the specified {@code replacements} to {@code message} before sending it.
 	 *
-	 * @param message The Adventure {@link Component} to send to this {@link MCPlayer}.
+	 * @param message The Adventure {@link Component} to send to this {@link SkyPlayer}.
 	 * @param replacements The replacements used to build a {@link Replacer} that will then be
 	 * applied to the {@code message} before sending it. The amount of replacements must be even
 	 * as specified on the {@link Replacer} {@link Replacer#Replacer constructor}.

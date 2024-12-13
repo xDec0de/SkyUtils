@@ -6,7 +6,7 @@ import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import net.codersky.skyutils.MCPlatform;
 import net.codersky.skyutils.cmd.GlobalCommand;
-import net.codersky.skyutils.crossplatform.player.MCPlayer;
+import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.codersky.skyutils.crossplatform.proxy.ProxyUtils;
 import net.codersky.skyutils.java.SkyCollections;
 import net.codersky.skyutils.velocity.cmd.AdaptedVelocityCommand;
@@ -68,13 +68,13 @@ public class VelocityUtils<P> extends ProxyUtils<P> {
 	}
 
 	/**
-	 * Gets an {@link MCPlayer} by {@link UUID} from the
+	 * Gets an {@link SkyPlayer} by {@link UUID} from the
 	 * {@link #getPlayerProvider() VelocityPlayerProvider}
 	 * that this {@link VelocityUtils} is using.
 	 *
 	 * @param uuid The {@link UUID} of the player to get.
 	 *
-	 * @return A possibly {@code null} {@link MCPlayer} instance of an online
+	 * @return A possibly {@code null} {@link SkyPlayer} instance of an online
 	 * {@link Player} that matches the provided {@link UUID}.
 	 *
 	 * @since SkyUtils 1.0.0
@@ -83,18 +83,18 @@ public class VelocityUtils<P> extends ProxyUtils<P> {
 	 * @see #getPlayer(Player)
 	 */
 	@Nullable
-	public MCPlayer getPlayer(@NotNull UUID uuid) {
+	public SkyPlayer getPlayer(@NotNull UUID uuid) {
 		return getPlayerProvider().getPlayer(uuid);
 	}
 
 	/**
-	 * Gets an {@link MCPlayer} by {@link Player} from the
+	 * Gets an {@link SkyPlayer} by {@link Player} from the
 	 * {@link #getPlayerProvider() VelocityPlayerProvider}
 	 * that this {@link VelocityUtils} is using.
 	 *
 	 * @param velocity The {@link Player} instance to convert.
 	 *
-	 * @return A {@link MCPlayer} instance that matches the provided {@link Player}.
+	 * @return A {@link SkyPlayer} instance that matches the provided {@link Player}.
 	 * This can be {@code null} if you use an instance of a {@link Player} that
 	 * is not {@link Player#isActive() online}.
 	 *
@@ -104,7 +104,7 @@ public class VelocityUtils<P> extends ProxyUtils<P> {
 	 * @see #getPlayer(Player)
 	 */
 	@Nullable
-	public MCPlayer getPlayer(@NotNull Player velocity) {
+	public SkyPlayer getPlayer(@NotNull Player velocity) {
 		return getPlayerProvider().getPlayer(velocity);
 	}
 

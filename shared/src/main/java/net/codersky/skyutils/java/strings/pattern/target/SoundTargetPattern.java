@@ -1,7 +1,7 @@
 package net.codersky.skyutils.java.strings.pattern.target;
 
 import net.codersky.skyutils.crossplatform.MessageReceiver;
-import net.codersky.skyutils.crossplatform.player.MCPlayer;
+import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.codersky.skyutils.java.math.MCNumbers;
 import net.codersky.skyutils.java.strings.SkyStrings;
 import net.codersky.skyutils.java.strings.pattern.TargetPattern;
@@ -13,7 +13,7 @@ public class SoundTargetPattern implements TargetPattern {
 	@Override
 	public String process(@NotNull MessageReceiver target, @NotNull String string, boolean applyEventPatterns) {
 		return SkyStrings.match(string, "<sound:", "/>", message -> {
-			if (!(target instanceof final MCPlayer player))
+			if (!(target instanceof final SkyPlayer player))
 				return;
 			final String[] soundInfo = message.split(";");
 			float volume = 1;

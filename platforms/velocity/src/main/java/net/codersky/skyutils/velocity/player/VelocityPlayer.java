@@ -1,14 +1,14 @@
 package net.codersky.skyutils.velocity.player;
 
 import com.velocitypowered.api.proxy.Player;
-import net.codersky.skyutils.crossplatform.player.MCPlayer;
+import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public class VelocityPlayer implements MCPlayer {
+public class VelocityPlayer implements SkyPlayer {
 
 	private final Player handle;
 
@@ -17,7 +17,7 @@ public class VelocityPlayer implements MCPlayer {
 	}
 
 	/*
-	 * MCPlayer implementation
+	 * SkyPlayer implementation
 	 */
 
 	// Player identification //

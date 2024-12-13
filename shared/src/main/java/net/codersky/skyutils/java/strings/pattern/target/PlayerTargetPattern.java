@@ -1,7 +1,7 @@
 package net.codersky.skyutils.java.strings.pattern.target;
 
 import net.codersky.skyutils.crossplatform.MessageReceiver;
-import net.codersky.skyutils.crossplatform.player.MCPlayer;
+import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.codersky.skyutils.java.strings.SkyStrings;
 import net.codersky.skyutils.java.strings.pattern.TargetPattern;
 import org.jetbrains.annotations.NotNull;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
  * <p>
  * Where {@code content} can be replaced with whatever message you want to send.
  * This {@link TargetPattern} will only send the content to a {@link MessageReceiver}
- * if it is an instance of {@link MCPlayer}.
+ * if it is an instance of {@link SkyPlayer}.
  * <p>
  * This {@link TargetPattern} supports event patterns, details about this can be found
  * on {@link TargetPattern here}, under the "<b>ABOUT EVENT PATTERNS</b>" section.
@@ -28,7 +28,7 @@ public class PlayerTargetPattern implements TargetPattern {
 	@Override
 	public String process(@NotNull MessageReceiver target, @NotNull String string, boolean applyEventPatterns) {
 		return SkyStrings.match(string, "<p:", "/p>", message -> {
-			if (target instanceof MCPlayer player) {
+			if (target instanceof SkyPlayer player) {
 				if (applyEventPatterns)
 					player.sendMessage(SkyStrings.applyEventPatterns(message));
 				else
