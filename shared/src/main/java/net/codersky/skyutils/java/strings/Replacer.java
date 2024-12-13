@@ -1,7 +1,7 @@
 package net.codersky.skyutils.java.strings;
 
 import net.codersky.skyutils.java.SkyCollections;
-import net.codersky.skyutils.java.math.MCNumbers;
+import net.codersky.skyutils.java.math.SkyNumbers;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import org.jetbrains.annotations.NotNull;
@@ -332,7 +332,7 @@ public class Replacer {
 				start = close + 1;
 				continue;
 			}
-			if (MCNumbers.isNumeric(parts[0])) {
+			if (SkyNumbers.isNumeric(parts[0])) {
 				final int value = Integer.parseInt(parts[0]);
 				final String replacement = value == 1 || value == -1 ? parts[1] : parts[2];
 				res.replace(open, close + 1, replacement);

@@ -2,7 +2,7 @@ package net.codersky.skyutils.java.strings.pattern.target;
 
 import net.codersky.skyutils.crossplatform.MessageReceiver;
 import net.codersky.skyutils.crossplatform.player.SkyPlayer;
-import net.codersky.skyutils.java.math.MCNumbers;
+import net.codersky.skyutils.java.math.SkyNumbers;
 import net.codersky.skyutils.java.strings.SkyStrings;
 import net.codersky.skyutils.java.strings.pattern.TargetPattern;
 import org.jetbrains.annotations.NotNull;
@@ -19,9 +19,9 @@ public class SoundTargetPattern implements TargetPattern {
 			float volume = 1;
 			float pitch = 1;
 			if (soundInfo.length >= 1)
-				volume = MCNumbers.asNumber(soundInfo[0], 1f);
+				volume = SkyNumbers.asNumber(soundInfo[0], 1f);
 			if (soundInfo.length >= 2)
-				pitch = MCNumbers.asNumber(soundInfo[1], 1f);
+				pitch = SkyNumbers.asNumber(soundInfo[1], 1f);
 			final String sound = soundInfo[soundInfo.length - 1];
 			player.playSound(sound.indexOf(":") > 1 ? sound : "minecraft:" + sound, volume, pitch);
 		});

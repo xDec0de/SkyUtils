@@ -16,7 +16,7 @@ import java.util.Random;
  * @since SkyUtils 1.0.0
  */
 @SuppressWarnings("unchecked")
-public abstract class MCNumbers {
+public abstract class SkyNumbers {
 
 	private static Random random;
 
@@ -107,7 +107,7 @@ public abstract class MCNumbers {
 	 */
 
 	/**
-	 * Gets the {@link Random} instance being used by {@link MCNumbers}.
+	 * Gets the {@link Random} instance being used by {@link SkyNumbers}.
 	 * This method doesn't create a new {@link Random} instance
 	 * every time it gets called, only the first time.
 	 * 

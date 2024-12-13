@@ -1,21 +1,20 @@
 package net.codersky.skyutils.spigot.java.math.chance;
 
+import net.codersky.skyutils.java.math.SkyNumbers;
+import net.codersky.skyutils.java.math.chance.ChanceGenerator;
+import net.codersky.skyutils.java.math.chance.GenericChanceGenerator;
+import net.codersky.skyutils.java.tuple.pair.ImmutablePair;
+import net.codersky.skyutils.java.tuple.pair.Pair;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Objects;
-
-import javax.annotation.Nonnull;
-
-import net.codersky.skyutils.java.math.chance.ChanceGenerator;
-import net.codersky.skyutils.java.math.chance.GenericChanceGenerator;
-import net.codersky.skyutils.java.tuple.pair.ImmutablePair;
-import net.codersky.skyutils.java.math.MCNumbers;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-
-import net.codersky.skyutils.java.tuple.pair.Pair;
 
 /**
  * A {@link ChanceGenerator} made for {@link ItemStack ItemStacks},
@@ -99,7 +98,7 @@ public class ItemChanceGenerator implements ChanceGenerator<ItemStack> {
 	public List<ItemStack> generate() {
 		final List<ItemStack> result = new ArrayList<>(map.size());
 		for (Entry<ItemStack, List<Pair<Integer, Float>>> entry : map.entrySet()) {
-			final float requirement = MCNumbers.random().nextFloat(0, 100);
+			final float requirement = SkyNumbers.random().nextFloat(0, 100);
 			float lowestChance = 101;
 			int rarestAmount = 0;
 			for (Pair<Integer, Float> info : entry.getValue())
@@ -117,7 +116,7 @@ public class ItemChanceGenerator implements ChanceGenerator<ItemStack> {
 	public List<ItemStack> generate(int max) {
 		final HashMap<ItemStack, Float> result = new HashMap<>(map.size());
 		for (Entry<ItemStack, List<Pair<Integer, Float>>> entry : map.entrySet()) {
-			final float requirement = MCNumbers.random().nextFloat(0, 100);
+			final float requirement = SkyNumbers.random().nextFloat(0, 100);
 			float lowestChance = 101;
 			int rarestAmount = 0;
 			for (Pair<Integer, Float> info : entry.getValue())

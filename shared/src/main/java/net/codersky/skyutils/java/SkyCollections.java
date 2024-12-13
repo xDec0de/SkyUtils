@@ -1,6 +1,6 @@
 package net.codersky.skyutils.java;
 
-import net.codersky.skyutils.java.math.MCNumbers;
+import net.codersky.skyutils.java.math.SkyNumbers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -563,17 +563,17 @@ public class SkyCollections {
 
 	@Nullable
 	public static <E> E getRandom(@NotNull E[] array) {
-		return array[MCNumbers.random().nextInt(0, array.length)];
+		return array[SkyNumbers.random().nextInt(0, array.length)];
 	}
 
 	@Nullable
 	public static <E> E getRandom(@NotNull Collection<E> collection) {
-		return get(collection, MCNumbers.random().nextInt(0, collection.size()));
+		return get(collection, SkyNumbers.random().nextInt(0, collection.size()));
 	}
 
 	@Nullable
 	public static <E> E getRandom(@NotNull List<E> list) {
-		return list.get(MCNumbers.random().nextInt(0, list.size()));
+		return list.get(SkyNumbers.random().nextInt(0, list.size()));
 	}
 
 	@NotNull

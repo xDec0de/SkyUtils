@@ -2,7 +2,7 @@ package net.codersky.skyutils.cmd;
 
 import net.codersky.skyutils.SkyUtils;
 import net.codersky.skyutils.java.SkyCollections;
-import net.codersky.skyutils.java.math.MCNumbers;
+import net.codersky.skyutils.java.math.SkyNumbers;
 import net.codersky.skyutils.java.strings.SkyStrings;
 import net.codersky.skyutils.storage.files.MessagesFile;
 import org.jetbrains.annotations.NotNull;
@@ -524,7 +524,7 @@ public interface SkyCommand<P, S extends SkyCommandSender> {
 
 	/**
 	 * Converts the specified {@code arg} of the {@code args} array to a {@link Number}
-	 * (See {@link MCNumbers#asNumber(CharSequence, Number)} for more details).
+	 * (See {@link SkyNumbers#asNumber(CharSequence, Number)} for more details).
 	 *
 	 * @param <T> The type of {@link Number} to return.
 	 * @param arg The array position of the argument to get, can be out of bounds.
@@ -537,16 +537,16 @@ public interface SkyCommand<P, S extends SkyCommandSender> {
 	 *
 	 * @since SkyUtils 1.0.0
 	 *
-	 * @see MCNumbers#asNumber(CharSequence, Number)
+	 * @see SkyNumbers#asNumber(CharSequence, Number)
 	 */
 	@NotNull
 	default <T extends Number> T asNumber(int arg, @NotNull String[] args, @NotNull T def) {
-		return asGeneric(str -> MCNumbers.asNumber(str, def), arg, args, def);
+		return asGeneric(str -> SkyNumbers.asNumber(str, def), arg, args, def);
 	}
 
 	/**
 	 * Converts the specified <b>arg</b> of the <b>args</b> array to a {@link Number}
-	 * (See {@link MCNumbers#asNumber(CharSequence, Class)} for more details).
+	 * (See {@link SkyNumbers#asNumber(CharSequence, Class)} for more details).
 	 *
 	 * @param <T> the type of {@link Number} to return.
 	 * @param arg the array position of the argument to get, can be out of bounds.
@@ -558,11 +558,11 @@ public interface SkyCommand<P, S extends SkyCommandSender> {
 	 *
 	 * @since SkyUtils 1.0.0
 	 *
-	 * @see MCNumbers#asNumber(CharSequence, Class)
+	 * @see SkyNumbers#asNumber(CharSequence, Class)
 	 */
 	@Nullable
 	default <T extends Number> T asNumber(int arg, @NotNull String[] args, @NotNull Class<T> type) {
-		return asGeneric(str -> MCNumbers.asNumber(str, type), arg, args);
+		return asGeneric(str -> SkyNumbers.asNumber(str, type), arg, args);
 	}
 
 	/*
