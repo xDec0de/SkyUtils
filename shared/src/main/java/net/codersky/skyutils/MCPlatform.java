@@ -11,6 +11,8 @@ public enum MCPlatform {
 
 	/** The Spigot server platform, <b>only</b> for Spigot servers that aren't Paper or a Paper fork. */
 	SPIGOT,
+	/** The Paper server platform, for Paper and forks of it. */
+	PAPER,
 	/** The Velocity proxy platform, for Velocity and forks of it. */
 	VELOCITY;
 
