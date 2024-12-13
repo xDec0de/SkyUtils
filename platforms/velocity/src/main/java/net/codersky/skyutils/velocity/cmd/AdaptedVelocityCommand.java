@@ -1,7 +1,7 @@
 package net.codersky.skyutils.velocity.cmd;
 
 import net.codersky.skyutils.cmd.GlobalCommand;
-import net.codersky.skyutils.cmd.MCCommand;
+import net.codersky.skyutils.cmd.SkyCommand;
 import net.codersky.skyutils.velocity.VelocityUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,7 +33,7 @@ public class AdaptedVelocityCommand<P> extends VelocityCommand<P> {
 
 	@NotNull
 	@Override
-	public AdaptedVelocityCommand<P> inject(MCCommand<P, VelocityCommandSender>... commands) {
+	public AdaptedVelocityCommand<P> inject(SkyCommand<P, VelocityCommandSender>... commands) {
 		throw new UnsupportedOperationException("Adapted commands cannot inject new commands.");
 	}
 }

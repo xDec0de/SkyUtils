@@ -1,6 +1,6 @@
 package net.codersky.skyutils.crossplatform.player;
 
-import net.codersky.skyutils.cmd.MCCommand;
+import net.codersky.skyutils.cmd.SkyCommand;
 import net.codersky.skyutils.crossplatform.MessageReceiver;
 import net.codersky.skyutils.java.strings.Replacement;
 import net.codersky.skyutils.java.strings.Replacer;
@@ -78,7 +78,7 @@ public interface MCPlayer extends MessageReceiver, Replacement {
 	 *
 	 * @param message The message to send to this {@link MCPlayer}.
 	 *
-	 * @return Always {@code true} to make it easier to create {@link MCCommand MCCommands}.
+	 * @return Always {@code true} to make it easier to create {@link SkyCommand MCCommands}.
 	 *
 	 * @throws NullPointerException if {@code message} is {@code null}
 	 *
@@ -93,7 +93,7 @@ public interface MCPlayer extends MessageReceiver, Replacement {
 	 * @param message The ActionBar message to send to this {@link MCPlayer}.
 	 * @param replacer The {@link Replacer} to apply to the {@code message} before sending it.
 	 *
-	 * @return Always {@code true} to make it easier to create {@link MCCommand MCCommands}.
+	 * @return Always {@code true} to make it easier to create {@link SkyCommand MCCommands}.
 	 *
 	 * @throws NullPointerException if any parameter is {@code null}
 	 *
@@ -112,7 +112,7 @@ public interface MCPlayer extends MessageReceiver, Replacement {
 	 * applied to the {@code message} before sending it. The amount of replacements must be even
 	 * as specified on the {@link Replacer} {@link Replacer#Replacer constructor}.
 	 *
-	 * @return Always {@code true} to make it easier to create {@link MCCommand MCCommands}.
+	 * @return Always {@code true} to make it easier to create {@link SkyCommand MCCommands}.
 	 *
 	 * @throws NullPointerException if any parameter is {@code null}
 	 *
@@ -131,7 +131,7 @@ public interface MCPlayer extends MessageReceiver, Replacement {
 	 *
 	 * @param message The Adventure {@link Component} to send to this {@link MCPlayer}.
 	 *
-	 * @return Always {@code true} to make it easier to create {@link MCCommand MCCommands}.
+	 * @return Always {@code true} to make it easier to create {@link SkyCommand MCCommands}.
 	 *
 	 * @throws NullPointerException if {@code message} is {@code null}
 	 *
@@ -146,7 +146,7 @@ public interface MCPlayer extends MessageReceiver, Replacement {
 	 * @param message The Adventure {@link Component} to send to this {@link MCPlayer}.
 	 * @param replacer The {@link Replacer} to apply to the {@code message} before sending it.
 	 *
-	 * @return Always {@code true} to make it easier to create {@link MCCommand MCCommands}.
+	 * @return Always {@code true} to make it easier to create {@link SkyCommand MCCommands}.
 	 *
 	 * @throws NullPointerException if any parameter is {@code null}
 	 *
@@ -165,7 +165,7 @@ public interface MCPlayer extends MessageReceiver, Replacement {
 	 * applied to the {@code message} before sending it. The amount of replacements must be even
 	 * as specified on the {@link Replacer} {@link Replacer#Replacer constructor}.
 	 *
-	 * @return Always {@code true} to make it easier to create {@link MCCommand MCCommands}.
+	 * @return Always {@code true} to make it easier to create {@link SkyCommand MCCommands}.
 	 *
 	 * @throws NullPointerException if any parameter is {@code null}
 	 *

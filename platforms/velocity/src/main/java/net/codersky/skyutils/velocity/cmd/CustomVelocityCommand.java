@@ -1,8 +1,8 @@
 package net.codersky.skyutils.velocity.cmd;
 
 import com.velocitypowered.api.command.SimpleCommand;
-import net.codersky.skyutils.cmd.MCCommand;
 import net.codersky.skyutils.cmd.MCCommandSender;
+import net.codersky.skyutils.cmd.SkyCommand;
 import net.codersky.skyutils.cmd.SubCommandHandler;
 import net.codersky.skyutils.java.SkyCollections;
 import net.codersky.skyutils.velocity.VelocityUtils;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
-public abstract class CustomVelocityCommand<P, S extends MCCommandSender> implements SimpleCommand, MCCommand<P, S> {
+public abstract class CustomVelocityCommand<P, S extends MCCommandSender> implements SimpleCommand, SkyCommand<P, S> {
 
 	private final VelocityUtils<P> utils;
 	private final String name;
@@ -30,6 +30,10 @@ public abstract class CustomVelocityCommand<P, S extends MCCommandSender> implem
 		this(utils, name, new String[0]);
 	}
 
+	/*
+	 - Utils & plugin access
+	 */
+
 	@NotNull
 	public VelocityUtils<P> getUtils() {
 		return utils;
@@ -39,6 +43,10 @@ public abstract class CustomVelocityCommand<P, S extends MCCommandSender> implem
 	public P getPlugin() {
 		return utils.getPlugin();
 	}
+
+	/*
+	 - Command information
+	 */
 
 	@NotNull
 	@Override
@@ -52,19 +60,31 @@ public abstract class CustomVelocityCommand<P, S extends MCCommandSender> implem
 		return SkyCollections.asArrayList(aliases);
 	}
 
-	protected abstract S getSender(@NotNull Invocation invocation);
-
 	@NotNull
 	public final String[] getAliasesArray() {
 		return aliases;
 	}
 
+	/*
+	 - Sender getter
+	 */
+
+	protected abstract S getSender(@NotNull Invocation invocation);
+
+	/*
+	 - Subcommand injection
+	 */
+
 	@NotNull
 	@Override
-	public CustomVelocityCommand<P, S> inject(MCCommand<P, S>... commands) {
+	public CustomVelocityCommand<P, S> inject(SkyCommand<P, S>... commands) {
 		subCmdHandler.inject(commands);
 		return this;
 	}
+
+	/*
+	 - Command execution & tab complete
+	 */
 
 	@Override
 	@ApiStatus.Internal

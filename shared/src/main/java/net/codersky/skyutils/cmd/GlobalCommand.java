@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public abstract class GlobalCommand<P> implements MCCommand<P, MCCommandSender> {
+public abstract class GlobalCommand<P> implements SkyCommand<P, MCCommandSender> {
 
 	private final SkyUtils<P> utils;
 	private final String name;
@@ -44,7 +44,7 @@ public abstract class GlobalCommand<P> implements MCCommand<P, MCCommandSender> 
 	}
 
 	@Override
-	public @NotNull MCCommand<P, MCCommandSender> inject(@NotNull MCCommand<P, MCCommandSender>... commands) {
+	public @NotNull SkyCommand<P, MCCommandSender> inject(@NotNull SkyCommand<P, MCCommandSender>... commands) {
 		subCmdHandler.inject(commands);
 		return this;
 	}

@@ -23,20 +23,20 @@ import java.util.function.Function;
  *
  * @author xDec0de_
  *
- * @param <P> The plugin class that owns this {@link MCCommand}.
- * @param <S> The {@link MCCommandSender} type of this {@link MCCommand}.
+ * @param <P> The plugin class that owns this {@link SkyCommand}.
+ * @param <S> The {@link MCCommandSender} type of this {@link SkyCommand}.
  */
-public interface MCCommand<P, S extends MCCommandSender> {
+public interface SkyCommand<P, S extends MCCommandSender> {
 
 	/*
 	 - Command information
 	 */
 
 	/**
-	 * Gets the name of this  {@link MCCommand}, which is used in order
+	 * Gets the name of this  {@link SkyCommand}, which is used in order
 	 * to execute it as "/name".
 	 *
-	 * @return The name of this {@link MCCommand}.
+	 * @return The name of this {@link SkyCommand}.
 	 *
 	 * @since SkyUtils 1.0.0
 	 */
@@ -44,12 +44,12 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	String getName();
 
 	/**
-	 * Gets the {@link List} of aliases that this {@link MCCommand command}
+	 * Gets the {@link List} of aliases that this {@link SkyCommand command}
 	 * uses other than its {@link #getName() name}. This {@link List} may
-	 * be {@link List#isEmpty() empty} if the {@link MCCommand command} has
+	 * be {@link List#isEmpty() empty} if the {@link SkyCommand command} has
 	 * no aliases, but it must never be {@code null}.
 	 *
-	 * @return The {@link List} of aliases that this {@link MCCommand command}
+	 * @return The {@link List} of aliases that this {@link SkyCommand command}
 	 * uses.
 	 *
 	 * @since SkyUtils 1.0.0
@@ -58,14 +58,14 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	List<String> getAliases();
 
 	/**
-	 * Checks whether this {@link MCCommand} matches the specified {@code name}.
+	 * Checks whether this {@link SkyCommand} matches the specified {@code name}.
 	 * A command is considered to match when its {@link #getName() name} or any
 	 * of its {@link #getAliases() aliases} {@link String#equalsIgnoreCase(String) equal}
 	 * (Case insensitive) the provided {@code name}.
 	 *
 	 * @param name The name to check.
 	 *
-	 * @return {@code true} if this {@link MCCommand} matches the provided
+	 * @return {@code true} if this {@link SkyCommand} matches the provided
 	 * {@code name}, {@code false} otherwise.
 	 *
 	 * @since SkyUtils 1.0.0
@@ -80,11 +80,11 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	 */
 
 	/**
-	 * Gets the {@link SkyUtils utils} instance that this {@link MCCommand command}
+	 * Gets the {@link SkyUtils utils} instance that this {@link SkyCommand command}
 	 * is using. Generally, this instance is provided at the constructor of each
-	 * {@link MCCommand command} type.
+	 * {@link SkyCommand command} type.
 	 *
-	 * @return The {@link SkyUtils utils} instance that this {@link MCCommand command}
+	 * @return The {@link SkyUtils utils} instance that this {@link SkyCommand command}
 	 * is using.
 	 *
 	 * @since SkyUtils 1.0.0
@@ -93,11 +93,11 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	SkyUtils<P> getUtils();
 
 	/**
-	 * Gets the {@link P plugin} that owns this {@link MCCommand command}.
+	 * Gets the {@link P plugin} that owns this {@link SkyCommand command}.
 	 * This {@link P plugin} is, by default, obtained from
 	 * the {@link #getUtils() utils}.
 	 *
-	 * @return The {@link P plugin} that owns this {@link MCCommand command}.
+	 * @return The {@link P plugin} that owns this {@link SkyCommand command}.
 	 *
 	 * @since SkyUtils 1.0.0
 	 */
@@ -111,15 +111,15 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	 */
 
 	/**
-	 * Method that is called whenever this {@link MCCommand command} is executed. This
+	 * Method that is called whenever this {@link SkyCommand command} is executed. This
 	 * is generally controlled by a {@link SubCommandHandler} and not by the
-	 * {@link MCCommand command} itself.
+	 * {@link SkyCommand command} itself.
 	 *
-	 * @param sender The {@link S sender} that executed this {@link MCCommand command}.
+	 * @param sender The {@link S sender} that executed this {@link SkyCommand command}.
 	 * @param args The arguments used on the execution.
 	 *
-	 * @return Generally {@code true} if the {@link MCCommand command} has executed correctly.
-	 * Behavior when returning {@code false} depends on the platform that the {@link MCCommand command}
+	 * @return Generally {@code true} if the {@link SkyCommand command} has executed correctly.
+	 * Behavior when returning {@code false} depends on the platform that the {@link SkyCommand command}
 	 * is being executed on, for that reason, the recommendation is to always return {@code true} and
 	 * send custom messages to the {@code sender} in case of error by using a {@link MessagesFile}.
 	 *
@@ -132,15 +132,15 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	 */
 
 	/**
-	 * Method that is called whenever this {@link MCCommand command} is tab completed. This
+	 * Method that is called whenever this {@link SkyCommand command} is tab completed. This
 	 * is generally controlled by a {@link SubCommandHandler} and not by the
-	 * {@link MCCommand command} itself.
+	 * {@link SkyCommand command} itself.
 	 * <p>
 	 * Note that you don't need to worry about sub commands being suggested or about suggestions
 	 * being filtered depending on what's already written on the argument. This is all handled
-	 * by the {@link SubCommandHandler} that all {@link MCCommand command} types from SkyUtils use.
+	 * by the {@link SubCommandHandler} that all {@link SkyCommand command} types from SkyUtils use.
 	 *
-	 * @param sender The {@link S sender} that tab completed this {@link MCCommand command}.
+	 * @param sender The {@link S sender} that tab completed this {@link SkyCommand command}.
 	 * @param args The arguments provided up to this point.
 	 *
 	 * @return A {@link Nullable} {@link List} of suggestions to send to the {@code S sender}.
@@ -158,26 +158,26 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	 */
 
 	/**
-	 * Injects the provided {@code commands} as sub commands of this {@link MCCommand command}.
+	 * Injects the provided {@code commands} as sub commands of this {@link SkyCommand command}.
 	 * Injection must be handled by a {@link SubCommandHandler} with the already provided
-	 * {@link SubCommandHandler#inject(MCCommand[])} method.
+	 * {@link SubCommandHandler#inject(SkyCommand[])} method.
 	 *
-	 * @param commands The {@link MCCommand commands} to inject.
+	 * @param commands The {@link SkyCommand commands} to inject.
 	 *
-	 * @return This {@link MCCommand command}.
+	 * @return This {@link SkyCommand command}.
 	 *
 	 * @since SkyUtils 1.0.0
 	 */
 	@NotNull
-	MCCommand<P, S> inject(@NotNull MCCommand<P, S>... commands);
+	SkyCommand<P, S> inject(@NotNull SkyCommand<P, S>... commands);
 
 	/*
 	 - Access check
 	 */
 
 	/**
-	 * Checks if the provided {@link S sender} has access to this {@link MCCommand command}.
-	 * This is taken into account by the {@link SubCommandHandler} of this {@link MCCommand command}
+	 * Checks if the provided {@link S sender} has access to this {@link SkyCommand command}.
+	 * This is taken into account by the {@link SubCommandHandler} of this {@link SkyCommand command}
 	 * To cancel {@link #onCommand(MCCommandSender, String[]) execution} or {@link
 	 * #onTab(MCCommandSender, String[]) tab complete} if {@code false} is returned.
 	 * <p>
@@ -192,7 +192,7 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	 * actually determined by the {@link SubCommandHandler} and will be {@code true} on
 	 * command execution and {@code false} on tab complete.
 	 *
-	 * @return {@code true} to allow access to the {@link MCCommand command}, {@code false}
+	 * @return {@code true} to allow access to the {@link SkyCommand command}, {@code false}
 	 * to deny access to it.
 	 *
 	 * @since SkyUtils 1.0.0
@@ -206,7 +206,7 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	 */
 
 	/**
-	 * Returns whether this {@link MCCommand} removes
+	 * Returns whether this {@link SkyCommand} removes
 	 * <a href=https://mcutils.codersky.net/for-server-admins/event-patterns>event patterns</a>
 	 * from string getters or not. This is enabled by default and it is recommended.
 	 * <p>
@@ -216,7 +216,7 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	 * methods that convert arguments to other objects such as {@link #asNumber(int, String[], Class)}
 	 * remain unaffected because they don't have this issue.
 	 *
-	 * @return {@code true} if this {@link MCCommand} removes
+	 * @return {@code true} if this {@link SkyCommand} removes
 	 * <a href=https://mcutils.codersky.net/for-server-admins/event-patterns>event patterns</a>
 	 * from string getters, {@code false} otherwise.
 	 *

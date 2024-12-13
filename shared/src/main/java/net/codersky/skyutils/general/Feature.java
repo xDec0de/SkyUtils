@@ -1,7 +1,7 @@
 package net.codersky.skyutils.general;
 
 import net.codersky.skyutils.SkyUtils;
-import net.codersky.skyutils.cmd.MCCommand;
+import net.codersky.skyutils.cmd.SkyCommand;
 
 /**
  * An interface that when implemented allows to easily
@@ -37,7 +37,7 @@ public interface Feature {
 	/**
 	 * Called whenever this feature gets disabled or reloaded.
 	 * Remember to unregister any {@link Listener listener} and
-	 * {@link MCCommand command} that may be registered when
+	 * {@link SkyCommand command} that may be registered when
 	 * {@link #onEnable()} is called, as if this method is called
 	 * because of a reload, {@link #onEnable()} will be called right
 	 * after this method, leading to unexpected behavior if anything

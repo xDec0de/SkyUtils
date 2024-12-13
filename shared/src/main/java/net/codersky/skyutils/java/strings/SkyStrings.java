@@ -1,6 +1,6 @@
 package net.codersky.skyutils.java.strings;
 
-import net.codersky.skyutils.cmd.MCCommand;
+import net.codersky.skyutils.cmd.SkyCommand;
 import net.codersky.skyutils.crossplatform.MessageReceiver;
 import net.codersky.skyutils.java.strings.pattern.ColorPattern;
 import net.codersky.skyutils.java.strings.pattern.TargetPattern;
@@ -58,7 +58,7 @@ public class SkyStrings {
 	 * @param target the {@link MessageReceiver} that will receive the message.
 	 * @param str the {@link String} to process.
 	 *
-	 * @return Always {@code true} to make it easier to create {@link MCCommand MCCommands}.
+	 * @return Always {@code true} to make it easier to create {@link SkyCommand MCCommands}.
 	 *
 	 * @throws NullPointerException if any parameter is {@code null}.
 	 *

@@ -1,7 +1,7 @@
 package net.codersky.skyutils.spigot.cmd;
 
 import net.codersky.skyutils.cmd.GlobalCommand;
-import net.codersky.skyutils.cmd.MCCommand;
+import net.codersky.skyutils.cmd.SkyCommand;
 import net.codersky.skyutils.spigot.SpigotUtils;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -35,7 +35,7 @@ public class AdaptedSpigotCommand<P extends JavaPlugin> extends SpigotCommand<P>
 
 	@NotNull
 	@Override
-	public AdaptedSpigotCommand<P> inject(@NotNull MCCommand<P, SpigotCommandSender>... commands) {
+	public AdaptedSpigotCommand<P> inject(@NotNull SkyCommand<P, SpigotCommandSender>... commands) {
 		throw new UnsupportedOperationException("Adapted commands cannot inject new commands.");
 	}
 }

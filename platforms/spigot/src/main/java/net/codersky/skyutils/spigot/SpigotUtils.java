@@ -1,8 +1,9 @@
 package net.codersky.skyutils.spigot;
 
 import net.codersky.skyutils.MCPlatform;
+import net.codersky.skyutils.SkyUtils;
 import net.codersky.skyutils.cmd.GlobalCommand;
-import net.codersky.skyutils.cmd.MCCommand;
+import net.codersky.skyutils.cmd.SkyCommand;
 import net.codersky.skyutils.crossplatform.player.MCPlayer;
 import net.codersky.skyutils.crossplatform.server.ServerUtils;
 import net.codersky.skyutils.java.SkyCollections;
@@ -38,6 +39,17 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+/**
+ * Spigot platform extension of the {@link ServerUtils} class,
+ * which at the same time extends the {@link SkyUtils} class.
+ * It offers access to the SkyUtils API for Spigot servers.
+ *
+ * @param <P> The {@link JavaPlugin} that owns this utils.
+ *
+ * @since SkyUtils 1.0.0
+ *
+ * @author xDec0de_
+ */
 public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 
 	private SpigotPlayerProvider playerProvider = new SpigotPlayerProvider();
@@ -299,7 +311,7 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 	 * to make a check there if they were to change it, but we are aware of it, so no worries. Just
 	 * make sure to update SkyUtils if that ever happens (This will be notified as an important update).
 	 *
-	 * @param commands the list of {@link MCCommand commands} to register.
+	 * @param commands the list of {@link SkyCommand commands} to register.
 	 *
 	 * @throws ClassCastException if any of the passed {@code commands} isn't an instance of {@link SpigotCommand}.
 	 *

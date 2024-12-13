@@ -1,6 +1,6 @@
 package net.codersky.skyutils.spigot.cmd;
 
-import net.codersky.skyutils.cmd.MCCommand;
+import net.codersky.skyutils.cmd.SkyCommand;
 import net.codersky.skyutils.cmd.SubCommandHandler;
 import net.codersky.skyutils.spigot.SpigotUtils;
 import org.bukkit.Bukkit;
@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class CustomSpigotCommand<P extends JavaPlugin, S extends SpigotCommandSender> extends Command implements MCCommand<P, S>, PluginIdentifiableCommand, TabExecutor {
+public abstract class CustomSpigotCommand<P extends JavaPlugin, S extends SpigotCommandSender> extends Command implements SkyCommand<P, S>, PluginIdentifiableCommand, TabExecutor {
 
 	private final SpigotUtils<P> utils;
 	private final SubCommandHandler<P, S> subCommandHandler = new SubCommandHandler<>();
@@ -63,7 +63,7 @@ public abstract class CustomSpigotCommand<P extends JavaPlugin, S extends Spigot
 
 	@NotNull
 	@Override
-	public CustomSpigotCommand<P, S> inject(@NotNull MCCommand<P, S>... commands) {
+	public CustomSpigotCommand<P, S> inject(@NotNull SkyCommand<P, S>... commands) {
 		subCommandHandler.inject(commands);
 		return this;
 	}

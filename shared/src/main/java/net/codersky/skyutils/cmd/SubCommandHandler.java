@@ -13,15 +13,15 @@ import java.util.function.BiFunction;
 
 public class SubCommandHandler<P, S extends MCCommandSender> {
 
-	private final HashSet<MCCommand<P, S>> subCommands = new HashSet<>();
+	private final HashSet<SkyCommand<P, S>> subCommands = new HashSet<>();
 
-	private <T> T onUsedCommand(@NotNull MCCommand<P, S> mainCmd, @NotNull S sender, @NotNull String[] args,
-	                            @NotNull BiFunction<MCCommand<P, S>, String[], T> action, @NotNull T def, boolean message) {
+	private <T> T onUsedCommand(@NotNull SkyCommand<P, S> mainCmd, @NotNull S sender, @NotNull String[] args,
+	                            @NotNull BiFunction<SkyCommand<P, S>, String[], T> action, @NotNull T def, boolean message) {
 		if (!mainCmd.hasAccess(sender, message))
 			return def;
 		if (args.length == 0)
 			return action.apply(mainCmd, args);
-		for (MCCommand<P, S> subCommand : subCommands)
+		for (SkyCommand<P, S> subCommand : subCommands)
 			if (subCommand.matches(args[0]))
 				return onUsedCommand(subCommand, sender, Arrays.copyOfRange(args, 1, args.length), action, def, message);
 		return action.apply(mainCmd, args);
@@ -31,7 +31,7 @@ public class SubCommandHandler<P, S extends MCCommandSender> {
 	 - Command execution
 	 */
 
-	public boolean onCommand(@NotNull MCCommand<P, S> mainCmd, @NotNull S sender, @NotNull String[] args) {
+	public boolean onCommand(@NotNull SkyCommand<P, S> mainCmd, @NotNull S sender, @NotNull String[] args) {
 		return onUsedCommand(mainCmd, sender, args, (cmd, newArgs) -> cmd.onCommand(sender, newArgs), true, true);
 	}
 
@@ -39,7 +39,7 @@ public class SubCommandHandler<P, S extends MCCommandSender> {
 	 - Tab complete
 	 */
 
-	public List<String> onTab(@NotNull MCCommand<P, S> mainCommand, @NotNull S sender, @NotNull String[] args) {
+	public List<String> onTab(@NotNull SkyCommand<P, S> mainCommand, @NotNull S sender, @NotNull String[] args) {
 		return onUsedCommand(mainCommand, sender, args, (cmd, newArgs) -> {
 			if (subCommands.isEmpty() || args.length > 1)
 				return prepareSuggestions(cmd.onTab(sender, newArgs), newArgs);
@@ -48,7 +48,7 @@ public class SubCommandHandler<P, S extends MCCommandSender> {
 				cmdTabs = new ArrayList<>(0);
 			final List<String> tabs = new ArrayList<>(subCommands.size() + cmdTabs.size());
 			tabs.addAll(cmdTabs);
-			for (MCCommand<P, S> subCmd : subCommands) {
+			for (SkyCommand<P, S> subCmd : subCommands) {
 				if (!subCmd.hasAccess(sender, false))
 					continue;
 				tabs.add(subCmd.getName());
@@ -59,7 +59,7 @@ public class SubCommandHandler<P, S extends MCCommandSender> {
 	}
 
 	/**
-	 * Prepares a list of {@code suggestions} to be used by {@link #onTab(MCCommand, MCCommandSender, String[])}.
+	 * Prepares a list of {@code suggestions} to be used by {@link #onTab(SkyCommand, MCCommandSender, String[])}.
 	 * By default, this method will:
 	 * <ul>
 	 * <li>Return an {@link List#of() empty list} if {@code suggestions} is {@code null}.</li>
@@ -71,7 +71,7 @@ public class SubCommandHandler<P, S extends MCCommandSender> {
 	 * @param args The command arguments to use for filtering.
 	 *
 	 * @return A {@link NotNull} list of suggestions to be used on the
-	 * {@link #onTab(MCCommand, MCCommandSender, String[])} method.
+	 * {@link #onTab(SkyCommand, MCCommandSender, String[])} method.
 	 *
 	 * @since SkyUtils 1.0.0
 	 */
@@ -89,7 +89,7 @@ public class SubCommandHandler<P, S extends MCCommandSender> {
 	 */
 
 	@SafeVarargs
-	public final void inject(@NotNull MCCommand<P, S>... commands) {
+	public final void inject(@NotNull SkyCommand<P, S>... commands) {
 		Collections.addAll(subCommands, commands);
 	}
 }
