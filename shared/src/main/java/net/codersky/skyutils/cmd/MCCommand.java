@@ -4,6 +4,7 @@ import net.codersky.skyutils.SkyUtils;
 import net.codersky.skyutils.java.SkyCollections;
 import net.codersky.skyutils.java.math.MCNumbers;
 import net.codersky.skyutils.java.strings.SkyStrings;
+import net.codersky.skyutils.storage.files.MessagesFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,6 +43,17 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	@NotNull
 	String getName();
 
+	/**
+	 * Gets the {@link List} of aliases that this {@link MCCommand command}
+	 * uses other than its {@link #getName() name}. This {@link List} may
+	 * be {@link List#isEmpty() empty} if the {@link MCCommand command} has
+	 * no aliases, but it must never be {@code null}.
+	 *
+	 * @return The {@link List} of aliases that this {@link MCCommand command}
+	 * uses.
+	 *
+	 * @since SkyUtils 1.0.0
+	 */
 	@NotNull
 	List<String> getAliases();
 
@@ -67,9 +79,28 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	 - Utilities
 	 */
 
+	/**
+	 * Gets the {@link SkyUtils utils} instance that this {@link MCCommand command}
+	 * is using. Generally, this instance is provided at the constructor of each
+	 * {@link MCCommand command} type.
+	 *
+	 * @return The {@link SkyUtils utils} instance that this {@link MCCommand command}
+	 * is using.
+	 *
+	 * @since SkyUtils 1.0.0
+	 */
 	@NotNull
 	SkyUtils<P> getUtils();
 
+	/**
+	 * Gets the {@link P plugin} that owns this {@link MCCommand command}.
+	 * This {@link P plugin} is, by default, obtained from
+	 * the {@link #getUtils() utils}.
+	 *
+	 * @return The {@link P plugin} that owns this {@link MCCommand command}.
+	 *
+	 * @since SkyUtils 1.0.0
+	 */
 	@NotNull
 	default P getPlugin() {
 		return getUtils().getPlugin();
@@ -79,12 +110,46 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	 - Command execution
 	 */
 
+	/**
+	 * Method that is called whenever this {@link MCCommand command} is executed. This
+	 * is generally controlled by a {@link SubCommandHandler} and not by the
+	 * {@link MCCommand command} itself.
+	 *
+	 * @param sender The {@link S sender} that executed this {@link MCCommand command}.
+	 * @param args The arguments used on the execution.
+	 *
+	 * @return Generally {@code true} if the {@link MCCommand command} has executed correctly.
+	 * Behavior when returning {@code false} depends on the platform that the {@link MCCommand command}
+	 * is being executed on, for that reason, the recommendation is to always return {@code true} and
+	 * send custom messages to the {@code sender} in case of error by using a {@link MessagesFile}.
+	 *
+	 * @since SkyUtils 1.0.0
+	 */
 	boolean onCommand(@NotNull S sender, @NotNull String[] args);
 
 	/*
 	 - Tab complete
 	 */
 
+	/**
+	 * Method that is called whenever this {@link MCCommand command} is tab completed. This
+	 * is generally controlled by a {@link SubCommandHandler} and not by the
+	 * {@link MCCommand command} itself.
+	 * <p>
+	 * Note that you don't need to worry about sub commands being suggested or about suggestions
+	 * being filtered depending on what's already written on the argument. This is all handled
+	 * by the {@link SubCommandHandler} that all {@link MCCommand command} types from SkyUtils use.
+	 *
+	 * @param sender The {@link S sender} that tab completed this {@link MCCommand command}.
+	 * @param args The arguments provided up to this point.
+	 *
+	 * @return A {@link Nullable} {@link List} of suggestions to send to the {@code S sender}.
+	 * In case of the {@link List} being {@code null}, an empty {@link List} is actually sent
+	 * to the {@link SubCommandHandler}. The returned {@link List} can be unmodifiable, as it
+	 * gets cloned to include any possible sub commands as suggestions.
+	 *
+	 * @since SkyUtils 1.0.0
+	 */
 	@Nullable
 	List<String> onTab(@NotNull S sender, @NotNull String[] args);
 
@@ -92,6 +157,17 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	 - SubCommand injection
 	 */
 
+	/**
+	 * Injects the provided {@code commands} as sub commands of this {@link MCCommand command}.
+	 * Injection must be handled by a {@link SubCommandHandler} with the already provided
+	 * {@link SubCommandHandler#inject(MCCommand[])} method.
+	 *
+	 * @param commands The {@link MCCommand commands} to inject.
+	 *
+	 * @return This {@link MCCommand command}.
+	 *
+	 * @since SkyUtils 1.0.0
+	 */
 	@NotNull
 	MCCommand<P, S> inject(@NotNull MCCommand<P, S>... commands);
 
@@ -99,6 +175,28 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	 - Access check
 	 */
 
+	/**
+	 * Checks if the provided {@link S sender} has access to this {@link MCCommand command}.
+	 * This is taken into account by the {@link SubCommandHandler} of this {@link MCCommand command}
+	 * To cancel {@link #onCommand(MCCommandSender, String[]) execution} or {@link
+	 * #onTab(MCCommandSender, String[]) tab complete} if {@code false} is returned.
+	 * <p>
+	 * This method just returns {@code true} by default and exists for you to
+	 * specify custom access rules for commands such as required permissions.
+	 * <p>
+	 * You are expected to send a custom no permission message to the {@code sender}
+	 * if {@code message} is {@code true}, otherwise, no message is sent whatsoever.
+	 *
+	 * @param sender The {@link S sender} to check.
+	 * @param message Whether a message should be sent to the {@code sender} or not. This is
+	 * actually determined by the {@link SubCommandHandler} and will be {@code true} on
+	 * command execution and {@code false} on tab complete.
+	 *
+	 * @return {@code true} to allow access to the {@link MCCommand command}, {@code false}
+	 * to deny access to it.
+	 *
+	 * @since SkyUtils 1.0.0
+	 */
 	default boolean hasAccess(@NotNull S sender, boolean message) {
 		return true;
 	}
@@ -138,6 +236,7 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	 * {@code arg} position or if {@code converter} returns {@code null}.
 	 *
 	 * @param <T> The return type of the {@code converter} {@link Function}.
+	 *
 	 * @param converter the {@link Function} that will convert the {@link String}
 	 * found at the specified {@code arg} position. The {@link String} passed
 	 * to the {@link Function} will <b>never</b> be {@code null}.
@@ -168,6 +267,7 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	 * {@code arg} position or if {@code converter} returns {@code null}.
 	 *
 	 * @param <T> The return type of the {@code converter} {@link Function}.
+	 *
 	 * @param converter The {@link Function} that will convert the {@link String}
 	 * found at the specified {@code arg} position. The {@link String} passed
 	 * to the {@link Function} will <b>never</b> be {@code null}.
@@ -189,6 +289,8 @@ public interface MCCommand<P, S extends MCCommandSender> {
 	/*
 	 - Argument conversion - Strings
 	 */
+
+	// NOTE: Outdated documentation below.
 
 	// Regular //
 
