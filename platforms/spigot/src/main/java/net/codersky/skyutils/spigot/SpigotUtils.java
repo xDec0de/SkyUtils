@@ -10,7 +10,9 @@ import net.codersky.skyutils.java.SkyCollections;
 import net.codersky.skyutils.java.reflection.RefObject;
 import net.codersky.skyutils.java.strings.SkyStrings;
 import net.codersky.skyutils.spigot.cmd.AdaptedSpigotCommand;
+import net.codersky.skyutils.spigot.cmd.CustomSpigotCommand;
 import net.codersky.skyutils.spigot.cmd.SpigotCommand;
+import net.codersky.skyutils.spigot.cmd.SpigotCommandSender;
 import net.codersky.skyutils.spigot.player.SpigotPlayerProvider;
 import net.codersky.skyutils.spigot.player.SpigotPlayerQuitListener;
 import net.codersky.skyutils.spigot.worldgen.SingleBiomeProvider;
@@ -318,11 +320,11 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 	 * @since SkyUtils 1.0.0
 	 */
 	@SuppressWarnings({"unchecked"})
-	public void registerCommands(SpigotCommand<P>... commands) {
+	public void registerCommands(CustomSpigotCommand<P, ? extends SpigotCommandSender>... commands) {
 		if (commands == null || commands.length == 0)
 			return;
 		final List<Command> remaining = new ArrayList<>();
-		for (SpigotCommand<P> command : commands) {
+		for (CustomSpigotCommand<P, ?> command : commands) {
 			final PluginCommand plCommand = getPlugin().getCommand(command.getName());
 			if (plCommand != null) {
 				plCommand.setExecutor(command);
