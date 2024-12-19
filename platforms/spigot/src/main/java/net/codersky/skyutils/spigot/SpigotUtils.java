@@ -3,7 +3,6 @@ package net.codersky.skyutils.spigot;
 import net.codersky.skyutils.MCPlatform;
 import net.codersky.skyutils.SkyUtils;
 import net.codersky.skyutils.cmd.GlobalCommand;
-import net.codersky.skyutils.cmd.SkyCommand;
 import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.codersky.skyutils.crossplatform.server.ServerUtils;
 import net.codersky.skyutils.java.SkyCollections;
@@ -11,19 +10,21 @@ import net.codersky.skyutils.java.reflection.RefObject;
 import net.codersky.skyutils.java.strings.SkyStrings;
 import net.codersky.skyutils.spigot.cmd.AdaptedSpigotCommand;
 import net.codersky.skyutils.spigot.cmd.CustomSpigotCommand;
-import net.codersky.skyutils.spigot.cmd.SpigotCommand;
 import net.codersky.skyutils.spigot.cmd.SpigotCommandSender;
 import net.codersky.skyutils.spigot.player.SpigotPlayerProvider;
 import net.codersky.skyutils.spigot.player.SpigotPlayerQuitListener;
 import net.codersky.skyutils.spigot.worldgen.SingleBiomeProvider;
 import net.codersky.skyutils.spigot.worldgen.VoidGenerator;
 import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.SimpleCommandMap;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.generator.BiomeProvider;
@@ -277,7 +278,7 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 	 * @since SkyUtils 1.0.0
 	 */
 	@Nullable
-	protected SimpleCommandMap getCommandMap() {
+	public SimpleCommandMap getCommandMap() {
 		final RefObject map = new RefObject(Bukkit.getServer()).invoke("getCommandMap");
 		if (map != null)
 			return (SimpleCommandMap) map.getInstance();

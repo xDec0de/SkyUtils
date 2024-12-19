@@ -50,7 +50,7 @@ public class PaperUtils<P extends JavaPlugin> extends SpigotUtils<P> {
 	 * @since SkyUtils 1.0.0
 	 */
 	@Override
-	protected SimpleCommandMap getCommandMap() {
+	public SimpleCommandMap getCommandMap() {
 		return Bukkit.getServer().getCommandMap() instanceof SimpleCommandMap map ? map : null;
 	}
 }
