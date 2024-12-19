@@ -295,56 +295,78 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 	 */
 
 	/**
-	 * Registers the specified {@code commands}, allowing them to be executed.
+	 * Registers any amount of {@code commands}. This method registers commands
+	 * in two phases depending on what type of commands you attempt to register:
 	 * <p>
-	 * <b>Important note</b>: SkyUtils registers commands in a pretty unusual
-	 * way. If the name of the command you are trying to register is present
-	 * on your <b>plugin.yml</b>, SkyUtils will just register it the "traditional"
-	 * way, if not, it will use some reflection to register it through CraftBukkit's
-	 * getCommandMap (Respecting encapsulation!), meaning that you can register commands without adding them
-	 * to your <b>plugin.yml</b>. <i>However</i>, this may break on future versions
-	 * of the game
+	 * <b>Phase 1</b>: The "traditional" way of registering commands. Commands
+	 * are obtained from your {@code plugin.yml} file with {@link JavaPlugin#getCommand(String)},
+	 * then their {@link PluginCommand#setExecutor(CommandExecutor) executor} and
+	 * {@link PluginCommand#setTabCompleter(TabCompleter) tab completer} are set.
 	 * <p>
-	 * The reflection approach may break on future versions, even though this is pretty unlikely (For Spigot at least),
-	 * we are using a <b>public</b> method present on <b>CraftServer</b>, not the private commandMap field that
-	 * some plugins use. Paper has deprecated SimpleCommandMap for removal as of 1.20 though, so we may need
-	 * to make a check there if they were to change it, but we are aware of it, so no worries. Just
-	 * make sure to update SkyUtils if that ever happens (This will be notified as an important update).
+	 * <b>Phase 2</b>: This phase is completely skipped if no commands are left after phase 1.
+	 * For those commands that aren't on your {@code plugin.yml}, the
+	 * {@link #getCommandMap() command map} is obtained <i>(Details below)</i>. Then these
+	 * remaining commands are all {@link SimpleCommandMap#registerAll(String, List) registered}
+	 * on said {@link #getCommandMap() map}.
+	 * <p>
+	 * <b>About {@link #getCommandMap()}</b>: On Spigot, the method to get the command map
+	 * is {@code public}, but part of the CraftServer class and not the {@link Server}
+	 * {@code interface}. Which means that we invoke the method with reflection in order to
+	 * obtain the instance. On Paper, this is not required as a patch exists to expose the
+	 * command map, however, you need to use the Paper version of SkyUtils to obtain
+	 * the map without using reflection.
 	 *
-	 * @param commands the list of {@link SkyCommand commands} to register.
+	 * @param commands The {@link CustomSpigotCommand spigot commands} to register.
 	 *
-	 * @throws ClassCastException if any of the passed {@code commands} isn't an instance of {@link SpigotCommand}.
+	 * @return {@code true} if all {@code commands} were registered successfully,
+	 * {@code false} otherwise. Command registration may <b>only</b> fail on <b>phase 2</b>
+	 * if the {@link #getCommandMap()} method fails and returns {@code null}. That means
+	 * of course that if all of your commands are registered on <b>phase 1</b>, this
+	 * method will always return {@code true}.
 	 *
 	 * @since SkyUtils 1.0.0
 	 */
-	@SuppressWarnings({"unchecked"})
-	public void registerCommands(CustomSpigotCommand<P, ? extends SpigotCommandSender>... commands) {
-		if (commands == null || commands.length == 0)
-			return;
-		final List<Command> remaining = new ArrayList<>();
+	@SafeVarargs
+	public final boolean registerCommands(@NotNull CustomSpigotCommand<P, ? extends SpigotCommandSender>... commands) {
+		final List<Command> phase2 = new ArrayList<>();
+		// Phase 1: Register via plugin.yml
 		for (CustomSpigotCommand<P, ?> command : commands) {
 			final PluginCommand plCommand = getPlugin().getCommand(command.getName());
 			if (plCommand != null) {
 				plCommand.setExecutor(command);
 				plCommand.setTabCompleter(command);
 			} else
-				remaining.add(command);
+				phase2.add(command);
 		}
-		if (remaining.isEmpty())
-			return;
-		final SimpleCommandMap commandMap = getCommandMap();
-		if (commandMap == null)
-			Bukkit.getPluginManager().disablePlugin(getPlugin());
-		else
-			commandMap.registerAll(getPlugin().getName(), remaining);
+		// Phase 2: Register via SimpleCommandMap
+		if (!phase2.isEmpty()) {
+			final SimpleCommandMap map = getCommandMap();
+			if (map == null)
+				return false;
+			map.registerAll(getPlugin().getName(), phase2);
+		}
+		return true;
 	}
 
+	/**
+	 * Adapts all {@link GlobalCommand commands} to {@link AdaptedSpigotCommand},
+	 * then registers all of them with the {@link #registerCommands(CustomSpigotCommand[])}
+	 * method. Details about how command registration works on Spigot are provided on
+	 * said method.
+	 *
+	 * @param commands The {@link GlobalCommand commands} to register.
+	 *
+	 * @return {@code true} if all commands were registered successfully,
+	 * {@code false} otherwise.
+	 *
+	 * @since SkyUtils 1.0.0
+	 *
+	 * @see #registerCommands(CustomSpigotCommand[])
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public void registerCommands(@NotNull GlobalCommand<P>... commands) {
-		if (commands == null || commands.length == 0)
-			return;
-		registerCommands(SkyCollections.map(
+	public boolean registerCommands(@NotNull GlobalCommand<P>... commands) {
+		return registerCommands(SkyCollections.map(
 				commands,
 				new AdaptedSpigotCommand[commands.length],
 				cmd -> new AdaptedSpigotCommand<>(this, cmd))

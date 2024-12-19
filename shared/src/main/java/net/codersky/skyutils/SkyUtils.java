@@ -120,9 +120,16 @@ public abstract class SkyUtils<P> {
 	 *
 	 * @param commands The {@link GlobalCommand commands} to register.
 	 *
+	 * @return {@code true} if all {@code commands} were registered successfully,
+	 * {@code false} otherwise. If commands fail to register, SkyUtils is at
+	 * fault for any internal reason that will be notified to the console, blaming
+	 * SkyUtils about the error and not your plugin, don't worry about that. This
+	 * mostly depends on the platform and not on SkyUtils, this return value mostly
+	 * exists as a <b>just in case</b> measure.
+	 *
 	 * @since SkyUtils 1.0.0
 	 */
-	public abstract void registerCommands(GlobalCommand<P>... commands);
+	public abstract boolean registerCommands(GlobalCommand<P>... commands);
 
 	/**
 	 * Unregisters a command by {@code name}.

@@ -5,6 +5,7 @@ import net.codersky.skyutils.cmd.SkyCommand;
 import net.codersky.skyutils.spigot.SpigotUtils;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class AdaptedSpigotCommand<P extends JavaPlugin> extends SpigotCommand<P>
 		return command.onCommand(sender, args);
 	}
 
-	@NotNull
+	@Nullable
 	@Override
 	public List<String> onTab(@NotNull SpigotCommandSender sender, @NotNull String[] args) {
 		return command.onTab(sender, args);

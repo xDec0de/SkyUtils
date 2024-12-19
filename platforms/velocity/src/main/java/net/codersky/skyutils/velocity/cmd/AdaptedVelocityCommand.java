@@ -4,6 +4,7 @@ import net.codersky.skyutils.cmd.GlobalCommand;
 import net.codersky.skyutils.cmd.SkyCommand;
 import net.codersky.skyutils.velocity.VelocityUtils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -21,8 +22,9 @@ public class AdaptedVelocityCommand<P> extends VelocityCommand<P> {
 		return command.onCommand(sender, args);
 	}
 
+	@Nullable
 	@Override
-	public @NotNull List<String> onTab(@NotNull VelocityCommandSender sender, @NotNull String[] args) {
+	public List<String> onTab(@NotNull VelocityCommandSender sender, @NotNull String[] args) {
 		return command.onTab(sender, args);
 	}
 
