@@ -35,6 +35,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -255,6 +256,10 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 		return this;
 	}
 
+	/*
+	 - Commands - Map
+	 */
+
 	/**
 	 * Gets the {@link SimpleCommandMap} instance stored on the {@link Bukkit#getServer() server}.
 	 * <b>Reflection is used</b> in order to get this instance by accessing the
@@ -284,17 +289,9 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 		return null;
 	}
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public void registerCommands(@NotNull GlobalCommand<P>... commands) {
-		if (commands == null || commands.length == 0)
-			return;
-		registerCommands(SkyCollections.map(
-				commands,
-				new AdaptedSpigotCommand[commands.length],
-				cmd -> new AdaptedSpigotCommand<>(this, cmd))
-		);
-	}
+	/*
+	 - Commands - Registration
+	 */
 
 	/**
 	 * Registers the specified {@code commands}, allowing them to be executed.
@@ -341,6 +338,18 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 			commandMap.registerAll(getPlugin().getName(), remaining);
 	}
 
+	@Override
+	@SuppressWarnings("unchecked")
+	public void registerCommands(@NotNull GlobalCommand<P>... commands) {
+		if (commands == null || commands.length == 0)
+			return;
+		registerCommands(SkyCollections.map(
+				commands,
+				new AdaptedSpigotCommand[commands.length],
+				cmd -> new AdaptedSpigotCommand<>(this, cmd))
+		);
+	}
+
 	/**
 	 * Unregisters a command by {@code name}. In order to unregister
 	 * a command, the command must have been registered by this
@@ -364,7 +373,78 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 	}
 
 	/*
-	 * World creation
+	 - Commands - Getters
+	 */
+
+	/**
+	 * Gets a {@link Collection} of all <b>registered</b> commands on
+	 * the {@link Bukkit#getServer() server}, <b>not only</b> those registered
+	 * by the {@link P plugin} that manages this {@link SpigotUtils} instance.
+	 *
+	 * @return A {@link Collection} of all <b>registered</b> commands on
+	 * the {@link Bukkit#getServer() server}
+	 *
+	 * @since SkyUtils 1.0.0
+	 * 
+	 * @see #getCommand(String)
+	 * @see #getCommand(Class)
+	 */
+	@Nullable
+	public Collection<Command> getCommands() {
+		final SimpleCommandMap map = getCommandMap();
+		return map == null ? null : map.getCommands();
+	}
+
+	/**
+	 * Gets a <b>registered</b> {@link Command} by {@code name}.
+	 * The {@link Command} is not required to be registered by the
+	 * {@link P plugin} that manages this {@link SpigotUtils} instance.
+	 *
+	 * @param name The name of the <b>registered</b> {@link Command} to get.
+	 *
+	 * @return A <b>registered</b> {@link Command} instance that matches the provided
+	 * {@code name}, if found. {@code null} otherwise.
+	 *
+	 * @since SkyUtils 1.0.0
+	 *
+	 * @see #getCommand(Class)
+	 * @see #getCommands()
+	 */
+	@Nullable
+	public Command getCommand(@NotNull String name) {
+		// TODO: Check if aliases are supported. Docs seem to indicate they aren't.
+		final SimpleCommandMap map = getCommandMap();
+		return map == null ? null : map.getCommand(name);
+	}
+
+	/**
+	 * Gets a <b>registered</b> {@link C command} by {@link Class}.
+	 * The {@link Command} is not required to be registered by the
+	 * {@link P plugin} that manages this {@link SpigotUtils} instance.
+	 *
+	 * @param <C> The type of the class, {@code extends} {@link Command}.
+	 *
+	 * @param cmdClass The {@link Class} of the <b>registered</b> {@link C command} to get.
+	 *
+	 * @return A <b>registered</b> {@link C command} instance that matches the provided
+	 * {@code cmdClass}, if found. {@code null} otherwise.
+	 *
+	 * @since SkyUtils 1.0.0
+	 *
+	 * @see #getCommand(String)
+	 * @see #getCommands()
+	 */
+	@Nullable
+	public <C extends Command> C getCommand(@NotNull Class<C> cmdClass) {
+		final Collection<Command> cmds = getCommands();
+		if (cmds == null)
+			return null;
+		final Command cmd = SkyCollections.get(cmds, c -> cmdClass.isAssignableFrom(c.getClass()));
+		return cmd == null ? null : cmdClass.cast(cmd);
+	}
+
+	/*
+	 - World creation
 	 */
 
 	/**
