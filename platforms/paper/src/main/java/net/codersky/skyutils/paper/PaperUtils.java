@@ -4,6 +4,10 @@ import net.codersky.skyutils.MCPlatform;
 import net.codersky.skyutils.SkyUtils;
 import net.codersky.skyutils.crossplatform.server.ServerUtils;
 import net.codersky.skyutils.spigot.SpigotUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.Server;
+import org.bukkit.command.CommandMap;
+import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,5 +36,21 @@ public class PaperUtils<P extends JavaPlugin> extends SpigotUtils<P> {
 	@Override
 	public MCPlatform getPlatform() {
 		return MCPlatform.PAPER;
+	}
+
+	/**
+	 * Gets the {@link SimpleCommandMap} instance stored on the {@link Bukkit#getServer() server}.
+	 * On paper, the {@link Server#getCommandMap()} method is exposed, so no reflection is required,
+	 * however, the method does return a {@link CommandMap} instance instead of a {@link SimpleCommandMap}
+	 * instance. This method only casts it safely, returning {@code null} if it isn't able to cast it.
+	 *
+	 * @return The {@link SimpleCommandMap} instance stored on the {@link Bukkit#getServer() server},
+	 * {@code null} if any error occurs.
+	 *
+	 * @since SkyUtils 1.0.0
+	 */
+	@Override
+	protected SimpleCommandMap getCommandMap() {
+		return Bukkit.getServer().getCommandMap() instanceof SimpleCommandMap map ? map : null;
 	}
 }
