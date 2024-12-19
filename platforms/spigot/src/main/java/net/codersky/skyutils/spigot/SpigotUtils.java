@@ -351,25 +351,35 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 	}
 
 	/**
-	 * Unregisters a command by {@code name}. In order to unregister
-	 * a command, the command must have been registered by this
-	 * plugin, as {@link JavaPlugin#getCommand(String)} is used in order to
-	 * get the command to unregister.
-	 * <p>
-	 * <b>Note</b>: This method uses reflection and may be considered
-	 * unsafe by some developers as it breaks the encapsulation principle
-	 * by accessing the internal {@link SimpleCommandMap}
+	 * Unregisters a command by {@code name}.
 	 *
-	 * @param name the name of the command to unregister, using
-	 * aliases won't work.
+	 * @param name the name of the command to unregister.
 	 *
 	 * @return {@code true} if the command exists, was registered and
 	 * has been unregistered successfully, {@code false} otherwise.
+	 *
+	 * @since SkyUtils 1.0.0
 	 */
+	@Override
 	public boolean unregisterCommand(@NotNull String name) {
-		final PluginCommand plCommand = getPlugin().getCommand(name);
-		final SimpleCommandMap commandMap = getCommandMap();
-		return plCommand != null && commandMap != null && plCommand.unregister(commandMap);
+		final SimpleCommandMap map = getCommandMap();
+		if (map == null)
+			return false;
+		final Command cmd = map.getCommand(name);
+		return cmd != null && cmd.unregister(map);
+	}
+
+	/**
+	 * Unregisters the provided {@code command}.
+	 *
+	 * @param command The {@link Command} to unregister.
+	 *
+	 * @return {@code true} if the command was previously registered
+	 * and has been
+	 */
+	public boolean unregisterCommand(@NotNull Command command) {
+		final SimpleCommandMap map = getCommandMap();
+		return map != null && command.unregister(map);
 	}
 
 	/*

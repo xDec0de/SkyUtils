@@ -110,7 +110,31 @@ public abstract class SkyUtils<P> {
 	 - Commands
 	 */
 
+	/**
+	 * Registers any amount of {@code commands}. Keep in mind that SkyUtils
+	 * will attempt to register commands no matter the circumstances, meaning
+	 * that, on platforms like Spigot, commands will be registered even if they
+	 * aren't present on your {@code plugin.yml}. SkyUtils will "understand"
+	 * how your command is meant to be registered and do it that way. You can
+	 * of course check platform specific methods to know the details.
+	 *
+	 * @param commands The {@link GlobalCommand commands} to register.
+	 *
+	 * @since SkyUtils 1.0.0
+	 */
 	public abstract void registerCommands(GlobalCommand<P>... commands);
+
+	/**
+	 * Unregisters a command by {@code name}.
+	 *
+	 * @param name the name of the command to unregister.
+	 *
+	 * @return {@code true} if the command exists, was registered and
+	 * has been unregistered successfully, {@code false} otherwise.
+	 *
+	 * @since SkyUtils 1.0.0
+	 */
+	public abstract boolean unregisterCommand(@NotNull String name);
 
 	/*
 	 - Reloadables

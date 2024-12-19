@@ -154,4 +154,13 @@ public class VelocityUtils<P> extends ProxyUtils<P> {
 			manager.register(meta, command);
 		}
 	}
+
+	@Override
+	public boolean unregisterCommand(@NotNull String name) {
+		final CommandManager manager = getProxy().getCommandManager();
+		if (!manager.hasCommand(name))
+			return false;
+		manager.unregister(name);
+		return true;
+	}
 }
