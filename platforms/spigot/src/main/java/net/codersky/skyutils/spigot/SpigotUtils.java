@@ -11,6 +11,8 @@ import net.codersky.skyutils.java.strings.SkyStrings;
 import net.codersky.skyutils.spigot.cmd.AdaptedSpigotCommand;
 import net.codersky.skyutils.spigot.cmd.CustomSpigotCommand;
 import net.codersky.skyutils.spigot.cmd.SpigotCommandSender;
+import net.codersky.skyutils.spigot.console.SpigotConsole;
+import net.codersky.skyutils.spigot.console.SpigotConsoleProvider;
 import net.codersky.skyutils.spigot.player.SpigotPlayerProvider;
 import net.codersky.skyutils.spigot.player.SpigotPlayerQuitListener;
 import net.codersky.skyutils.spigot.worldgen.SingleBiomeProvider;
@@ -149,14 +151,8 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 
 	@NotNull
 	@Override
-	protected SpigotConsole getConsoleInstance() {
-		return new SpigotConsole(Bukkit.getConsoleSender());
-	}
-
-	@NotNull
-	@Override
 	public SpigotConsole getConsole() {
-		return (SpigotConsole) this.console;
+		return SpigotConsoleProvider.getConsole();
 	}
 
 	@Override

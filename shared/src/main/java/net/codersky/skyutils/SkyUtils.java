@@ -32,7 +32,6 @@ public abstract class SkyUtils<P> {
 
 	private final P plugin;
 	protected final LinkedHashSet<Reloadable> reloadables = new LinkedHashSet<>();
-	protected final SkyConsole console = getConsoleInstance();
 
 	public SkyUtils(@NotNull P plugin) {
 		this.plugin = Objects.requireNonNull(plugin);
@@ -56,9 +55,6 @@ public abstract class SkyUtils<P> {
 	/*
 	 - Console
 	 */
-
-	@NotNull
-	protected abstract SkyConsole getConsoleInstance();
 
 	/**
 	 * Provides a cross-platform {@link SkyConsole} instance.

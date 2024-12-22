@@ -12,6 +12,8 @@ import net.codersky.skyutils.java.SkyCollections;
 import net.codersky.skyutils.velocity.cmd.AdaptedVelocityCommand;
 import net.codersky.skyutils.velocity.cmd.CustomVelocityCommand;
 import net.codersky.skyutils.velocity.cmd.VelocityCommandSender;
+import net.codersky.skyutils.velocity.console.VelocityConsole;
+import net.codersky.skyutils.velocity.console.VelocityConsoleProvider;
 import net.codersky.skyutils.velocity.player.VelocityPlayerProvider;
 import net.codersky.skyutils.velocity.player.VelocityPlayerQuitListener;
 import org.jetbrains.annotations.NotNull;
@@ -25,8 +27,8 @@ import java.util.UUID;
 public class VelocityUtils<P> extends ProxyUtils<P> {
 
 	private final ProxyServer proxy;
-	private VelocityPlayerProvider playerProvider;
 	private final Path dataDirectory;
+	private VelocityPlayerProvider playerProvider;
 	private boolean isPlayerListenerOn = false;
 
 	public VelocityUtils(@NotNull P plugin, @NotNull ProxyServer proxy, @NotNull Path dataDirectory) {
@@ -116,14 +118,8 @@ public class VelocityUtils<P> extends ProxyUtils<P> {
 
 	@NotNull
 	@Override
-	protected VelocityConsole getConsoleInstance() {
-		return new VelocityConsole(getProxy().getConsoleCommandSource());
-	}
-
-	@NotNull
-	@Override
 	public VelocityConsole getConsole() {
-		return (VelocityConsole) console;
+		return VelocityConsoleProvider.getConsole(proxy);
 	}
 
 	@Override

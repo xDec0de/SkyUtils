@@ -1,4 +1,4 @@
-package net.codersky.skyutils.spigot;
+package net.codersky.skyutils.spigot.console;
 
 import net.codersky.skyutils.crossplatform.SkyConsole;
 import net.kyori.adventure.text.Component;

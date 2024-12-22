@@ -1,4 +1,4 @@
-package net.codersky.skyutils.velocity;
+package net.codersky.skyutils.velocity.console;
 
 import com.velocitypowered.api.proxy.ConsoleCommandSource;
 import net.codersky.skyutils.crossplatform.SkyConsole;
