@@ -3,6 +3,7 @@ package net.codersky.skyutils;
 import net.codersky.skyutils.cmd.GlobalCommand;
 import net.codersky.skyutils.crossplatform.SkyConsole;
 import net.codersky.skyutils.crossplatform.player.SkyPlayer;
+import net.codersky.skyutils.time.TaskScheduler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -208,4 +209,11 @@ public abstract class SkyUtils<P> {
 				failures++;
 		return failures;
 	}
+
+	/*
+	 - Scheduler
+	 */
+
+	@NotNull
+	public abstract TaskScheduler getScheduler();
 }

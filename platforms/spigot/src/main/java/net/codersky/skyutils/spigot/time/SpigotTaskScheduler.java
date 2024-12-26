@@ -1,6 +1,5 @@
 package net.codersky.skyutils.spigot.time;
 
-import net.codersky.skyutils.time.Task;
 import net.codersky.skyutils.time.TaskScheduler;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,33 +24,39 @@ public class SpigotTaskScheduler implements TaskScheduler {
 		return unit.toMillis(amount) * 50;
 	}
 
+	@NotNull
 	@Override
-	public @NotNull Task runSync(@NotNull Runnable task) {
+	public SpigotTask runSync(@NotNull Runnable task) {
 		return new SpigotTask(Bukkit.getScheduler().runTask(plugin, task));
 	}
 
+	@NotNull
 	@Override
-	public @NotNull Task delaySync(@NotNull Runnable task, @NotNull TimeUnit unit, int delay) {
+	public SpigotTask delaySync(@NotNull Runnable task, @NotNull TimeUnit unit, int delay) {
 		return new SpigotTask(Bukkit.getScheduler().runTaskLater(plugin, task, toTicks(unit, delay)));
 	}
 
+	@NotNull
 	@Override
-	public @NotNull Task repeatSync(@NotNull Runnable task, @NotNull TimeUnit unit, int delay, int repeat) {
+	public SpigotTask repeatSync(@NotNull Runnable task, @NotNull TimeUnit unit, int delay, int repeat) {
 		return new SpigotTask(Bukkit.getScheduler().runTaskTimer(plugin, task, toTicks(unit, delay), toTicks(unit, repeat)));
 	}
 
+	@NotNull
 	@Override
-	public @NotNull Task runAsync(@NotNull Runnable task) {
+	public SpigotTask runAsync(@NotNull Runnable task) {
 		return new SpigotTask(Bukkit.getScheduler().runTaskAsynchronously(plugin, task));
 	}
 
+	@NotNull
 	@Override
-	public @NotNull Task delayAsync(@NotNull Runnable task, @NotNull TimeUnit unit, int delay) {
+	public SpigotTask delayAsync(@NotNull Runnable task, @NotNull TimeUnit unit, int delay) {
 		return new SpigotTask(Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, task, unit.toMillis(delay) * 50));
 	}
 
+	@NotNull
 	@Override
-	public @NotNull Task repeatAsync(@NotNull Runnable task, @NotNull TimeUnit unit, int delay, int repeat) {
+	public SpigotTask repeatAsync(@NotNull Runnable task, @NotNull TimeUnit unit, int delay, int repeat) {
 		return new SpigotTask(Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, task, toTicks(unit, delay), toTicks(unit, repeat)));
 	}
 }

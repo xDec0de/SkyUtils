@@ -15,6 +15,7 @@ import net.codersky.skyutils.spigot.console.SpigotConsole;
 import net.codersky.skyutils.spigot.console.SpigotConsoleProvider;
 import net.codersky.skyutils.spigot.player.SpigotPlayer;
 import net.codersky.skyutils.spigot.player.SpigotPlayerProvider;
+import net.codersky.skyutils.spigot.time.SpigotTaskScheduler;
 import net.codersky.skyutils.spigot.worldgen.SingleBiomeProvider;
 import net.codersky.skyutils.spigot.worldgen.VoidGenerator;
 import org.bukkit.Bukkit;
@@ -56,8 +57,11 @@ import java.util.function.Predicate;
  */
 public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 
+	private final SpigotTaskScheduler scheduler;
+
 	public SpigotUtils(@NotNull P plugin) {
 		super(plugin);
+		this.scheduler = new SpigotTaskScheduler(plugin);
 	}
 
 	@NotNull
@@ -434,6 +438,12 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 			return null;
 		final Command cmd = SkyCollections.get(cmds, c -> cmdClass.isAssignableFrom(c.getClass()));
 		return cmd == null ? null : cmdClass.cast(cmd);
+	}
+
+	@NotNull
+	@Override
+	public SpigotTaskScheduler getScheduler() {
+		return scheduler;
 	}
 
 	/*

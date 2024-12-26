@@ -16,6 +16,7 @@ import net.codersky.skyutils.velocity.console.VelocityConsole;
 import net.codersky.skyutils.velocity.console.VelocityConsoleProvider;
 import net.codersky.skyutils.velocity.player.VelocityPlayerProvider;
 import net.codersky.skyutils.velocity.player.VelocityPlayerQuitListener;
+import net.codersky.skyutils.velocity.time.VelocityTaskScheduler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,12 +31,14 @@ public class VelocityUtils<P> extends ProxyUtils<P> {
 	private final Path dataDirectory;
 	private VelocityPlayerProvider playerProvider;
 	private boolean isPlayerListenerOn = false;
+	private final VelocityTaskScheduler scheduler;
 
 	public VelocityUtils(@NotNull P plugin, @NotNull ProxyServer proxy, @NotNull Path dataDirectory) {
 		super(plugin);
 		this.proxy = Objects.requireNonNull(proxy);
 		this.playerProvider = new VelocityPlayerProvider(proxy);
 		this.dataDirectory = dataDirectory;
+		this.scheduler = new VelocityTaskScheduler(proxy, plugin);
 	}
 
 	@NotNull
@@ -86,7 +89,7 @@ public class VelocityUtils<P> extends ProxyUtils<P> {
 	 */
 	@Nullable
 	public SkyPlayer getPlayer(@NotNull UUID uuid) {
-		return getPlayerProvider().getPlayer(uuid);
+		return getPlayerProvider().getOnline(uuid);
 	}
 
 	/**
@@ -107,7 +110,7 @@ public class VelocityUtils<P> extends ProxyUtils<P> {
 	 */
 	@Nullable
 	public SkyPlayer getPlayer(@NotNull Player velocity) {
-		return getPlayerProvider().getPlayer(velocity);
+		return getPlayerProvider().getOnline(velocity);
 	}
 
 	@NotNull
@@ -186,5 +189,11 @@ public class VelocityUtils<P> extends ProxyUtils<P> {
 			return false;
 		manager.unregister(name);
 		return true;
+	}
+
+	@NotNull
+	@Override
+	public VelocityTaskScheduler getScheduler() {
+		return scheduler;
 	}
 }
