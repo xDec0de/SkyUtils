@@ -26,7 +26,7 @@ import java.util.UUID;
  *
  * @author xDec0de_
  */
-public interface SkyPlayer extends MessageReceiver, Replacement {
+public interface SkyPlayer extends MessageReceiver {
 
 	/**
 	 * Gets the platform-specific object that is being wrapped by
@@ -195,15 +195,5 @@ public interface SkyPlayer extends MessageReceiver, Replacement {
 
 	default boolean playSound(@KeyPattern @NotNull String key) {
 		return playSound(key, 1.0f);
-	}
-
-	/*
-	 * Replacement
-	 */
-
-	@NotNull
-	@Override
-	default String asReplacement() {
-		return getName();
 	}
 }

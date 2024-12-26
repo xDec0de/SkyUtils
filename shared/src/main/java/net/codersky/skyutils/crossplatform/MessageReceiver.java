@@ -3,6 +3,7 @@ package net.codersky.skyutils.crossplatform;
 import net.codersky.skyutils.cmd.SkyCommand;
 import net.codersky.skyutils.cmd.SkyCommandSender;
 import net.codersky.skyutils.crossplatform.player.SkyPlayer;
+import net.codersky.skyutils.java.strings.Replacement;
 import net.codersky.skyutils.java.strings.Replacer;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -13,6 +14,9 @@ import org.jetbrains.annotations.Nullable;
  * may receive messages such as {@link SkyPlayer} or {@link SkyConsole}.
  * This interface supports both regular string messages and Adventure
  * {@link Component} messages.
+ * <p>
+ * This {@code interface} extends {@link Replacement}. By default
+ * {@link #asReplacement()} redirects to {@link #getName()}.
  *
  * @since SkyUtils 1.0.0
  *
@@ -25,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * @author xDec0de_
  */
-public interface MessageReceiver {
+public interface MessageReceiver extends Replacement {
 
 	/**
 	 * Gets the name of this {@link MessageReceiver}. The way this works
@@ -45,6 +49,12 @@ public interface MessageReceiver {
 	 */
 	@NotNull
 	String getName();
+
+	@NotNull
+	@Override
+	default String asReplacement() {
+		return getName();
+	}
 
 	/**
 	 * Checks if this {@link MessageReceiver} can receive the specified
