@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
  * This interface supports both regular string messages and Adventure
  * {@link Component} messages.
  * <p>
- * This {@code interface} extends {@link Replacement}. By default
+ * This {@code interface} {@code extends} {@link Replacement}. By default
  * {@link #asReplacement()} redirects to {@link #getName()}.
  *
  * @since SkyUtils 1.0.0

@@ -1,29 +1,25 @@
 package net.codersky.skyutils.spigot.player;
 
-import net.codersky.skyutils.crossplatform.player.PlayerProvider;
-import net.codersky.skyutils.crossplatform.player.SkyPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.UUID;
+public class SpigotPlayerProvider extends CustomSpigotPlayerProvider<SpigotPlayer, OfflineSpigotPlayer> {
 
-public class SpigotPlayerProvider extends PlayerProvider<Player> {
-
+	@NotNull
 	@Override
-	protected @Nullable SkyPlayer fetchPlayer(@NotNull UUID uuid) {
-		final Player bukkit = Bukkit.getPlayer(uuid);
-		return bukkit == null ? null : new SpigotPlayer(bukkit);
+	protected SpigotPlayer buildOnline(@NotNull Player player) {
+		return new SpigotPlayer(player);
 	}
 
+	@NotNull
 	@Override
-	public @Nullable UUID getUUID(@NotNull Player handle) {
-		return handle.getUniqueId();
+	protected SpigotPlayer toOnline(@NotNull OfflineSpigotPlayer offline, @NotNull Player on) {
+		return new SpigotPlayer(on);
 	}
 
+	@NotNull
 	@Override
-	protected final void removeFromCache(@NotNull UUID uuid) {
-		super.removeFromCache(uuid);
+	protected OfflineSpigotPlayer toOffline(@NotNull SpigotPlayer online) {
+		return new OfflineSpigotPlayer(online.getHandle());
 	}
 }

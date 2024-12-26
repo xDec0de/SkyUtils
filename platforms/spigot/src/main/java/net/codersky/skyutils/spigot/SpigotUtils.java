@@ -13,8 +13,8 @@ import net.codersky.skyutils.spigot.cmd.CustomSpigotCommand;
 import net.codersky.skyutils.spigot.cmd.SpigotCommandSender;
 import net.codersky.skyutils.spigot.console.SpigotConsole;
 import net.codersky.skyutils.spigot.console.SpigotConsoleProvider;
+import net.codersky.skyutils.spigot.player.SpigotPlayer;
 import net.codersky.skyutils.spigot.player.SpigotPlayerProvider;
-import net.codersky.skyutils.spigot.player.SpigotPlayerQuitListener;
 import net.codersky.skyutils.spigot.worldgen.SingleBiomeProvider;
 import net.codersky.skyutils.spigot.worldgen.VoidGenerator;
 import org.bukkit.Bukkit;
@@ -31,7 +31,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.generator.BiomeProvider;
 import org.bukkit.generator.ChunkGenerator;
-import org.bukkit.plugin.IllegalPluginAccessException;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -40,7 +39,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -58,9 +56,6 @@ import java.util.function.Predicate;
  */
 public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 
-	private SpigotPlayerProvider playerProvider = new SpigotPlayerProvider();
-	private boolean isPlayerListenerOn = false;
-
 	public SpigotUtils(@NotNull P plugin) {
 		super(plugin);
 	}
@@ -71,83 +66,40 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 		return getPlugin().getDataFolder();
 	}
 
-	@NotNull
-	public SpigotUtils<P> setPlayerProvider(@NotNull SpigotPlayerProvider playerProvider) {
-		this.playerProvider = Objects.requireNonNull(playerProvider, "Player provider cannot be null");
-		return this;
-	}
-
-	/**
-	 * Gets the {@link SpigotPlayerProvider} being used by this {@link SpigotUtils} instance.
-	 * 
-	 * @return The {@link SpigotPlayerProvider} being used by this {@link SpigotUtils} instance.
-	 *
-	 * @throws IllegalPluginAccessException If called before the plugin attempts to enable.
-	 * This is because the very first time this method is called the {@link SpigotPlayerQuitListener}
-	 * will be registered. This is required just to clean players that quit the server from the cache.
-	 *
-	 * @since SkyUtils 1.0.0
-	 * 
-	 * @see #setPlayerProvider(SpigotPlayerProvider)
-	 * @see #getPlayer(UUID)
-	 * @see #getPlayer(Player)
+	/*
+	 - Player provider
 	 */
+
 	@NotNull
 	public SpigotPlayerProvider getPlayerProvider() {
-		if (!isPlayerListenerOn) {
-			Bukkit.getPluginManager().registerEvents(new SpigotPlayerQuitListener(this), getPlugin());
-			isPlayerListenerOn = true;
-		}
-		return playerProvider;
+		return SkyUtilsSpigot.instance.playerProvider;
 	}
 
-	/**
-	 * Gets an {@link SkyPlayer} by {@link UUID} from the
-	 * {@link #getPlayerProvider() SpigotPlayerProvider}
-	 * that this {@link SpigotUtils} is using.
-	 *
-	 * @param uuid The {@link UUID} of the player to get.
-	 *
-	 * @throws IllegalPluginAccessException If called before the plugin
-	 * attempts to enable, see {@link #getPlayerProvider()} for details.
-	 *
-	 * @return A possibly {@code null} {@link SkyPlayer} instance of an online
-	 * {@link Player} that matches the provided {@link UUID}.
-	 *
-	 * @since SkyUtils 1.0.0
-	 *
-	 * @see #getPlayerProvider()
-	 * @see #getPlayer(Player)
-	 */
+	@NotNull
+	public List<SkyPlayer> getOnlinePlayers() {
+		return List.of();
+	}
+
 	@Nullable
 	@Override
-	public SkyPlayer getPlayer(@NotNull UUID uuid) {
-		return getPlayerProvider().getPlayer(uuid);
+	public SpigotPlayer getPlayer(@NotNull UUID uuid) {
+		return getPlayerProvider().getOnline(uuid);
 	}
 
-	/**
-	 * Gets an {@link SkyPlayer} by {@link Player} from the
-	 * {@link #getPlayerProvider() SpigotPlayerProvider}
-	 * that this {@link SpigotUtils} is using.
-	 *
-	 * @param bukkit The {@link Player} instance to convert.
-	 *
-	 * @throws IllegalPluginAccessException If called before the plugin
-	 * attempts to enable, see {@link #getPlayerProvider()} for details.
-	 *
-	 * @return A {@link SkyPlayer} instance that matches the provided {@link Player}.
-	 * This can be {@code null} if you use an instance of a {@link Player} that
-	 * is not {@link Player#isOnline() online}.
-	 *
-	 * @since SkyUtils 1.0.0
-	 *
-	 * @see #getPlayerProvider()
-	 * @see #getPlayer(Player)
-	 */
 	@Nullable
-	public SkyPlayer getPlayer(@NotNull Player bukkit) {
-		return getPlayerProvider().getPlayer(bukkit);
+	public SpigotPlayer getPlayer(@NotNull Player bukkit) {
+		return getPlayer(bukkit.getUniqueId());
 	}
+
+	@Nullable
+	public SpigotPlayer getPlayer(@NotNull String name) {
+		final Player bukkit = Bukkit.getPlayer(name);
+		return bukkit == null ? null : getPlayer(bukkit);
+	}
+
+	/*
+	 - Console getter
+	 */
 
 	@NotNull
 	@Override
@@ -155,10 +107,18 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 		return SpigotConsoleProvider.getConsole();
 	}
 
+	/*
+	 - MCPlatform
+	 */
+
 	@Override
 	public @NotNull MCPlatform getPlatform() {
 		return MCPlatform.SPIGOT;
 	}
+
+	/*
+	 - Server version
+	 */
 
 	/**
 	 * Gets the user-friendly name of the server version, for example, <i>"1.19.3"</i>.
@@ -217,6 +177,10 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 		}
 		return versions[0] >= versions[1];
 	}
+
+	/*
+	 - Event registration
+	 */
 
 	/**
 	 * A shortcut to register all the events of a {@link Listener}.

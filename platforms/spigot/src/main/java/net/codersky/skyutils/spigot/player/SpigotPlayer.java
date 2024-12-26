@@ -9,95 +9,91 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.UUID;
-
-public class SpigotPlayer implements SkyPlayer {
-
-	private final Player handle;
+public class SpigotPlayer extends OfflineSpigotPlayer implements SkyPlayer {
 
 	protected SpigotPlayer(@NotNull Player handle) {
-		this.handle = handle;
+		super(handle);
 	}
 
 	/*
-	 * SkyPlayer implementation
+	 - OfflineSpigotPlayer Override
 	 */
 
-	// Player identification //
-
 	@NotNull
 	@Override
-	public final Player getHandle() {
-		return handle;
+	public Player getHandle() {
+		return (Player) super.getHandle();
 	}
 
-	@NotNull
-	@Override
-	public UUID getUniqueId() {
-		return handle.getUniqueId();
+	@Nullable
+	public Player getOnlineHandle() {
+		return getHandle();
 	}
 
 	@NotNull
 	@Override
 	public String getName() {
-		return handle.getName();
-	}
-
-	@Override
-	public boolean isOnline() {
-		return handle.isOnline();
-	}
-
-	// Messages //
-
-	@Override
-	public boolean sendActionBar(@NotNull String message) {
-		if (canReceive(message))
-			handle.spigot().sendMessage(ChatMessageType.ACTION_BAR, toBase(message));
-		return true;
-	}
-
-	@Override
-	public boolean sendActionBar(@NotNull Component message) {
-		if (canReceive(message))
-			handle.spigot().sendMessage(ChatMessageType.ACTION_BAR, toBase(message));
-		return true;
-	}
-
-	@Override
-	public boolean playSound(@NotNull Sound sound) {
-		handle.playSound(handle.getLocation(), sound.name().asString(), sound.volume(), sound.pitch());
-		return true;
+		return getHandle().getName();
 	}
 
 	/*
-	 * MessageReceiver implementation
+	 - BaseComponent array conversion (Message utility)
+	 */
+
+	BaseComponent[] toBase(@NotNull String legacyStr) {
+		return TextComponent.fromLegacyText(legacyStr);
+	}
+
+	BaseComponent[] toBase(@NotNull Component component) {
+		return BungeeComponentSerializer.get().serialize(component);
+	}
+
+	/*
+	 - MessageReceiver implementation
 	 */
 
 	@Override
 	public boolean sendMessage(@NotNull String message) {
 		if (canReceive(message))
-			handle.sendMessage(message);
+			getHandle().sendMessage(message);
 		return true;
 	}
 
 	@Override
 	public boolean sendMessage(@NotNull Component message) {
 		if (canReceive(message))
-			handle.spigot().sendMessage(toBase(message));
+			getHandle().spigot().sendMessage(toBase(message));
 		return false;
 	}
 
 	/*
-	 * BaseComponent array conversion
+	 - ActionBar
 	 */
 
-	private BaseComponent[] toBase(@NotNull String legacyStr) {
-		return TextComponent.fromLegacyText(legacyStr);
+	@Override
+	public boolean sendActionBar(@NotNull String message) {
+		if (canReceive(message))
+			getHandle().spigot().sendMessage(ChatMessageType.ACTION_BAR, toBase(message));
+		return true;
 	}
 
-	private BaseComponent[] toBase(@NotNull Component component) {
-		return BungeeComponentSerializer.get().serialize(component);
+	@Override
+	public boolean sendActionBar(@NotNull Component message) {
+		if (canReceive(message))
+			getHandle().spigot().sendMessage(ChatMessageType.ACTION_BAR, toBase(message));
+		return true;
+	}
+
+	/*
+	 - Sounds
+	 */
+
+	@Override
+	public boolean playSound(@NotNull Sound sound) {
+		final Player handle = getHandle();
+		handle.playSound(handle.getLocation(), sound.name().asString(), sound.volume(), sound.pitch());
+		return true;
 	}
 }
