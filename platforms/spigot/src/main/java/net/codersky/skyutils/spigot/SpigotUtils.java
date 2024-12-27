@@ -76,7 +76,7 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 
 	@NotNull
 	public SpigotPlayerProvider getPlayerProvider() {
-		return SkyUtilsSpigot.instance.playerProvider;
+		return SkyUtilsSpigot.getInstance().getPlayerProvider();
 	}
 
 	@NotNull

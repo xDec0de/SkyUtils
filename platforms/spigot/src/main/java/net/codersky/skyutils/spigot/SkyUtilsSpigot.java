@@ -1,8 +1,10 @@
 package net.codersky.skyutils.spigot;
 
 import net.codersky.skyutils.spigot.player.SpigotPlayerProvider;
+import net.codersky.skyutils.spigot.time.SpigotTaskScheduler;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * The SkyUtils Spigot plugin class. This class holds the
@@ -14,15 +16,26 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class SkyUtilsSpigot extends JavaPlugin {
 
-	static SkyUtilsSpigot instance;
-	final SpigotPlayerProvider playerProvider = new SpigotPlayerProvider();
+	private static SkyUtilsSpigot instance;
+	private final SpigotPlayerProvider playerProvider;
 
 	public SkyUtilsSpigot() {
 		instance = this;
+		playerProvider = new SpigotPlayerProvider(new SpigotTaskScheduler(this));
 	}
 
 	@Override
 	public void onEnable() {
 		Bukkit.getPluginManager().registerEvents(playerProvider, this);
+	}
+
+	@NotNull
+	public static SkyUtilsSpigot getInstance() {
+		return instance;
+	}
+
+	@NotNull
+	public SpigotPlayerProvider getPlayerProvider() {
+		return playerProvider;
 	}
 }
