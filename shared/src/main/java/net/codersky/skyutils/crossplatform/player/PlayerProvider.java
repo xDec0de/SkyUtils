@@ -1,16 +1,24 @@
 package net.codersky.skyutils.crossplatform.player;
 
+import net.codersky.skyutils.time.TaskScheduler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public abstract class PlayerProvider<ON_HANDLE, ON extends SkyPlayer, OFF_HANDLE, OFF extends OfflineSkyPlayer> {
 
 	private final HashMap<UUID, ON> onlineCache = new HashMap<>();
 	private final HashMap<UUID, OFF> offlineCache = new HashMap<>();
+	private final TaskScheduler scheduler;
+
+	public PlayerProvider(@NotNull TaskScheduler scheduler) {
+		this.scheduler = Objects.requireNonNull(scheduler);
+	}
 
 	/*
 	 - UUID providers
@@ -74,5 +82,6 @@ public abstract class PlayerProvider<ON_HANDLE, ON extends SkyPlayer, OFF_HANDLE
 		if (online == null)
 			return;
 		offlineCache.put(uuid, toOffline(online));
+		scheduler.delaySync(() -> offlineCache.remove(uuid), TimeUnit.MINUTES, 20);
 	}
 }

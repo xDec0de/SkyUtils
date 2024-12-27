@@ -1,9 +1,14 @@
 package net.codersky.skyutils.spigot.player;
 
+import net.codersky.skyutils.time.TaskScheduler;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class SpigotPlayerProvider extends CustomSpigotPlayerProvider<SpigotPlayer, OfflineSpigotPlayer> {
+
+	public SpigotPlayerProvider(@NotNull TaskScheduler scheduler) {
+		super(scheduler);
+	}
 
 	@NotNull
 	@Override

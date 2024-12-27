@@ -1,6 +1,7 @@
 package net.codersky.skyutils.spigot.player;
 
 import net.codersky.skyutils.crossplatform.player.PlayerProvider;
+import net.codersky.skyutils.time.TaskScheduler;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,6 +16,10 @@ import java.util.UUID;
 
 public abstract class CustomSpigotPlayerProvider<ON extends SpigotPlayer, OFF extends OfflineSpigotPlayer>
 		extends PlayerProvider<Player, ON, OfflinePlayer, OFF> implements Listener {
+
+	public CustomSpigotPlayerProvider(@NotNull TaskScheduler scheduler) {
+		super(scheduler);
+	}
 
 	@NotNull
 	@Override
