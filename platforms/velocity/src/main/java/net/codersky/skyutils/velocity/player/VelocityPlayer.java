@@ -8,19 +8,18 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public class VelocityPlayer implements SkyPlayer {
+public class VelocityPlayer extends OfflineVelocityPlayer implements SkyPlayer {
 
 	private final Player handle;
 
 	protected VelocityPlayer(@NotNull Player handle) {
+		super(handle.getUniqueId());
 		this.handle = handle;
 	}
 
 	/*
-	 * SkyPlayer implementation
+	 - OfflineVelocityPlayer Override
 	 */
-
-	// Player identification //
 
 	@NotNull
 	@Override
@@ -45,7 +44,25 @@ public class VelocityPlayer implements SkyPlayer {
 		return handle.isActive();
 	}
 
-	// Messages //
+	/*
+	 - MessageReceiver implementation
+	 */
+
+	@Override
+	public boolean sendMessage(@NotNull String message) {
+		return sendMessage(Component.text(message));
+	}
+
+	@Override
+	public boolean sendMessage(@NotNull Component message) {
+		if (canReceive(message))
+			handle.sendMessage(message);
+		return true;
+	}
+
+	/*
+	 - ActionBar
+	 */
 
 	@Override
 	public boolean sendActionBar(@NotNull String message) {
@@ -59,27 +76,13 @@ public class VelocityPlayer implements SkyPlayer {
 		return true;
 	}
 
-	// Sound //
+	/*
+	 - Sounds
+	 */
 
 	@Override
 	public boolean playSound(@NotNull Sound sound) {
 		handle.playSound(sound);
-		return true;
-	}
-
-	/*
-	 * MessageReceiver implementation
-	 */
-
-	@Override
-	public boolean sendMessage(@NotNull String message) {
-		return sendMessage(Component.text(message));
-	}
-
-	@Override
-	public boolean sendMessage(@NotNull Component message) {
-		if (canReceive(message))
-			handle.sendMessage(message);
 		return true;
 	}
 }
