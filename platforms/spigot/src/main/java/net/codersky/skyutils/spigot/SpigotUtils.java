@@ -3,7 +3,6 @@ package net.codersky.skyutils.spigot;
 import net.codersky.skyutils.MCPlatform;
 import net.codersky.skyutils.SkyUtils;
 import net.codersky.skyutils.cmd.GlobalCommand;
-import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.codersky.skyutils.crossplatform.server.ServerUtils;
 import net.codersky.skyutils.java.SkyCollections;
 import net.codersky.skyutils.java.reflection.RefObject;
@@ -81,8 +80,8 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 
 	@NotNull
 	@Override
-	public List<SkyPlayer> getOnlinePlayers() {
-		return List.of();
+	public Collection<? extends SpigotPlayer> getOnlinePlayers() {
+		return getPlayerProvider().getOnlineCache();
 	}
 
 	@Nullable

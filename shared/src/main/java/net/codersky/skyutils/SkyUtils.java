@@ -8,8 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -52,7 +52,7 @@ public abstract class SkyUtils<P> {
 	 */
 
 	@NotNull
-	public abstract List<SkyPlayer> getOnlinePlayers();
+	public abstract Collection<? extends SkyPlayer> getOnlinePlayers();
 
 	@Nullable
 	public abstract SkyPlayer getPlayer(@NotNull UUID uuid);

@@ -6,7 +6,6 @@ import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import net.codersky.skyutils.MCPlatform;
 import net.codersky.skyutils.cmd.GlobalCommand;
-import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.codersky.skyutils.crossplatform.proxy.ProxyUtils;
 import net.codersky.skyutils.java.SkyCollections;
 import net.codersky.skyutils.velocity.cmd.AdaptedVelocityCommand;
@@ -22,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.List;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -55,8 +54,8 @@ public class VelocityUtils<P> extends ProxyUtils<P> {
 
 	@NotNull
 	@Override
-	public List<SkyPlayer> getOnlinePlayers() {
-		return List.of();
+	public Collection<? extends VelocityPlayer> getOnlinePlayers() {
+		return getPlayerProvider().getOnlineCache();
 	}
 
 	@Nullable
