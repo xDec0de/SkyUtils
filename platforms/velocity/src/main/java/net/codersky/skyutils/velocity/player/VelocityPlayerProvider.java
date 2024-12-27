@@ -1,38 +1,30 @@
 package net.codersky.skyutils.velocity.player;
 
 import com.velocitypowered.api.proxy.Player;
-import com.velocitypowered.api.proxy.ProxyServer;
-import net.codersky.skyutils.crossplatform.player.PlayerProvider;
-import net.codersky.skyutils.crossplatform.player.SkyPlayer;
+import net.codersky.skyutils.time.TaskScheduler;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
-import java.util.UUID;
+public class VelocityPlayerProvider extends CustomVelocityPlayerProvider<VelocityPlayer, OfflineVelocityPlayer> {
 
-public class VelocityPlayerProvider extends PlayerProvider<Player> {
-
-	private final ProxyServer server;
-
-	public VelocityPlayerProvider(@NotNull ProxyServer server) {
-		this.server = server;
+	public VelocityPlayerProvider(@NotNull TaskScheduler scheduler) {
+		super(scheduler);
 	}
 
-	@Nullable
+	@NotNull
 	@Override
-	protected SkyPlayer fetchPlayer(@NotNull UUID uuid) {
-		final Optional<Player> player = server.getPlayer(uuid);
-		return player.map(VelocityPlayer::new).orElse(null);
+	protected VelocityPlayer buildOnline(@NotNull Player player) {
+		return new VelocityPlayer(player);
 	}
 
-	@Nullable
+	@NotNull
 	@Override
-	public UUID getUUID(@NotNull Player handle) {
-		return handle.getUniqueId();
+	protected VelocityPlayer toOnline(@NotNull OfflineVelocityPlayer offline, @NotNull Player onlineHandle) {
+		return new VelocityPlayer(onlineHandle);
 	}
 
+	@NotNull
 	@Override
-	protected final void removeFromCache(@NotNull UUID uuid) {
-		super.removeFromCache(uuid);
+	protected OfflineVelocityPlayer toOffline(@NotNull VelocityPlayer online) {
+		return new OfflineVelocityPlayer(online.getUniqueId());
 	}
 }

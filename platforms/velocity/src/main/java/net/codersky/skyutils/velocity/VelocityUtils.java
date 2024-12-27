@@ -14,14 +14,15 @@ import net.codersky.skyutils.velocity.cmd.CustomVelocityCommand;
 import net.codersky.skyutils.velocity.cmd.VelocityCommandSender;
 import net.codersky.skyutils.velocity.console.VelocityConsole;
 import net.codersky.skyutils.velocity.console.VelocityConsoleProvider;
+import net.codersky.skyutils.velocity.player.VelocityPlayer;
 import net.codersky.skyutils.velocity.player.VelocityPlayerProvider;
-import net.codersky.skyutils.velocity.player.VelocityPlayerQuitListener;
 import net.codersky.skyutils.velocity.time.VelocityTaskScheduler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -29,14 +30,11 @@ public class VelocityUtils<P> extends ProxyUtils<P> {
 
 	private final ProxyServer proxy;
 	private final Path dataDirectory;
-	private VelocityPlayerProvider playerProvider;
-	private boolean isPlayerListenerOn = false;
 	private final VelocityTaskScheduler scheduler;
 
 	public VelocityUtils(@NotNull P plugin, @NotNull ProxyServer proxy, @NotNull Path dataDirectory) {
 		super(plugin);
 		this.proxy = Objects.requireNonNull(proxy);
-		this.playerProvider = new VelocityPlayerProvider(proxy);
 		this.dataDirectory = dataDirectory;
 		this.scheduler = new VelocityTaskScheduler(proxy, plugin);
 	}
@@ -46,71 +44,37 @@ public class VelocityUtils<P> extends ProxyUtils<P> {
 		return this.proxy;
 	}
 
-	@NotNull
-	public VelocityUtils<P> setPlayerProvider(@NotNull VelocityPlayerProvider playerProvider) {
-		this.playerProvider = Objects.requireNonNull(playerProvider, "Player provider cannot be null");
-		return this;
-	}
-
-	/**
-	 * Gets the {@link VelocityPlayerProvider} being used by this {@link VelocityUtils} instance.
-	 *
-	 * @return The {@link VelocityPlayerProvider} being used by this {@link VelocityUtils} instance.
-	 *
-	 * @since SkyUtils 1.0.0
-	 *
-	 * @see #setPlayerProvider(VelocityPlayerProvider)
-	 * @see #getPlayer(UUID)
-	 * @see #getPlayer(Player)
+	/*
+	 - Player provider
 	 */
+
 	@NotNull
 	public VelocityPlayerProvider getPlayerProvider() {
-		if (!isPlayerListenerOn) {
-			proxy.getEventManager().register(getPlugin(), new VelocityPlayerQuitListener(this));
-			isPlayerListenerOn = true;
-		}
-		return playerProvider;
+		return SkyUtilsVelocity.getInstance().getPlayerProvider();
 	}
 
-	/**
-	 * Gets an {@link SkyPlayer} by {@link UUID} from the
-	 * {@link #getPlayerProvider() VelocityPlayerProvider}
-	 * that this {@link VelocityUtils} is using.
-	 *
-	 * @param uuid The {@link UUID} of the player to get.
-	 *
-	 * @return A possibly {@code null} {@link SkyPlayer} instance of an online
-	 * {@link Player} that matches the provided {@link UUID}.
-	 *
-	 * @since SkyUtils 1.0.0
-	 *
-	 * @see #getPlayerProvider()
-	 * @see #getPlayer(Player)
-	 */
+	@NotNull
+	@Override
+	public List<SkyPlayer> getOnlinePlayers() {
+		return List.of();
+	}
+
 	@Nullable
-	public SkyPlayer getPlayer(@NotNull UUID uuid) {
+	@Override
+	public VelocityPlayer getPlayer(@NotNull UUID uuid) {
 		return getPlayerProvider().getOnline(uuid);
 	}
 
-	/**
-	 * Gets an {@link SkyPlayer} by {@link Player} from the
-	 * {@link #getPlayerProvider() VelocityPlayerProvider}
-	 * that this {@link VelocityUtils} is using.
-	 *
-	 * @param velocity The {@link Player} instance to convert.
-	 *
-	 * @return A {@link SkyPlayer} instance that matches the provided {@link Player}.
-	 * This can be {@code null} if you use an instance of a {@link Player} that
-	 * is not {@link Player#isActive() online}.
-	 *
-	 * @since SkyUtils 1.0.0
-	 *
-	 * @see #getPlayerProvider()
-	 * @see #getPlayer(Player)
-	 */
 	@Nullable
-	public SkyPlayer getPlayer(@NotNull Player velocity) {
-		return getPlayerProvider().getOnline(velocity);
+	public VelocityPlayer getPlayer(@NotNull Player handle) {
+		return getPlayer(handle.getUniqueId());
+	}
+
+	@Nullable
+	@Override
+	public VelocityPlayer getPlayer(@NotNull String name) {
+		final Player on = getProxy().getPlayer(name).orElse(null);
+		return on == null ? null : getPlayer(on);
 	}
 
 	@NotNull
