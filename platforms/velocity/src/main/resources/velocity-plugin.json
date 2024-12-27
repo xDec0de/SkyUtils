@@ -1,0 +1,9 @@
+{
+  "id": "skyutils",
+  "name": "SkyUtils",
+  "version": "${version}",
+  "description": "${project.description}",
+  "authors": ["xDec0de_"],
+  "dependencies": [],
+  "main": "net.codersky.skyutils.velocity.SkyUtilsVelocity"
+}
