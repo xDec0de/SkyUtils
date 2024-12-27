@@ -1,6 +1,7 @@
 package net.codersky.skyutils.cmd;
 
 import net.codersky.skyutils.SkyUtils;
+import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.codersky.skyutils.java.SkyCollections;
 import net.codersky.skyutils.java.math.SkyNumbers;
 import net.codersky.skyutils.java.strings.SkyStrings;
@@ -199,6 +200,23 @@ public interface SkyCommand<P, S extends SkyCommandSender> {
 	 */
 	default boolean hasAccess(@NotNull S sender, boolean message) {
 		return true;
+	}
+
+	/*
+	 - Utility
+	 */
+
+	/**
+	 * Utility method to get a {@link List} with the names of all current <b>online</b> players.
+	 * This is generally used on {@link #onTab(SkyCommandSender, String[]) tab complete}.
+	 *
+	 * @return A {@link List} with the names of all current <b>online</b> players.
+	 *
+	 * @since SkyUtils 1.0.0
+	 */
+	@NotNull
+	default List<String> getOnlineNames() {
+		return getUtils().getOnlinePlayers().stream().map(SkyPlayer::getName).toList();
 	}
 
 	/*
