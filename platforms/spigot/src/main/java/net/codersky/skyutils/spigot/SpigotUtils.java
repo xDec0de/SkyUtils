@@ -80,6 +80,7 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 	}
 
 	@NotNull
+	@Override
 	public List<SkyPlayer> getOnlinePlayers() {
 		return List.of();
 	}
@@ -96,6 +97,7 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 	}
 
 	@Nullable
+	@Override
 	public SpigotPlayer getPlayer(@NotNull String name) {
 		final Player bukkit = Bukkit.getPlayer(name);
 		return bukkit == null ? null : getPlayer(bukkit);
