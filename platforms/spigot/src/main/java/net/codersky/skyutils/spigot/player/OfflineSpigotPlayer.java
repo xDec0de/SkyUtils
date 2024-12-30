@@ -1,14 +1,9 @@
 package net.codersky.skyutils.spigot.player;
 
-import net.codersky.skyutils.crossplatform.player.OfflineSkyPlayer;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.UUID;
-
-public class OfflineSpigotPlayer implements OfflineSkyPlayer {
+public class OfflineSpigotPlayer implements IOfflineSpigotPlayer {
 
 	private final OfflinePlayer handle;
 
@@ -16,36 +11,9 @@ public class OfflineSpigotPlayer implements OfflineSkyPlayer {
 		this.handle = handle;
 	}
 
-	/*
-	 - OfflineSkyPlayer implementation
-	 */
-
 	@NotNull
 	@Override
 	public OfflinePlayer getHandle() {
 		return handle;
-	}
-
-	@Nullable
-	public Player getOnlineHandle() {
-		return handle.getPlayer();
-	}
-
-	@NotNull
-	@Override
-	public UUID getUniqueId() {
-		return handle.getUniqueId();
-	}
-
-	@NotNull
-	@Override
-	public String getName() {
-		final String name = handle.getName();
-		return name == null ? "" : name;
-	}
-
-	@Override
-	public boolean isOnline() {
-		return handle.isOnline();
 	}
 }
