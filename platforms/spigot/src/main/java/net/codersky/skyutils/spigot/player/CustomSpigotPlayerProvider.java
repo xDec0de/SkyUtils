@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public abstract class CustomSpigotPlayerProvider<ON extends ISpigotPlayer, OFF extends IOfflineSpigotPlayer>
+public abstract class CustomSpigotPlayerProvider<ON extends SpigotPlayer, OFF extends OfflineSpigotPlayer>
 		extends PlayerProvider<Player, ON, OfflinePlayer, OFF> implements Listener {
 
 	public CustomSpigotPlayerProvider(@NotNull TaskScheduler scheduler) {

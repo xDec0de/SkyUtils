@@ -4,7 +4,7 @@ import net.codersky.skyutils.time.TaskScheduler;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class SpigotPlayerProvider extends CustomSpigotPlayerProvider<SpigotPlayer, OfflineSpigotPlayer> {
+public class SpigotPlayerProvider extends CustomSpigotPlayerProvider<SpigotPlayerImpl, OfflineSpigotPlayerImpl> {
 
 	public SpigotPlayerProvider(@NotNull TaskScheduler scheduler) {
 		super(scheduler);
@@ -12,19 +12,19 @@ public class SpigotPlayerProvider extends CustomSpigotPlayerProvider<SpigotPlaye
 
 	@NotNull
 	@Override
-	protected SpigotPlayer buildOnline(@NotNull Player player) {
-		return new SpigotPlayer(player);
+	protected SpigotPlayerImpl buildOnline(@NotNull Player player) {
+		return new SpigotPlayerImpl(player);
 	}
 
 	@NotNull
 	@Override
-	protected SpigotPlayer toOnline(@NotNull OfflineSpigotPlayer offline, @NotNull Player on) {
-		return new SpigotPlayer(on);
+	protected SpigotPlayerImpl toOnline(@NotNull OfflineSpigotPlayerImpl offline, @NotNull Player on) {
+		return new SpigotPlayerImpl(on);
 	}
 
 	@NotNull
 	@Override
-	protected OfflineSpigotPlayer toOffline(@NotNull SpigotPlayer online) {
-		return new OfflineSpigotPlayer(online.getHandle());
+	protected OfflineSpigotPlayerImpl toOffline(@NotNull SpigotPlayerImpl online) {
+		return new OfflineSpigotPlayerImpl(online.getHandle());
 	}
 }

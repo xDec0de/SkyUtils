@@ -13,8 +13,8 @@ import net.codersky.skyutils.spigot.cmd.SpigotCommandSender;
 import net.codersky.skyutils.spigot.console.SpigotConsole;
 import net.codersky.skyutils.spigot.console.SpigotConsoleProvider;
 import net.codersky.skyutils.spigot.player.CustomSpigotPlayerProvider;
-import net.codersky.skyutils.spigot.player.IOfflineSpigotPlayer;
-import net.codersky.skyutils.spigot.player.ISpigotPlayer;
+import net.codersky.skyutils.spigot.player.OfflineSpigotPlayer;
+import net.codersky.skyutils.spigot.player.SpigotPlayer;
 import net.codersky.skyutils.spigot.time.SpigotTaskScheduler;
 import net.codersky.skyutils.spigot.worldgen.SingleBiomeProvider;
 import net.codersky.skyutils.spigot.worldgen.VoidGenerator;
@@ -75,30 +75,30 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 	 */
 
 	@NotNull
-	public CustomSpigotPlayerProvider<? extends ISpigotPlayer, ? extends IOfflineSpigotPlayer> getPlayerProvider() {
+	public CustomSpigotPlayerProvider<? extends SpigotPlayer, ? extends OfflineSpigotPlayer> getPlayerProvider() {
 		return SkyUtilsSpigot.getInstance().getPlayerProvider();
 	}
 
 	@NotNull
 	@Override
-	public Collection<? extends ISpigotPlayer> getOnlinePlayers() {
+	public Collection<? extends SpigotPlayer> getOnlinePlayers() {
 		return getPlayerProvider().getOnlineCache();
 	}
 
 	@Nullable
 	@Override
-	public ISpigotPlayer getPlayer(@NotNull UUID uuid) {
+	public SpigotPlayer getPlayer(@NotNull UUID uuid) {
 		return getPlayerProvider().getOnline(uuid);
 	}
 
 	@Nullable
-	public ISpigotPlayer getPlayer(@NotNull Player bukkit) {
+	public SpigotPlayer getPlayer(@NotNull Player bukkit) {
 		return getPlayer(bukkit.getUniqueId());
 	}
 
 	@Nullable
 	@Override
-	public ISpigotPlayer getPlayer(@NotNull String name) {
+	public SpigotPlayer getPlayer(@NotNull String name) {
 		final Player bukkit = Bukkit.getPlayer(name);
 		return bukkit == null ? null : getPlayer(bukkit);
 	}
