@@ -12,8 +12,21 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class PlayerProvider<ON_HANDLE, ON extends SkyPlayer, OFF_HANDLE, OFF extends OfflineSkyPlayer> {
 
-	private final HashMap<UUID, ON> onlineCache = new HashMap<>();
-	private final HashMap<UUID, OFF> offlineCache = new HashMap<>();
+	/**
+	 * The {@link ON online} cache {@link HashMap}.
+	 * Only edit it manually if you <b>REALLY</b> know what you are doing.
+	 *
+	 * @since SkyUtils 1.0.0
+	 */
+	protected final HashMap<UUID, ON> onlineCache = new HashMap<>();
+
+	/**
+	 * The {@link OFF offline} cache {@link HashMap}.
+	 * Only edit it manually if you <b>REALLY</b> know what you are doing.
+	 *
+	 * @since SkyUtils 1.0.0
+	 */
+	protected final HashMap<UUID, OFF> offlineCache = new HashMap<>();
 	private final TaskScheduler scheduler;
 
 	public PlayerProvider(@NotNull TaskScheduler scheduler) {
