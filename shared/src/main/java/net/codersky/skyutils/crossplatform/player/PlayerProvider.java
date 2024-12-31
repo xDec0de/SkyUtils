@@ -95,6 +95,10 @@ public abstract class PlayerProvider<ON_HANDLE, ON extends SkyPlayer, OFF_HANDLE
 		if (online == null)
 			return;
 		offlineCache.put(uuid, toOffline(online));
+		scheduleOfflineRemoval(uuid);
+	}
+
+	protected void scheduleOfflineRemoval(@NotNull UUID uuid) {
 		scheduler.delaySync(() -> offlineCache.remove(uuid), TimeUnit.MINUTES, 20);
 	}
 }
