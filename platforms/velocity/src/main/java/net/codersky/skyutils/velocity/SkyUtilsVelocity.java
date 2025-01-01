@@ -13,13 +13,15 @@ public class SkyUtilsVelocity {
 
 	static SkyUtilsVelocity instance;
 	private final ProxyServer proxy;
+	private final VelocityTaskScheduler scheduler;
 	private final VelocityPlayerProvider playerProvider;
 
 	@Inject
 	public SkyUtilsVelocity(ProxyServer proxy, Logger logger) {
 		instance = this;
 		this.proxy = proxy;
-		playerProvider = new VelocityPlayerProvider(new VelocityTaskScheduler(proxy, this));
+		this.scheduler = new VelocityTaskScheduler(proxy, this);
+		playerProvider = new VelocityPlayerProvider();
 	}
 
 	@NotNull
@@ -28,12 +30,17 @@ public class SkyUtilsVelocity {
 	}
 
 	@NotNull
-	public VelocityPlayerProvider getPlayerProvider() {
-		return playerProvider;
+	public ProxyServer getProxy() {
+		return proxy;
 	}
 
 	@NotNull
-	public ProxyServer getProxy() {
-		return proxy;
+	public VelocityTaskScheduler getScheduler() {
+		return scheduler;
+	}
+
+	@NotNull
+	public VelocityPlayerProvider getPlayerProvider() {
+		return playerProvider;
 	}
 }

@@ -7,7 +7,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -41,17 +40,6 @@ public abstract class PlayerProvider<ON_HANDLE, ON extends SkyPlayer, OFF_HANDLE
 	 * @since SkyUtils 1.0.0
 	 */
 	protected final HashMap<UUID, OFF> offlineCache = new HashMap<>();
-	private final TaskScheduler scheduler;
-
-	/**
-	 * Creates a new {@link PlayerProvider}.
-	 *
-	 * @param scheduler The {@link TaskScheduler} used for the removal
-	 * of {@link OFF offline players}.
-	 */
-	public PlayerProvider(@NotNull TaskScheduler scheduler) {
-		this.scheduler = Objects.requireNonNull(scheduler);
-	}
 
 	/*
 	 - UUID providers
@@ -230,8 +218,9 @@ public abstract class PlayerProvider<ON_HANDLE, ON extends SkyPlayer, OFF_HANDLE
 
 	/**
 	 * Schedules the removal of an offline player from the {@link #offlineCache}.
-	 * This is used by {@link #handleQuit(Object)}. By default, this method
-	 * {@link TaskScheduler#delaySync(Runnable, TimeUnit, int) schedules}
+	 * This is used by {@link #handleQuit(Object)}. By default, all SkyUtils
+	 * {@link PlayerProvider player providers} use their plugin {@link TaskScheduler scheduler}
+	 * to {@link TaskScheduler#delaySync(Runnable, TimeUnit, int) schedule}
 	 * {@link HashMap#remove(Object) offlineCache.remove(uuid)} to be executed in
 	 * {@code 20} {@link TimeUnit#MINUTES minutes}.
 	 *
@@ -239,7 +228,5 @@ public abstract class PlayerProvider<ON_HANDLE, ON extends SkyPlayer, OFF_HANDLE
 	 *
 	 * @since SkyUtils 1.0.0
 	 */
-	protected void scheduleOfflineRemoval(@NotNull UUID uuid) {
-		scheduler.delaySync(() -> offlineCache.remove(uuid), TimeUnit.MINUTES, 20);
-	}
+	protected abstract void scheduleOfflineRemoval(@NotNull UUID uuid);
 }

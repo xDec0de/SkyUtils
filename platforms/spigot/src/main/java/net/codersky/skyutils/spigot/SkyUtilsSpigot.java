@@ -17,11 +17,11 @@ import org.jetbrains.annotations.NotNull;
 public class SkyUtilsSpigot extends JavaPlugin {
 
 	private static SkyUtilsSpigot instance;
-	private final SpigotPlayerProvider playerProvider;
+	private final SpigotTaskScheduler scheduler = new SpigotTaskScheduler(this);
+	private final SpigotPlayerProvider playerProvider = new SpigotPlayerProvider();
 
 	public SkyUtilsSpigot() {
 		instance = this;
-		playerProvider = new SpigotPlayerProvider(new SpigotTaskScheduler(this));
 	}
 
 	@Override
@@ -32,6 +32,11 @@ public class SkyUtilsSpigot extends JavaPlugin {
 	@NotNull
 	public static SkyUtilsSpigot getInstance() {
 		return instance;
+	}
+
+	@NotNull
+	public SpigotTaskScheduler getScheduler() {
+		return scheduler;
 	}
 
 	@NotNull

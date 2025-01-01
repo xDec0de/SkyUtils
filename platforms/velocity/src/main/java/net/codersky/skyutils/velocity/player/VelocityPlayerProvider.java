@@ -1,14 +1,9 @@
 package net.codersky.skyutils.velocity.player;
 
 import com.velocitypowered.api.proxy.Player;
-import net.codersky.skyutils.time.TaskScheduler;
 import org.jetbrains.annotations.NotNull;
 
 public class VelocityPlayerProvider extends CustomVelocityPlayerProvider<VelocityPlayer, OfflineVelocityPlayer> {
-
-	public VelocityPlayerProvider(@NotNull TaskScheduler scheduler) {
-		super(scheduler);
-	}
 
 	@NotNull
 	@Override

@@ -6,18 +6,15 @@ import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.player.ServerPreConnectEvent;
 import com.velocitypowered.api.proxy.Player;
 import net.codersky.skyutils.crossplatform.player.PlayerProvider;
-import net.codersky.skyutils.time.TaskScheduler;
+import net.codersky.skyutils.velocity.SkyUtilsVelocity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("deprecation")
 public abstract class CustomVelocityPlayerProvider<ON extends VelocityPlayer, OFF extends OfflineVelocityPlayer>
 		extends PlayerProvider<Player, ON, UUID, OFF> {
-
-	public CustomVelocityPlayerProvider(@NotNull TaskScheduler scheduler) {
-		super(scheduler);
-	}
 
 	@NotNull
 	@Override
@@ -39,5 +36,11 @@ public abstract class CustomVelocityPlayerProvider<ON extends VelocityPlayer, OF
 	@Subscribe(order = PostOrder.CUSTOM, priority = Short.MAX_VALUE)
 	public void onDisconnect(DisconnectEvent event) {
 		handleQuit(event.getPlayer());
+	}
+
+	@Override
+	protected void scheduleOfflineRemoval(@NotNull UUID uuid) {
+		SkyUtilsVelocity.getInstance().getScheduler()
+				.delaySync(() -> offlineCache.remove(uuid), TimeUnit.MINUTES, 20);
 	}
 }

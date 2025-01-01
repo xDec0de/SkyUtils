@@ -1,7 +1,7 @@
 package net.codersky.skyutils.spigot.player;
 
 import net.codersky.skyutils.crossplatform.player.PlayerProvider;
-import net.codersky.skyutils.time.TaskScheduler;
+import net.codersky.skyutils.spigot.SkyUtilsSpigot;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,13 +13,10 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public abstract class CustomSpigotPlayerProvider<ON extends SpigotPlayer, OFF extends OfflineSpigotPlayer>
 		extends PlayerProvider<Player, ON, OfflinePlayer, OFF> implements Listener {
-
-	public CustomSpigotPlayerProvider(@NotNull TaskScheduler scheduler) {
-		super(scheduler);
-	}
 
 	@NotNull
 	@Override
@@ -42,5 +39,11 @@ public abstract class CustomSpigotPlayerProvider<ON extends SpigotPlayer, OFF ex
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onQuit(PlayerQuitEvent e) {
 		handleQuit(e.getPlayer());
+	}
+
+	@Override
+	protected void scheduleOfflineRemoval(@NotNull UUID uuid) {
+		SkyUtilsSpigot.getInstance().getScheduler()
+				.delaySync(() -> offlineCache.remove(uuid), TimeUnit.MINUTES, 20);
 	}
 }
