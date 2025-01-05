@@ -387,7 +387,7 @@ public class SkyStrings {
 	 * @see #asString(Iterable, CharSequence)
 	 */
 	@NotNull
-	public static String asString(@NotNull Iterable<CharSequence> iterable, @Nullable CharSequence separator, @Nullable Predicate<CharSequence> filter) {
+	public static String asString(@NotNull Iterable<? extends CharSequence> iterable, @Nullable CharSequence separator, @Nullable Predicate<CharSequence> filter) {
 		final StringBuilder builder = new StringBuilder();
 		for (CharSequence seq : iterable)
 			if (filter == null || filter.test(seq))
@@ -421,7 +421,7 @@ public class SkyStrings {
 	 * @see #asString(Iterable, CharSequence)
 	 */
 	@NotNull
-	public static String asString(@NotNull Iterable<CharSequence> iterable, @Nullable CharSequence separator) {
+	public static String asString(@NotNull Iterable<? extends CharSequence> iterable, @Nullable CharSequence separator) {
 		return asString(iterable, separator, SkyStrings::hasContent);
 	}
 
