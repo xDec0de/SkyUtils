@@ -9,6 +9,7 @@ import net.codersky.skyutils.velocity.VelocityUtils;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -80,6 +81,12 @@ public abstract class CustomVelocityCommand<P, S extends SkyCommandSender> imple
 	public CustomVelocityCommand<P, S> inject(SkyCommand<P, S>... commands) {
 		subCmdHandler.inject(commands);
 		return this;
+	}
+
+	@NotNull
+	@Override
+	public HashSet<SkyCommand<P, S>> getSubCommands() {
+		return subCmdHandler.getSubCommands();
 	}
 
 	/*

@@ -3,6 +3,7 @@ package net.codersky.skyutils.cmd;
 import net.codersky.skyutils.SkyUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashSet;
 import java.util.List;
 
 public abstract class GlobalCommand<P> implements SkyCommand<P, SkyCommandSender> {
@@ -47,5 +48,11 @@ public abstract class GlobalCommand<P> implements SkyCommand<P, SkyCommandSender
 	public @NotNull SkyCommand<P, SkyCommandSender> inject(@NotNull SkyCommand<P, SkyCommandSender>... commands) {
 		subCmdHandler.inject(commands);
 		return this;
+	}
+
+	@NotNull
+	@Override
+	public HashSet<SkyCommand<P, SkyCommandSender>> getSubCommands() {
+		return subCmdHandler.getSubCommands();
 	}
 }

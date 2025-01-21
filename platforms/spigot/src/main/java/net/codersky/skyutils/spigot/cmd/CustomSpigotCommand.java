@@ -18,12 +18,13 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.Nonnull;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 public abstract class CustomSpigotCommand<P extends JavaPlugin, S extends SpigotCommandSender> extends Command implements SkyCommand<P, S>, PluginIdentifiableCommand, TabExecutor {
 
 	private final SpigotUtils<P> utils;
-	private final SubCommandHandler<P, S> subCommandHandler = new SubCommandHandler<>();
+	private final SubCommandHandler<P, S> subCmdHandler = new SubCommandHandler<>();
 
 	public CustomSpigotCommand(@NotNull SpigotUtils<P> utils, @NotNull String name) {
 		super(name);
@@ -64,8 +65,14 @@ public abstract class CustomSpigotCommand<P extends JavaPlugin, S extends Spigot
 	@NotNull
 	@Override
 	public CustomSpigotCommand<P, S> inject(@NotNull SkyCommand<P, S>... commands) {
-		subCommandHandler.inject(commands);
+		subCmdHandler.inject(commands);
 		return this;
+	}
+
+	@NotNull
+	@Override
+	public HashSet<SkyCommand<P, S>> getSubCommands() {
+		return subCmdHandler.getSubCommands();
 	}
 
 	/*
@@ -76,7 +83,7 @@ public abstract class CustomSpigotCommand<P extends JavaPlugin, S extends Spigot
 	@Deprecated
 	@ApiStatus.Internal
 	public final boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
-		return subCommandHandler.onCommand(this, getSender(sender), args);
+		return subCmdHandler.onCommand(this, getSender(sender), args);
 	}
 
 	@Override
@@ -95,7 +102,7 @@ public abstract class CustomSpigotCommand<P extends JavaPlugin, S extends Spigot
 	@Deprecated
 	@ApiStatus.Internal
 	public final List<String> tabComplete(@Nonnull CommandSender sender, @Nonnull String alias, @Nonnull String[] args) {
-		return subCommandHandler.onTab(this, getSender(sender), args);
+		return subCmdHandler.onTab(this, getSender(sender), args);
 	}
 
 	@NotNull

@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
@@ -171,6 +172,23 @@ public interface SkyCommand<P, S extends SkyCommandSender> {
 	 */
 	@NotNull
 	SkyCommand<P, S> inject(@NotNull SkyCommand<P, S>... commands);
+
+	/**
+	 * Returns the {@link HashSet set} of sub commands that have been
+	 * {@link #inject(SkyCommand[]) injected} to this {@link SkyCommand}.
+	 * <p>
+	 * Implementations must return a clone of the internal {@link HashSet set}
+	 * to avoid accidental modifications. This is already provided by the
+	 * {@link SubCommandHandler#getSubCommands()} method.
+	 *
+	 * @return The {@link HashSet set} of sub commands that have been
+	 * {@link #inject(SkyCommand[]) injected} to this {@link SkyCommand}.
+	 * May be empty if no sub commands have been injected yet.
+	 *
+	 * @since SkyUtils 1.0.0
+	 */
+	@NotNull
+	HashSet<SkyCommand<P, S>> getSubCommands();
 
 	/*
 	 - Access check
