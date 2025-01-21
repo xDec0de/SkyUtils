@@ -11,6 +11,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.function.BiFunction;
 
+/**
+ * Class designed to handle sub {@link SkyCommand command} logic on any platform.
+ * {@link SkyCommand Commands} are expected to have an internal {@link SubCommandHandler}
+ * to handle their {@link #onCommand(SkyCommand, SkyCommandSender, String[]) execution}
+ * and tab {@link #onTab(SkyCommand, SkyCommandSender, String[]) suggestions}.
+ *
+ * @since SkyUtils 1.0.0
+ *
+ * @author xDec0de_
+ *
+ * @param <P> The plugin in charge of this {@link SubCommandHandler}.
+ * @param <S> The type of {@link SkyCommandSender} that will use the commands.
+ */
 public class SubCommandHandler<P, S extends SkyCommandSender> {
 
 	private final HashSet<SkyCommand<P, S>> subCommands = new HashSet<>();
@@ -75,6 +88,7 @@ public class SubCommandHandler<P, S extends SkyCommandSender> {
 	 *
 	 * @since SkyUtils 1.0.0
 	 */
+	@NotNull
 	protected List<String> prepareSuggestions(@Nullable List<String> suggestions, @NotNull String[] args) {
 		if (suggestions == null || suggestions.isEmpty())
 			return List.of();
@@ -88,8 +102,38 @@ public class SubCommandHandler<P, S extends SkyCommandSender> {
 	 - SubCommand injection
 	 */
 
+	/**
+	 * Injects the provided {@code commands} so they are handled as sub commands.
+	 * Keep in mind that internally sub commands are stored on a {@link HashSet}
+	 * so duplicates will be ignored. Also, {@code null} elements are not allowed.
+	 * <p>
+	 * Injected sub commands will be suggested on {@link #onTab(SkyCommand, SkyCommandSender, String[])}
+	 * and executed on {@link #onCommand(SkyCommand, SkyCommandSender, String[])} as expected.
+	 * Suggestions are filtered by {@link #prepareSuggestions(List, String[])}.
+	 *
+	 * @param commands The {@link SkyCommand commands} to inject.
+	 *
+	 * @throws NullPointerException if any {@link SkyCommand command} is {@code null}.
+	 *
+	 * @since SkyUtils 1.0.0
+	 */
 	@SafeVarargs
 	public final void inject(@NotNull SkyCommand<P, S>... commands) {
 		Collections.addAll(subCommands, commands);
+	}
+
+	/**
+	 * Gets a {@link SkyCollections#clone(HashSet) clone} of the internal {@link HashSet}
+	 * that contains all {@link #inject(SkyCommand[]) injected} sub commands. This
+	 * clone may be {@link HashSet#isEmpty() empty} if no sub commands have been injected yet.
+	 *
+	 * @return A {@link SkyCollections#clone(HashSet) clone} of the internal {@link HashSet}
+	 * that contains all {@link #inject(SkyCommand[]) injected} sub commands.
+	 *
+	 * @since SkyUtils 1.0.0
+	 */
+	@NotNull
+	public final HashSet<SkyCommand<P, S>> getSubCommands() {
+		return SkyCollections.clone(subCommands);
 	}
 }
