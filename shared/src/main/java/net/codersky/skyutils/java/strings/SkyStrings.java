@@ -188,7 +188,101 @@ public class SkyStrings {
 	}
 
 	/*
-	 * Target patterns
+	 - Component utilities
+	 */
+
+	/**
+	 * Gets the {@link LegacyComponentSerializer} used to serialize and deserialize
+	 * {@link String Strings} and {@link Component Components}. The {@link LegacyComponentSerializer}
+	 * is used for backwards compatibility and due to how colors are {@link #applyColor(String) applied}
+	 * by SkyUtils, as the legacy format is used on all {@link ColorPattern color patterns}.
+	 *
+	 * @return The {@link LegacyComponentSerializer} used to serialize and deserialize
+	 * {@link String Strings} and {@link Component Components}.
+	 *
+	 * @see #toComponent(String)
+	 * @see #applyColorComponent(String, boolean)
+	 * @see #applyEventPatterns(String)
+	 *
+	 * @since JSky 1.0.0
+	 */
+	@NotNull
+	public static LegacyComponentSerializer getLegacyComponentSerializer() {
+		return LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().build();
+	}
+
+	/**
+	 * Converts {@code str} to a {@link Component} by deserializing it
+	 * with the {@link LegacyComponentSerializer} provided by {@link #getLegacyComponentSerializer()}.
+	 *
+	 * @param str The {@link String} to convert to a {@link Component}.
+	 *
+	 * @return {@code str} converted to a {@link Component}.
+	 *
+	 * @since JSky 1.0.0
+	 */
+	@NotNull
+	public static Component toComponent(@NotNull String str) {
+		return getLegacyComponentSerializer().deserialize(str);
+	}
+
+	/**
+	 * Converts {@code str} to a {@link Component} by deserializing it
+	 * with the {@link LegacyComponentSerializer} provided by {@link #getLegacyComponentSerializer()}.
+	 * <p>
+	 * {@link #applyColor(String, boolean)} is applied to {@code str} before deserializing it.
+	 *
+	 * @param str The {@link String} to color and convert to a {@link Component}.
+	 * @param simple Whether to use simple mode on {@link ColorPattern color patterns}
+	 * or not. Read {@link ColorPattern#applyColor(String, boolean)} for more information.
+	 *
+	 * @return {@code str} converted to a colored {@link Component}.
+	 *
+	 * @since JSky 1.0.0
+	 */
+	@NotNull
+	public static Component applyColorComponent(@NotNull String str, boolean simple) {
+		return toComponent(applyColor(str, simple));
+	}
+
+	/**
+	 * Converts {@code str} to a {@link Component} by deserializing it
+	 * with the {@link LegacyComponentSerializer} provided by {@link #getLegacyComponentSerializer()}.
+	 * <p>
+	 * {@link #applyColor(String, boolean)} is applied to {@code str} before deserializing it.
+	 * Simple mode is set to {@code true} on this method. Read {@link ColorPattern#applyColor(String, boolean)}
+	 * for more information about simple mode on {@link ColorPattern color patterns}.
+	 *
+	 * @param str The {@link String} to color and convert to a {@link Component}.
+	 *
+	 * @return {@code str} converted to a colored {@link Component}.
+	 *
+	 * @since JSky 1.0.0
+	 */
+	@NotNull
+	public static Component applyColorComponent(@NotNull String str) {
+		return applyColorComponent(str, true);
+	}
+
+	/**
+	 * Converts the provided {@link Component} back to a legacy colored {@link String}
+	 * by serializing it with the {@link LegacyComponentSerializer} provided by
+	 * {@link #getLegacyComponentSerializer()}.
+	 *
+	 * @param component The {@link Component} to convert to a {@link String}.
+	 *
+	 * @return The legacy colored {@link String} obtained by serializing
+	 * the provided {@link Component}.
+	 *
+	 * @since JSky 1.0.0
+	 */
+	@NotNull
+	public String fromComponent(@NotNull Component component) {
+		return getLegacyComponentSerializer().serialize(component);
+	}
+
+	/*
+	 - Target patterns
 	 */
 
 	/**
@@ -220,30 +314,32 @@ public class SkyStrings {
 	 */
 
 	/**
-	 * Removes all event patterns from the provided {@code string}.
+	 * Removes all event patterns from the provided {@code str}.
 	 * This can be used to control user input when necessary, as event
 	 * patterns can be used in malicious ways, such as making other
 	 * users execute dangerous commands.
 	 *
-	 * @param string The {@link String} to remove event patterns from.
+	 * @param str The {@link String} to remove event patterns from.
 	 *
 	 * @return A new {@link String} with all event patterns removed from it.
 	 *
 	 * @since SkyUtils 1.0.0
 	 */
 	@NotNull
-	public static String stripEventPatterns(@NotNull String string) {
+	public static String stripEventPatterns(@NotNull String str) {
 		final StringBuilder builder = new StringBuilder();
-		searchEventPatterns(string,
+		searchEventPatterns(str,
 				builder::append,
 				(event, txt) -> builder.append(txt));
 		return builder.toString();
 	}
 
 	/**
-	 * Applies event patterns to the provided {@code string}.
+	 * Applies event patterns to the provided {@code str}.
+	 * The {@link #getLegacyComponentSerializer() LegacyComponentSerializer} is
+	 * used to convert {@code str} to a {@link Component}.
 	 *
-	 * @param string The {@link String} to apply event patterns to.
+	 * @param str The {@link String} to apply event patterns to.
 	 *
 	 * @return A {@link Component} with all event patterns applied to it.
 	 * This {@link Component} can then be sent to any {@link MessageReceiver}.
@@ -253,11 +349,10 @@ public class SkyStrings {
 	 * @see MessageReceiver
 	 */
 	@NotNull
-	public static Component applyEventPatterns(@NotNull String string) {
-		final LegacyComponentSerializer serializer = LegacyComponentSerializer.builder().
-				useUnusualXRepeatedCharacterHexFormat().build();
+	public static Component applyEventPatterns(@NotNull String str) {
+		final LegacyComponentSerializer serializer = getLegacyComponentSerializer();
 		final TextComponent.Builder builder = Component.text();
-		searchEventPatterns(string,
+		searchEventPatterns(str,
 				txt -> builder.append(serializer.deserialize(txt)),
 				(event, txt) -> applyEvents(builder, event, txt));
 		return builder.build();
