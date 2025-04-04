@@ -1,7 +1,6 @@
 [versions]
 jsky = "1.0.0-SNAPSHOT"
 jetbrains-annotations = "24.0.0"
-snakeyaml = "2.3"
 adventure-api = "4.17.0"
 adventure-serializer-legacy = "4.17.0"
 adventure-serializer-bungee = "4.3.4"
@@ -11,9 +10,9 @@ velocity = "3.3.0-SNAPSHOT"
 run-paper = "2.3.0"
 
 [libraries]
-jsky = { group = "net.codersky", name = "jsky", version.ref = "jsky" }
+jsky-base = { module = "net.codersky.jsky:base", version.ref = "jsky" }
+jsky-yaml = { module = "net.codersky.jsky:yaml", version.ref = "jsky" }
 jetbrains-annotations = { group = "org.jetbrains", name = "annotations", version.ref = "jetbrains-annotations" }
-snakeyaml = { group = "org.yaml", name = "snakeyaml", version.ref = "snakeyaml" }
 adventure-api = { group = "net.kyori", name = "adventure-api", version.ref = "adventure-api" }
 adventure-serializer-legacy = { group = "net.kyori", name = "adventure-text-serializer-legacy", version.ref = "adventure-serializer-legacy" }
 adventure-serializer-bungee = { group = "net.kyori", name = "adventure-text-serializer-bungeecord", version.ref = "adventure-serializer-bungee" }

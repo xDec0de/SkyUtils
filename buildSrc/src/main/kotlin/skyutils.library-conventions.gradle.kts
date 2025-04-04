@@ -5,6 +5,8 @@ plugins {
 repositories {
 	mavenLocal()
 	mavenCentral()
+	maven("https://repo.codersky.net/snapshots")
+	maven("https://repo.codersky.net/releases")
 }
 
 java {

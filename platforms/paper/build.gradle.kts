@@ -13,6 +13,10 @@ dependencies {
 	api(project(":platforms:spigot")) {
 		setTransitive(false)
 	}
+	api(libs.jsky.base)
+	api(libs.jsky.yaml) {
+		setTransitive(false)
+	}
 	compileOnly(libs.paper)
 }
 

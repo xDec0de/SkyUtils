@@ -13,6 +13,10 @@ dependencies {
 	compileOnly(libs.spigot)
 	implementation(libs.adventure.serializer.legacy)
 	implementation(libs.adventure.serializer.bungee)
+	api(libs.jsky.base)
+	api(libs.jsky.yaml) {
+		setTransitive(false)
+	}
 }
 
 tasks {

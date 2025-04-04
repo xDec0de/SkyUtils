@@ -9,8 +9,9 @@ repositories {
 
 dependencies {
 	api(project(":shared"))
-	implementation(libs.snakeyaml)
 	compileOnly(libs.velocity)
+	api(libs.jsky.base)
+	api(libs.jsky.yaml)
 }
 
 tasks {
