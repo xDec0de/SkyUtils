@@ -1,10 +1,11 @@
 package net.codersky.skyutils.crossplatform;
 
+import net.codersky.jsky.strings.Replacement;
+import net.codersky.jsky.strings.Replacer;
+import net.codersky.skyutils.SkyReplacer;
 import net.codersky.skyutils.cmd.SkyCommand;
 import net.codersky.skyutils.cmd.SkyCommandSender;
 import net.codersky.skyutils.crossplatform.player.SkyPlayer;
-import net.codersky.skyutils.java.strings.Replacement;
-import net.codersky.skyutils.java.strings.Replacer;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -173,7 +174,7 @@ public interface MessageReceiver extends Replacement {
 	 * to {@code message} before sending it.
 	 *
 	 * @param message The Adventure {@link Component} to send to this {@link MessageReceiver}.
-	 * @param replacer The {@link Replacer} to apply to the {@code message} before sending it.
+	 * @param replacer The {@link SkyReplacer} to apply to the {@code message} before sending it.
 	 *
 	 * @return Always {@code true} to make it easier to create {@link SkyCommand MCCommands}.
 	 *
@@ -181,7 +182,7 @@ public interface MessageReceiver extends Replacement {
 	 *
 	 * @since SkyUtils 1.0.0
 	 */
-	default boolean sendMessage(@NotNull Component message, @NotNull Replacer replacer) {
+	default boolean sendMessage(@NotNull Component message, @NotNull SkyReplacer replacer) {
 		return !canReceive(message) || sendMessage(replacer.replaceAt(message));
 	}
 

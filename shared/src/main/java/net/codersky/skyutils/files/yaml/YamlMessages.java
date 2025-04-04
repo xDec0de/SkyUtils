@@ -1,8 +1,9 @@
-package net.codersky.skyutils.storage.files.yaml;
+package net.codersky.skyutils.files.yaml;
 
+import net.codersky.jsky.strings.Replacer;
+import net.codersky.jsky.yaml.YamlFile;
 import net.codersky.skyutils.SkyUtils;
-import net.codersky.skyutils.java.strings.Replacer;
-import net.codersky.skyutils.storage.files.MessagesFile;
+import net.codersky.skyutils.files.MessagesFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,11 +14,11 @@ public class YamlMessages extends YamlFile implements MessagesFile {
 	private Replacer defReplacer = null;
 
 	public YamlMessages(@NotNull SkyUtils<?> utils, @Nullable File parent, @NotNull String path) {
-		super(utils, parent, path);
+		super(utils.getPlugin().getClass().getClassLoader(), parent, path);
 	}
 
 	public YamlMessages(@NotNull SkyUtils<?> utils, @NotNull String path) {
-		super(utils, path);
+		this(utils, utils.getDataFolder(), path);
 	}
 
 	@Nullable

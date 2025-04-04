@@ -1,8 +1,8 @@
 package net.codersky.skyutils.spigot.java.math.chance;
 
 import net.codersky.skyutils.java.math.SkyNumbers;
-import net.codersky.skyutils.java.math.chance.ChanceGenerator;
-import net.codersky.skyutils.java.math.chance.GenericChanceGenerator;
+import net.codersky.skyutils.chance.ChanceGenerator;
+import net.codersky.skyutils.chance.GenericChanceGenerator;
 import net.codersky.skyutils.java.tuple.pair.ImmutablePair;
 import net.codersky.skyutils.java.tuple.pair.Pair;
 import org.bukkit.Material;

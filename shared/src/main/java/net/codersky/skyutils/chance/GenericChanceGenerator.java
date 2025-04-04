@@ -1,6 +1,6 @@
-package net.codersky.skyutils.java.math.chance;
+package net.codersky.skyutils.chance;
 
-import net.codersky.skyutils.java.math.SkyNumbers;
+import net.codersky.jsky.JNumbers;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class GenericChanceGenerator<T> implements ChanceGenerator<T> {
 	public List<T> generate() {
 		final List<T> result = new ArrayList<>(map.size());
 		for (Entry<T, Float> entry : map.entrySet())
-			if (SkyNumbers.tryChance(entry.getValue()))
+			if (JNumbers.tryChance(entry.getValue()))
 				result.add(entry.getKey());
 		return result;
 	}
@@ -74,7 +74,7 @@ public class GenericChanceGenerator<T> implements ChanceGenerator<T> {
 	public List<T> generate(int max) {
 		final HashMap<T, Float> results = new HashMap<>(map.size());
 		for (Entry<T, Float> entry : map.entrySet())
-			if (SkyNumbers.tryChance(entry.getValue()))
+			if (JNumbers.tryChance(entry.getValue()))
 				results.put(entry.getKey(), entry.getValue());
 		return limitElements(results, max);
 	}

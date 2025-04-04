@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
  * via {@link #getTimer()} and used to get the time left for this task to be executed.
  * <p>
  * This class is not intended to be instantiated manually but rather via
- * {@link Timer#schedule(Plugin, Runnable)} or {@link Timer#schedule(Plugin, Consumer, Object)}.
+ * {@link Timer#schedule(TaskScheduler, Runnable)} or {@link Timer#schedule(TaskScheduler, Consumer, Object)}.
  * 
  * @since SkyUtils 1.0.0
  *

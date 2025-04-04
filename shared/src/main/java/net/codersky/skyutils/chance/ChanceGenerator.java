@@ -1,4 +1,4 @@
-package net.codersky.skyutils.java.math.chance;
+package net.codersky.skyutils.chance;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -1,4 +1,4 @@
-package net.codersky.skyutils.storage.files;
+package net.codersky.skyutils.files;
 
 import org.jetbrains.annotations.Nullable;
 

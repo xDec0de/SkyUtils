@@ -1,6 +1,6 @@
 package net.codersky.skyutils.crossplatform.player;
 
-import net.codersky.skyutils.java.strings.Replacement;
+import net.codersky.jsky.strings.Replacement;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;

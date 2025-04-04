@@ -1,8 +1,8 @@
-package net.codersky.skyutils.storage.files;
+package net.codersky.skyutils.files;
 
+import net.codersky.jsky.strings.Replacer;
 import net.codersky.skyutils.Reloadable;
 import net.codersky.skyutils.crossplatform.MessageReceiver;
-import net.codersky.skyutils.java.strings.Replacer;
 import net.codersky.skyutils.java.strings.SkyStrings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

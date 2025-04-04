@@ -1,6 +1,6 @@
 package net.codersky.skyutils.cmd;
 
-import net.codersky.skyutils.java.SkyCollections;
+import net.codersky.jsky.collections.JCollections;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -95,7 +95,7 @@ public class SubCommandHandler<P, S extends SkyCommandSender> {
 		if (args.length == 0)
 			return suggestions;
 		final String lastArg = args[args.length - 1].toLowerCase();
-		return SkyCollections.clone(suggestions, tab -> tab.startsWith(lastArg));
+		return JCollections.clone(suggestions, tab -> tab.startsWith(lastArg));
 	}
 
 	/*
@@ -123,17 +123,17 @@ public class SubCommandHandler<P, S extends SkyCommandSender> {
 	}
 
 	/**
-	 * Gets a {@link SkyCollections#clone(HashSet) clone} of the internal {@link HashSet}
+	 * Gets a {@link JCollections#clone(HashSet) clone} of the internal {@link HashSet}
 	 * that contains all {@link #inject(SkyCommand[]) injected} sub commands. This
 	 * clone may be {@link HashSet#isEmpty() empty} if no sub commands have been injected yet.
 	 *
-	 * @return A {@link SkyCollections#clone(HashSet) clone} of the internal {@link HashSet}
+	 * @return A {@link JCollections#clone(HashSet) clone} of the internal {@link HashSet}
 	 * that contains all {@link #inject(SkyCommand[]) injected} sub commands.
 	 *
 	 * @since SkyUtils 1.0.0
 	 */
 	@NotNull
 	public final HashSet<SkyCommand<P, S>> getSubCommands() {
-		return SkyCollections.clone(subCommands);
+		return JCollections.clone(subCommands);
 	}
 }

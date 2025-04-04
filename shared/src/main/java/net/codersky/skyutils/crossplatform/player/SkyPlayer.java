@@ -1,8 +1,9 @@
 package net.codersky.skyutils.crossplatform.player;
 
+import net.codersky.jsky.strings.Replacer;
+import net.codersky.skyutils.SkyReplacer;
 import net.codersky.skyutils.cmd.SkyCommand;
 import net.codersky.skyutils.crossplatform.MessageReceiver;
-import net.codersky.skyutils.java.strings.Replacer;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.key.KeyPattern;
 import net.kyori.adventure.sound.Sound;
@@ -110,7 +111,7 @@ public interface SkyPlayer extends OfflineSkyPlayer, MessageReceiver {
 	 *
 	 * @since SkyUtils 1.0.0
 	 */
-	default boolean sendActionBar(@NotNull Component message, @NotNull Replacer replacer) {
+	default boolean sendActionBar(@NotNull Component message, @NotNull SkyReplacer replacer) {
 		return !canReceive(message) || sendActionBar(replacer.replaceAt(message));
 	}
 

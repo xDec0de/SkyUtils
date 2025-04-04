@@ -3,10 +3,10 @@ package net.codersky.skyutils.time.timer;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import net.codersky.jsky.strings.Replacement;
 import net.codersky.skyutils.time.MCTimeUnit;
 import net.codersky.skyutils.time.TaskScheduler;
 
-import net.codersky.skyutils.java.strings.Replacement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
