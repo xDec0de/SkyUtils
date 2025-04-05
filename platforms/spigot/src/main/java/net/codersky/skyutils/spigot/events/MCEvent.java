@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 
 /**
  * A very simple {@link Event} class that provides a {@link #call()}
- * method to to create and call an {@link Event} in just one line.
+ * method to create and call an {@link Event} in just one line.
  * Here is how to create an asynchronous {@link MCEvent}:
  * <p>
  * <pre>

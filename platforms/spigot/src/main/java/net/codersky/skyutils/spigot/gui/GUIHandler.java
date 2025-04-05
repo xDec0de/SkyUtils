@@ -1,6 +1,6 @@
 package net.codersky.skyutils.spigot.gui;
 
-import net.codersky.skyutils.java.SkyCollections;
+import net.codersky.jsky.collections.JCollections;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -82,7 +82,7 @@ public class GUIHandler implements Listener {
 		if (inv == null)
 			return false;
 		if (!guis.containsKey(gui))
-			guis.put(gui, SkyCollections.asHashSet(target.getUniqueId()));
+			guis.put(gui, JCollections.asHashSet(target.getUniqueId()));
 		else
 			guis.get(gui).add(target.getUniqueId());
 		target.openInventory(inv);

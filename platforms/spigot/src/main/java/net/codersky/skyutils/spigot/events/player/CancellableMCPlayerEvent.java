@@ -25,7 +25,7 @@ public abstract class CancellableMCPlayerEvent extends MCPlayerEvent implements 
 	private boolean cancelled;
 
 	/**
-	 * Construts a {@link CancellableMCPlayerEvent} required to be synchronous
+	 * Constructs a {@link CancellableMCPlayerEvent} required to be synchronous
 	 * 
 	 * @param who the player involved on the event.
 	 * 

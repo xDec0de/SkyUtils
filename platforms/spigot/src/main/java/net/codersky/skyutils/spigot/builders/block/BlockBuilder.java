@@ -1,6 +1,6 @@
 package net.codersky.skyutils.spigot.builders.block;
 
-import net.codersky.skyutils.java.SkyCollections;
+import net.codersky.jsky.collections.JCollections;
 import net.codersky.skyutils.spigot.SpigotUtils;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -457,9 +457,9 @@ public class BlockBuilder {
 			return null;
 		final org.bukkit.block.Sign sign = (org.bukkit.block.Sign) block.getState();
 		if (!SpigotUtils.serverSupports("1.20"))
-			return SkyCollections.asArrayList(sign.getLines());
-		final List<String> lines = SkyCollections.asArrayList(sign.getSide(Side.FRONT).getLines());
-		return SkyCollections.add(lines, sign.getSide(Side.BACK).getLines());
+			return JCollections.asArrayList(sign.getLines());
+		final List<String> lines = JCollections.asArrayList(sign.getSide(Side.FRONT).getLines());
+		return JCollections.add(lines, sign.getSide(Side.BACK).getLines());
 	}
 
 	/**
@@ -479,7 +479,7 @@ public class BlockBuilder {
 		if (!isSign())
 			return null;
 		final org.bukkit.block.Sign sign = (org.bukkit.block.Sign) block.getState();
-		return SkyCollections.asArrayList(SpigotUtils.serverSupports("1.20") ? sign.getLines() : sign.getSide(side.bukkit()).getLines());
+		return JCollections.asArrayList(SpigotUtils.serverSupports("1.20") ? sign.getLines() : sign.getSide(side.bukkit()).getLines());
 	}
 
 	/**

@@ -1,6 +1,6 @@
 package net.codersky.skyutils.spigot.regions;
 
-import net.codersky.skyutils.java.SkyCollections;
+import net.codersky.jsky.collections.JCollections;
 import net.codersky.skyutils.spigot.events.player.CancellableMCPlayerEvent;
 import net.codersky.skyutils.spigot.regions.event.RegionEnterEvent;
 import net.codersky.skyutils.spigot.regions.event.RegionEnteringEvent;
@@ -38,7 +38,7 @@ public class RegionHandler implements Listener {
 	@Nonnull
 	public Set<Region> getRegionsAt(@Nonnull World world) {
 		final Set<Region> worldRegions = regions.get(world.getUID());
-		return worldRegions == null ? Collections.emptySet() : SkyCollections.clone(worldRegions);
+		return worldRegions == null ? Collections.emptySet() : JCollections.clone(worldRegions);
 	}
 
 	@Nonnull
@@ -49,7 +49,7 @@ public class RegionHandler implements Listener {
 		final int x = location.getBlockX();
 		final int y = location.getBlockY();
 		final int z = location.getBlockZ();
-		return SkyCollections.remove(worldRegions, region -> !region.contains(x, y, z));
+		return JCollections.remove(worldRegions, region -> !region.contains(x, y, z));
 	}
 
 	public Region getPriorityRegionAt(@Nonnull Location loc) {
@@ -60,7 +60,7 @@ public class RegionHandler implements Listener {
 		final UUID worldId = region.getWorld().getUID();
 		final HashSet<Region> worldRegions = regions.get(worldId);
 		if (worldRegions == null) {
-			regions.put(worldId, SkyCollections.asHashSet(region));
+			regions.put(worldId, JCollections.asHashSet(region));
 		} else
 			return worldRegions.add(region);
 		return true;

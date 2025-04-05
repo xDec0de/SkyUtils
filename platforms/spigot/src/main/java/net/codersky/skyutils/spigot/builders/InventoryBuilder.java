@@ -1,6 +1,6 @@
 package net.codersky.skyutils.spigot.builders;
 
-import net.codersky.skyutils.java.math.SkyNumbers;
+import net.codersky.jsky.JNumbers;
 import net.codersky.skyutils.java.strings.SkyStrings;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -258,7 +258,7 @@ public class InventoryBuilder implements Cloneable {
 	 * @since SkyUtils 1.0.0
 	 */
 	public int[] getSlots() {
-		return SkyNumbers.range(0, getSize() - 1);
+		return JNumbers.range(0, getSize() - 1);
 	}
 
 	/*
@@ -319,7 +319,7 @@ public class InventoryBuilder implements Cloneable {
 	 * {@link Material#AIR} will be used, leaving the slots empty.
 	 * This method will replace existing items on the inventory.
 	 * <p>
-	 * <b>Tip</b>: Use {@link SkyNumbers#range(int, int)} for slot ranges.
+	 * <b>Tip</b>: Use {@link JNumbers#range(int, int)} for slot ranges.
 	 * 
 	 * @param item the item to use, if null {@link Material#AIR} will be used,
 	 * note that this item will be cloned for every slot so the {@link ItemStack}
@@ -344,7 +344,7 @@ public class InventoryBuilder implements Cloneable {
 	 * made with the set <b>material</b>, <b>amount</b> and <b>displayName</b>.
 	 * Out of bounds slots will be ignored.
 	 * <p>
-	 * <b>Tip</b>: Use {@link SkyNumbers#range(int, int)} for slot ranges.
+	 * <b>Tip</b>: Use {@link JNumbers#range(int, int)} for slot ranges.
 	 * 
 	 * @param material The {@link Material} of the {@link ItemStack} to use.
 	 * @param amount The amount of the stack.
@@ -381,7 +381,7 @@ public class InventoryBuilder implements Cloneable {
 	 * made with the set <b>material</b> and <b>displayName</b>, the amount
 	 * of the stack will be 1. Out of bounds slots will be ignored.
 	 * <p>
-	 * <b>Tip</b>: Use {@link SkyNumbers#range(int, int)} for slot ranges.
+	 * <b>Tip</b>: Use {@link JNumbers#range(int, int)} for slot ranges.
 	 * 
 	 * @param material The {@link Material} of the {@link ItemStack} to use.
 	 * @param displayName The display name of the stack, this <b>won't</b> be
@@ -411,7 +411,7 @@ public class InventoryBuilder implements Cloneable {
 	 * This method will only set the item on a slot if <b>condition</b>
 	 * returns true with the item on said slot, see {@link #EMPTY} as items may be null.
 	 * <p>
-	 * <b>Tip</b>: Use {@link SkyNumbers#range(int, int)} for slot ranges.
+	 * <b>Tip</b>: Use {@link JNumbers#range(int, int)} for slot ranges.
 	 * 
 	 * @param item the item to use, if null {@link Material#AIR} will be used,
 	 * note that this item will be cloned for every slot so the {@link ItemStack}

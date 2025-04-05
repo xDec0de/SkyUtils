@@ -1,10 +1,10 @@
-package net.codersky.skyutils.spigot.java;
+package net.codersky.skyutils.spigot.general;
 
 import javax.annotation.Nullable;
 
+import net.codersky.jsky.strings.Replacer;
 import net.codersky.skyutils.java.reflection.RefClass;
 import net.codersky.skyutils.java.reflection.RefObject;
-import net.codersky.skyutils.java.strings.Replacer;
 import org.bukkit.Bukkit;
 
 public abstract class SpigotReflections {
@@ -26,7 +26,10 @@ public abstract class SpigotReflections {
 	public static RefClass getClass(@Nullable String className) {
 		if (className == null)
 			return null;
-		final String name = new Replacer("{nms}", ("net.minecraft.server." + VERSION), "{cb}", ("org.bukkit.craftbukkit." + VERSION)).replaceAt(className);
+		final Replacer rep = new Replacer();
+		rep.add("{nms}", "net.minecraft.server." + VERSION);
+		rep.add("{cb}", "org.bukkit.craftbukkit." + VERSION);
+		final String name = rep.replaceAt(className);
 		try {
 			return new RefClass(Class.forName(name));
 		} catch (ClassNotFoundException e) {

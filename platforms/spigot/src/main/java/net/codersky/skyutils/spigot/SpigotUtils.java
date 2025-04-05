@@ -1,10 +1,10 @@
 package net.codersky.skyutils.spigot;
 
+import net.codersky.jsky.collections.JCollections;
 import net.codersky.skyutils.MCPlatform;
 import net.codersky.skyutils.SkyUtils;
 import net.codersky.skyutils.cmd.GlobalCommand;
 import net.codersky.skyutils.crossplatform.server.ServerUtils;
-import net.codersky.skyutils.java.SkyCollections;
 import net.codersky.skyutils.java.reflection.RefObject;
 import net.codersky.skyutils.java.strings.SkyStrings;
 import net.codersky.skyutils.spigot.cmd.AdaptedSpigotCommand;
@@ -332,7 +332,7 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public boolean registerCommands(@NotNull GlobalCommand<P>... commands) {
-		return registerCommands(SkyCollections.map(
+		return registerCommands(JCollections.map(
 				commands,
 				new AdaptedSpigotCommand[commands.length],
 				cmd -> new AdaptedSpigotCommand<>(this, cmd))
@@ -438,7 +438,7 @@ public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
 		final Collection<Command> cmds = getCommands();
 		if (cmds == null)
 			return null;
-		final Command cmd = SkyCollections.get(cmds, c -> cmdClass.isAssignableFrom(c.getClass()));
+		final Command cmd = JCollections.get(cmds, c -> cmdClass.isAssignableFrom(c.getClass()));
 		return cmd == null ? null : cmdClass.cast(cmd);
 	}
 

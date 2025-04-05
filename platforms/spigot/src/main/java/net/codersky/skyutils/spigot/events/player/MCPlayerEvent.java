@@ -25,7 +25,7 @@ public abstract class MCPlayerEvent extends MCEvent {
 	private final Player player;
 
 	/**
-	 * Construts a {@link MCPlayerEvent} required to be synchronous
+	 * Constructs a {@link MCPlayerEvent} required to be synchronous
 	 * 
 	 * @param who the player involved on the event.
 	 * 

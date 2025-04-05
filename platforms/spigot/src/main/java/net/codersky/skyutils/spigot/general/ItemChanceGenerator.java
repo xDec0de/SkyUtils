@@ -1,12 +1,13 @@
-package net.codersky.skyutils.spigot.java.math.chance;
+package net.codersky.skyutils.spigot.general;
 
-import net.codersky.skyutils.java.math.SkyNumbers;
+import net.codersky.jsky.JNumbers;
+import net.codersky.jsky.tuple.pair.ImmutablePair;
+import net.codersky.jsky.tuple.pair.Pair;
 import net.codersky.skyutils.chance.ChanceGenerator;
 import net.codersky.skyutils.chance.GenericChanceGenerator;
-import net.codersky.skyutils.java.tuple.pair.ImmutablePair;
-import net.codersky.skyutils.java.tuple.pair.Pair;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
@@ -66,7 +67,7 @@ public class ItemChanceGenerator implements ChanceGenerator<ItemStack> {
 
 	@Nonnull
 	@Override
-	public ItemChanceGenerator add(@Nonnull ItemStack element, float chance) {
+	public @NotNull ItemChanceGenerator add(@Nonnull ItemStack element, float chance) {
 		return add(element, new int[] {element.getAmount()}, new float[] {chance});
 	}
 
@@ -98,7 +99,7 @@ public class ItemChanceGenerator implements ChanceGenerator<ItemStack> {
 	public List<ItemStack> generate() {
 		final List<ItemStack> result = new ArrayList<>(map.size());
 		for (Entry<ItemStack, List<Pair<Integer, Float>>> entry : map.entrySet()) {
-			final float requirement = SkyNumbers.random().nextFloat(0, 100);
+			final float requirement = JNumbers.random().nextFloat(0, 100);
 			float lowestChance = 101;
 			int rarestAmount = 0;
 			for (Pair<Integer, Float> info : entry.getValue())
@@ -116,7 +117,7 @@ public class ItemChanceGenerator implements ChanceGenerator<ItemStack> {
 	public List<ItemStack> generate(int max) {
 		final HashMap<ItemStack, Float> result = new HashMap<>(map.size());
 		for (Entry<ItemStack, List<Pair<Integer, Float>>> entry : map.entrySet()) {
-			final float requirement = SkyNumbers.random().nextFloat(0, 100);
+			final float requirement = JNumbers.random().nextFloat(0, 100);
 			float lowestChance = 101;
 			int rarestAmount = 0;
 			for (Pair<Integer, Float> info : entry.getValue())

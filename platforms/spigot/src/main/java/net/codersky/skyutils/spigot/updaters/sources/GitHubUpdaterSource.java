@@ -63,7 +63,7 @@ public class GitHubUpdaterSource implements UpdaterSource {
 	 * <p><p>
 	 * This constructor will use the tag of the release as a version,
 	 * this only affects to {@link #getLatestVersion()} as 
-	 * {@link GitHubVersionInfo#getVersion()} will return either the version
+	 * {@link GitHubUpdaterSource#getVersion()} will return either the version
 	 * tag or name depending on this.
 	 * 
 	 * @param repo the repository to get releases from. For example, for the
