@@ -18,9 +18,12 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "SkyUtils"
+
 include(":shared")
-include(":platforms:universal")
+
+// Server platforms
 include(":platforms:spigot")
-include(":platforms:velocity")
-include("platforms:universal")
 include("platforms:paper")
+
+// Proxy platforms
+include(":platforms:velocity")
