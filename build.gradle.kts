@@ -83,8 +83,14 @@ subprojects {
 				groupId = "${rootProject.group}.${project.group.toString().lowercase()}"
 				artifactId = project.name // Use the subproject name as the artifactId
 
+				pom {
+					packaging = "jar"
+				}
+
 				// Include the main JAR
-				artifact(tasks["shadowJar"])
+				artifact(tasks["shadowJar"]) {
+					classifier = ""
+				}
 				// Include the sources JAR
 				artifact(tasks["sourcesJar"])
 			}
