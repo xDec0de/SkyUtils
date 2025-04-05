@@ -1,10 +1,10 @@
 package net.codersky.skyutils.velocity.cmd;
 
 import com.velocitypowered.api.command.SimpleCommand;
+import net.codersky.jsky.collections.JCollections;
 import net.codersky.skyutils.cmd.SkyCommand;
 import net.codersky.skyutils.cmd.SkyCommandSender;
 import net.codersky.skyutils.cmd.SubCommandHandler;
-import net.codersky.skyutils.java.SkyCollections;
 import net.codersky.skyutils.velocity.VelocityUtils;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -58,7 +58,7 @@ public abstract class CustomVelocityCommand<P, S extends SkyCommandSender> imple
 	@NotNull
 	@Override
 	public final List<String> getAliases() {
-		return SkyCollections.asArrayList(aliases);
+		return JCollections.asArrayList(aliases);
 	}
 
 	@NotNull

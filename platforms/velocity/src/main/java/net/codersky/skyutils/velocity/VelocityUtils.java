@@ -4,10 +4,10 @@ import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
+import net.codersky.jsky.collections.JCollections;
 import net.codersky.skyutils.MCPlatform;
 import net.codersky.skyutils.cmd.GlobalCommand;
 import net.codersky.skyutils.crossplatform.proxy.ProxyUtils;
-import net.codersky.skyutils.java.SkyCollections;
 import net.codersky.skyutils.velocity.cmd.AdaptedVelocityCommand;
 import net.codersky.skyutils.velocity.cmd.CustomVelocityCommand;
 import net.codersky.skyutils.velocity.cmd.VelocityCommandSender;
@@ -138,7 +138,7 @@ public class VelocityUtils<P> extends ProxyUtils<P> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public boolean registerCommands(@NotNull GlobalCommand<P>... commands) {
-		return registerCommands(SkyCollections.map(
+		return registerCommands(JCollections.map(
 				commands,
 				new AdaptedVelocityCommand[commands.length],
 				cmd -> new AdaptedVelocityCommand<>(this, cmd))
