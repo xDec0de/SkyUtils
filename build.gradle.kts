@@ -1,4 +1,3 @@
-
 group = "net.codersky"
 version = "1.0.0-SNAPSHOT"
 description = "An open source collection of utilities for Minecraft plugins designed to make your life easier"
@@ -6,6 +5,11 @@ description = "An open source collection of utilities for Minecraft plugins desi
 plugins {
 	java
 	`maven-publish`
+}
+
+// Disable jar task for root project
+tasks.named<Jar>("jar") {
+	enabled = false
 }
 
 tasks {
@@ -16,7 +20,6 @@ tasks {
 
 	val libsPath = "libs"
 
-	// Configure the existing build task
 	named("build") {
 
 		dependsOn(subprojects.filter { it.name != "platforms" }.map { it.tasks.named("build") })
@@ -26,7 +29,7 @@ tasks {
 				if (!exists()) mkdirs()
 			}
 
-			subprojects.forEach { subproject ->
+			subprojects.filter { it.name != "platforms" }.forEach { subproject ->
 				val subIn = subproject.layout.buildDirectory.dir(libsPath).get().asFile
 				if (subIn.exists()) {
 					copy {
@@ -41,7 +44,6 @@ tasks {
 		}
 	}
 
-	// Configure the existing clean task
 	named("clean") {
 		dependsOn(subprojects.filter { it.name != "platforms" }.map { it.tasks.named("clean") })
 		doFirst {
@@ -60,20 +62,21 @@ subprojects {
 
 	version = rootProject.version
 
-	if (name == "platforms")
+	// Disable all tasks for the "platforms" subproject
+	if (name == "platforms") {
+		tasks.forEach { it.enabled = false }
 		return@subprojects
+	}
 
 	publishing {
-		publishing {
-			repositories {
-				maven {
-					val snapshot = version.toString().endsWith("SNAPSHOT")
-					url = uri("https://repo.codersky.net/" + if (snapshot) "snapshots" else "releases")
-					name = if (snapshot) "cskSnapshots" else "cskReleases"
-					credentials(PasswordCredentials::class)
-					authentication {
-						create<BasicAuthentication>("basic")
-					}
+		repositories {
+			maven {
+				val snapshot = version.toString().endsWith("SNAPSHOT")
+				url = uri("https://repo.codersky.net/" + if (snapshot) "snapshots" else "releases")
+				name = if (snapshot) "cskSnapshots" else "cskReleases"
+				credentials(PasswordCredentials::class)
+				authentication {
+					create<BasicAuthentication>("basic")
 				}
 			}
 		}
