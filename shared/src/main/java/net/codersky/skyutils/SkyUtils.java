@@ -1,5 +1,6 @@
 package net.codersky.skyutils;
 
+import net.codersky.jsky.Reloadable;
 import net.codersky.skyutils.cmd.GlobalCommand;
 import net.codersky.skyutils.crossplatform.SkyConsole;
 import net.codersky.skyutils.crossplatform.player.SkyPlayer;
