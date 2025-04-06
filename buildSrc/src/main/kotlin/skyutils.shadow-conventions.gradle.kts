@@ -10,8 +10,6 @@ tasks {
 	}
 
 	shadowJar {
-		//relocate("org.jetbrains.annotations", "net.codersky.skyutils.shaded.jetbrains.annotations")
-		//relocate("org.intellij.lang.annotations", "net.codersky.skyutils.shaded.intellij.annotations")
 		archiveClassifier = null
 		mergeServiceFiles()
 		minimize()

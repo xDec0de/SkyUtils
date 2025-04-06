@@ -14,15 +14,16 @@ dependencies {
 	implementation(libs.adventure.serializer.legacy)
 	implementation(libs.adventure.serializer.bungee)
 	api(libs.jsky.base)
-	api(libs.jsky.yaml) {
-		setTransitive(false)
-	}
+	api(libs.jsky.yaml)
 }
 
 tasks {
 
 	shadowJar {
 		relocate("net.kyori", "net.codersky.skyutils.shaded.kyori")
+		exclude("org/yaml/snakeyaml/**",
+			"org/jetbrains/**",
+			"org/intellij/**",)
 	}
 
 	// 1.8.8 - 1.16.5 = Java 8

@@ -1,3 +1,5 @@
+import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.exclude
+
 plugins {
 	skyutils.`shadow-conventions`
 	skyutils.`library-conventions`
@@ -14,28 +16,17 @@ dependencies {
 		setTransitive(false)
 	}
 	api(libs.jsky.base)
-	api(libs.jsky.yaml) {
-		setTransitive(false)
-	}
+	api(libs.jsky.yaml)
 	compileOnly(libs.paper)
 }
 
 tasks {
 
 	shadowJar {
-		// Exclude dependencies included by Paper, so they don't get added into the jar
-		val shaded = "net/codersky/skyutils/shaded/"
-		exclude(shaded + "kyori/**", shaded + "jetbrains/**", shaded + "intellij/**")
-		// Relocate included dependencies back to their original packages
-		relocate("net.codersky.skyutils.shaded.kyori", "net.kyori")
-		relocate("net.codersky.skyutils.shaded.jetbrains", "org.jetbrains")
-		relocate("net.codersky.skyutils.shaded.intellij", "org.intellij")
-	}
-
-	configurations {
-		runtimeOnly {
-			exclude("net.codersky.skyutils.shaded.kyori")
-		}
+		exclude("org/yaml/snakeyaml/**",
+			"org/jetbrains/**",
+			"org/intellij/**",
+			"net/codersky/skyutils/shaded/kyori/**")
 	}
 
 	// 1.8.8 - 1.16.5 = Java 8
