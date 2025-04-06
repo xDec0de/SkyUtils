@@ -1,3 +1,4 @@
+
 group = "net.codersky"
 version = "1.0.0-SNAPSHOT"
 description = "An open source collection of utilities for Minecraft plugins designed to make your life easier"
@@ -7,52 +8,58 @@ plugins {
 	`maven-publish`
 }
 
-// Disable jar task for root project
-tasks.named<Jar>("jar") {
-	enabled = false
-}
+/*
+ - Root project configuration
+ */
 
 tasks {
+	// Disable jar task
+	jar { enabled = false }
+
 	wrapper {
 		gradleVersion = "8.8"
 		distributionType = Wrapper.DistributionType.ALL
 	}
 
-	val libsPath = "libs"
-
 	named("build") {
-
-		dependsOn(subprojects.filter { it.name != "platforms" }.map { it.tasks.named("build") })
+		dependsOn(subprojects.map { it.tasks.named("build") })
 
 		doLast {
-			val buildOut = project.layout.buildDirectory.dir(libsPath).get().asFile.apply {
-				if (!exists()) mkdirs()
-			}
+			val buildOut = layout.buildDirectory.dir("libs").get().asFile
+				.apply { if (!exists()) mkdirs() }
 
-			subprojects.filter { it.name != "platforms" }.forEach { subproject ->
-				val subIn = subproject.layout.buildDirectory.dir(libsPath).get().asFile
-				if (subIn.exists()) {
-					copy {
-						from(subIn) {
-							include("SkyUtils-*.jar")
-							exclude("*-javadoc.jar", "*-sources.jar")
+			subprojects.forEach { subproject ->
+				if (subproject.name == "platforms")
+					return@forEach
+
+				val subIn = subproject.layout.buildDirectory.dir("libs").get().asFile
+				subIn.listFiles()
+					?.filter { it.extension == "jar" }
+					?.forEach { jarFile ->
+						copy {
+							from(jarFile)
+							into(buildOut)
+							rename { "SkyUtils-${subproject.name}-${version}.jar" }
 						}
-						into(buildOut)
 					}
-				}
+					?: println("No JAR found in subproject: ${subproject.name}")
 			}
 		}
 	}
 
 	named("clean") {
-		dependsOn(subprojects.filter { it.name != "platforms" }.map { it.tasks.named("clean") })
+		dependsOn(subprojects.map { it.tasks.named("clean") })
 		doFirst {
-			delete(rootProject.layout.buildDirectory)
+			delete(layout.buildDirectory)
 		}
 	}
 
 	defaultTasks("build")
 }
+
+/*
+ - Subproject configuration
+ */
 
 subprojects {
 
@@ -62,40 +69,36 @@ subprojects {
 
 	version = rootProject.version
 
-	// Disable all tasks for the "platforms" subproject
+	// Disable all tasks for the "platforms" project
 	if (name == "platforms") {
-		tasks.forEach { it.enabled = false }
+		tasks.configureEach { enabled = false }
 		return@subprojects
 	}
 
 	publishing {
 		repositories {
 			maven {
-				val snapshot = version.toString().endsWith("SNAPSHOT")
-				url = uri("https://repo.codersky.net/" + if (snapshot) "snapshots" else "releases")
-				name = if (snapshot) "cskSnapshots" else "cskReleases"
+				val isSnapshot = version.toString().endsWith("SNAPSHOT")
+				name = if (isSnapshot) "cskSnapshots" else "cskReleases"
+				url = uri("https://repo.codersky.net/${if (isSnapshot) "snapshots" else "releases"}")
+
 				credentials(PasswordCredentials::class)
-				authentication {
-					create<BasicAuthentication>("basic")
-				}
+				authentication { create<BasicAuthentication>("basic") }
 			}
 		}
 
 		publications {
 			create<MavenPublication>("maven") {
 				groupId = "${rootProject.group}.${project.group.toString().lowercase()}"
-				artifactId = project.name // Use the subproject name as the artifactId
+				artifactId = project.name
 
-				pom {
-					packaging = "jar"
+				pom { packaging = "jar" }
+
+				artifact(tasks.named("shadowJar").get()) {
+					classifier = "" // Avoid "-all" suffix
 				}
 
-				// Include the main JAR
-				artifact(tasks["shadowJar"]) {
-					classifier = ""
-				}
-				// Include the sources JAR
-				artifact(tasks["sourcesJar"])
+				artifact(tasks.named("sourcesJar").get())
 			}
 		}
 	}

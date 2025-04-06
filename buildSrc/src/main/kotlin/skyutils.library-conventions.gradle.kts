@@ -17,9 +17,6 @@ java {
 }
 
 tasks {
-	jar {
-		archiveClassifier = "default"
-	}
 
 	processResources {
 		filesMatching("plugin.yml") {
@@ -30,6 +27,12 @@ tasks {
 	withType<JavaCompile> {
 		options.encoding = Charsets.UTF_8.name()
 		options.release = 21
+	}
+
+	named<Jar>("sourcesJar") {
+		archiveClassifier.set("sources")
+		from(sourceSets.main.get().allSource)
+		dependsOn(classes)
 	}
 
 	defaultTasks("build")
