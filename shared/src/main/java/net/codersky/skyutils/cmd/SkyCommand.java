@@ -1,7 +1,7 @@
 package net.codersky.skyutils.cmd;
 
-import net.codersky.jsky.JNumbers;
 import net.codersky.jsky.collections.JCollections;
+import net.codersky.jsky.math.JNumbers;
 import net.codersky.skyutils.SkyUtils;
 import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.codersky.skyutils.java.strings.SkyStrings;

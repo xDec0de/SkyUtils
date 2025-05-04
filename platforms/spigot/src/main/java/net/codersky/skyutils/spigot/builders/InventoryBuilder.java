@@ -1,6 +1,6 @@
 package net.codersky.skyutils.spigot.builders;
 
-import net.codersky.jsky.JNumbers;
+import net.codersky.jsky.math.JNumbers;
 import net.codersky.skyutils.java.strings.SkyStrings;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

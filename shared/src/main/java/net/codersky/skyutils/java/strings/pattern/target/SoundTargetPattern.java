@@ -1,6 +1,6 @@
 package net.codersky.skyutils.java.strings.pattern.target;
 
-import net.codersky.jsky.JNumbers;
+import net.codersky.jsky.math.JNumbers;
 import net.codersky.skyutils.crossplatform.MessageReceiver;
 import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.codersky.skyutils.java.strings.SkyStrings;

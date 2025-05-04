@@ -1,10 +1,10 @@
 package net.codersky.skyutils.spigot.general;
 
-import net.codersky.jsky.JNumbers;
+import net.codersky.jsky.math.JNumbers;
+import net.codersky.jsky.math.chance.ChanceGenerator;
+import net.codersky.jsky.math.chance.GenericChanceGenerator;
 import net.codersky.jsky.tuple.pair.ImmutablePair;
 import net.codersky.jsky.tuple.pair.Pair;
-import net.codersky.skyutils.chance.ChanceGenerator;
-import net.codersky.skyutils.chance.GenericChanceGenerator;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
