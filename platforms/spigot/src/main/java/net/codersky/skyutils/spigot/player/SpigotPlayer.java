@@ -10,6 +10,8 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.UUID;
+
 public interface SpigotPlayer extends OfflineSpigotPlayer, SkyPlayer {
 
 	/*
@@ -59,6 +61,16 @@ public interface SpigotPlayer extends OfflineSpigotPlayer, SkyPlayer {
 		if (canReceive(message))
 			getHandle().spigot().sendMessage(toBase(message));
 		return false;
+	}
+
+	/*
+	 - JSON messages
+	 */
+
+	@Override
+	default boolean sendJsonMessage(@NotNull String json) {
+		getHandle().sendRawMessage(json);
+		return true;
 	}
 
 	/*

@@ -5,6 +5,8 @@ import com.velocitypowered.api.proxy.Player;
 import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
@@ -71,6 +73,20 @@ public class VelocityPlayer extends OfflineVelocityPlayer implements SkyPlayer {
 	public boolean sendMessage(@NotNull Component message) {
 		if (canReceive(message))
 			handle.sendMessage(message);
+		return true;
+	}
+
+	/*
+	 - JSON messages
+	 */
+
+	@Override
+	public boolean sendJsonMessage(@NotNull String json) {
+		final GsonComponentSerializer serializer;
+		serializer = supportsRgb() ? GsonComponentSerializer.gson() : GsonComponentSerializer.colorDownsamplingGson();
+		final Component component = serializer.deserialize(json);
+		if (Component.IS_NOT_EMPTY.test(component))
+			getHandle().sendMessage(component);
 		return true;
 	}
 

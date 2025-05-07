@@ -29,6 +29,12 @@ public interface SkyPlayer extends OfflineSkyPlayer, MessageReceiver {
 	}
 
 	/*
+	 - JSON messages
+	 */
+
+	boolean sendJsonMessage(@NotNull String json);
+
+	/*
 	 - Legacy actionbar messages (String)
 	 */
 
