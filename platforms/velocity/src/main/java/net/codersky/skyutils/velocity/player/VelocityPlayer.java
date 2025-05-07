@@ -1,5 +1,6 @@
 package net.codersky.skyutils.velocity.player;
 
+import com.velocitypowered.api.network.ProtocolVersion;
 import com.velocitypowered.api.proxy.Player;
 import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.kyori.adventure.sound.Sound;
@@ -42,6 +43,19 @@ public class VelocityPlayer extends OfflineVelocityPlayer implements SkyPlayer {
 	@Override
 	public boolean isOnline() {
 		return handle.isActive();
+	}
+
+	/*
+	 - Version
+	 */
+
+	@NotNull
+	public ProtocolVersion getVersion() {
+		return getHandle().getProtocolVersion();
+	}
+
+	public boolean supportsRgb() {
+		return getVersion().greaterThan(ProtocolVersion.MINECRAFT_1_15_2);
 	}
 
 	/*
