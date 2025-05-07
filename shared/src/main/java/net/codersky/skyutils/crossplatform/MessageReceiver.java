@@ -169,6 +169,10 @@ public interface MessageReceiver extends Replacement {
 	 */
 	boolean sendMessage(@NotNull Component message);
 
+	default boolean sendMessage(@NotNull SkyMessage message) {
+		return message.send(this);
+	}
+
 	/**
 	 * Sends a {@link Component} {@code message} to this {@link MessageReceiver}, applying {@code replacer}
 	 * to {@code message} before sending it.
