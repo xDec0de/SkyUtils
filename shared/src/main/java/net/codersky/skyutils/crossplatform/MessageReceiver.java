@@ -5,6 +5,7 @@ import net.codersky.jsky.strings.Replacer;
 import net.codersky.skyutils.SkyReplacer;
 import net.codersky.skyutils.cmd.SkyCommand;
 import net.codersky.skyutils.cmd.SkyCommandSender;
+import net.codersky.skyutils.crossplatform.message.SkyMessage;
 import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -95,6 +96,7 @@ public interface MessageReceiver extends Replacement {
 	 *
 	 * @since SkyUtils 1.0.0
 	 */
+	@Deprecated(forRemoval = true)
 	default boolean canReceive(@Nullable Component message) {
 		return message != null && Component.IS_NOT_EMPTY.test(message);
 	}
@@ -167,6 +169,7 @@ public interface MessageReceiver extends Replacement {
 	 *
 	 * @since SkyUtils 1.0.0
 	 */
+	@Deprecated(forRemoval = true)
 	boolean sendMessage(@NotNull Component message);
 
 	default boolean sendMessage(@NotNull SkyMessage message) {
@@ -186,6 +189,7 @@ public interface MessageReceiver extends Replacement {
 	 *
 	 * @since SkyUtils 1.0.0
 	 */
+	@Deprecated(forRemoval = true)
 	default boolean sendMessage(@NotNull Component message, @NotNull SkyReplacer replacer) {
 		return !canReceive(message) || sendMessage(replacer.replaceAt(message));
 	}
@@ -205,6 +209,7 @@ public interface MessageReceiver extends Replacement {
 	 *
 	 * @since SkyUtils 1.0.0
 	 */
+	@Deprecated(forRemoval = true)
 	default boolean sendMessage(@NotNull Component message, @NotNull Object... replacements) {
 		return !canReceive(message) || sendMessage(message, new Replacer(replacements));
 	}
