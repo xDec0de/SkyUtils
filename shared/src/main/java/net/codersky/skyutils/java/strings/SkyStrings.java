@@ -29,7 +29,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class SkyStrings extends JStrings {
+public abstract class SkyStrings extends JStrings {
 
 	/** The color character used for Minecraft color codes. */
 	public static char COLOR_CHAR = '§';
