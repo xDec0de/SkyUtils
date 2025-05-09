@@ -7,6 +7,7 @@ import net.codersky.skyutils.crossplatform.message.tag.filter.MessageFilter;
 import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.codersky.skyutils.java.strings.SkyStrings;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 
@@ -40,7 +41,7 @@ public class SkyMessagePart {
 		if (!filter.test(receiver))
 			return;
 		if (receiver instanceof final SkyPlayer player)
-			return; // TODO: Send component as JSON
+			player.sendJsonMessage(GsonComponentSerializer.gson().serialize(component));
 		else
 			receiver.sendMessage(LegacyComponentSerializer.legacyAmpersand().serialize(component));
 	}
