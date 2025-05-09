@@ -8,6 +8,8 @@ import net.codersky.skyutils.crossplatform.message.tag.MessageTag;
 import net.codersky.skyutils.crossplatform.message.tag.filter.ConsoleMessageFilter;
 import net.codersky.skyutils.crossplatform.message.tag.filter.MessageFilter;
 import net.codersky.skyutils.crossplatform.message.tag.filter.PlayerMessageFilter;
+import net.codersky.skyutils.java.strings.SkyStrings;
+import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,12 +33,16 @@ public class SkyMessage {
 
 	@NotNull
 	public static SkyMessage of(@NotNull String message) {
-		final JTag[] tags = JTagParser.parse(message);
+		final StringBuilder excess = new StringBuilder();
+		final JTag[] tags = JTagParser.parse(message, 0, excess);
 		if (tags.length == 0)
 			return new SkyMessage(List.of(new SkyMessagePart(message)));
+		final String excessStr = excess.toString();
 		final List<SkyMessagePart> parts = new ArrayList<>();
 		for (final JTag tag : tags)
 			parts.add(new SkyMessagePart(tag));
+		if (!excessStr.isBlank())
+			parts.add(new SkyMessagePart(excessStr));
 		return new SkyMessage(parts);
 	}
 
