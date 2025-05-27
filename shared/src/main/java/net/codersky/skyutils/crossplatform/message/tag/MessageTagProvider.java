@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 public class MessageTagProvider {
 
@@ -32,24 +33,22 @@ public class MessageTagProvider {
 	}
 
 	/*
-	 - General
+	 - Tag getters
 	 */
 
-	private static MessageTag searchTagIn(@NotNull final List<? extends MessageTag> list, @NotNull final String key) {
-		for (final MessageTag tag : list)
-			if (tagMatches(tag, key))
-				return tag;
+	@Nullable
+	public static MessageTag getTag(@NotNull final Predicate<MessageTag> condition) {
+		MessageTag tag;
+		if ((tag = JCollections.get(filters, condition::test)) != null)
+			return tag;
+		if ((tag = JCollections.get(types, condition::test)) != null)
+			return tag;
 		return null;
 	}
 
 	@Nullable
 	public static MessageTag getTag(@NotNull final String key) {
-		MessageTag tag;
-		if ((tag = searchTagIn(filters, key)) != null)
-			return tag;
-		if ((tag = searchTagIn(types, key)) != null)
-			return tag;
-		return null;
+		return getTag(tag -> tagMatches(tag, key));
 	}
 
 	@Nullable
@@ -58,7 +57,17 @@ public class MessageTagProvider {
 		return clazz.isInstance(tag) ? clazz.cast(tag) : null;
 	}
 
-	public static boolean isRegistered(@NotNull final MessageTag tag) {
+	@Nullable
+	public static <T extends MessageTag> T getTag(@NotNull Class<T> clazz) {
+		final MessageTag tag = getTag(t -> t.getClass().equals(clazz));
+		return tag == null ? null : clazz.cast(tag);
+	}
+
+	/*
+	 - Registration check
+	 */
+
+	public static boolean canRegister(@NotNull final MessageTag tag) {
 		if (getTag(tag.getKey()) != null)
 			return true;
 		for (final String alias : tag.getAliases())
@@ -72,7 +81,7 @@ public class MessageTagProvider {
 	 */
 
 	public static boolean registerFilter(@NotNull final MessageFilter filter) {
-		return !isRegistered(filter) && filters.add(filter);
+		return !canRegister(filter) && filters.add(filter);
 	}
 
 	public static int registerFilters(@NotNull final MessageFilter... filters) {
@@ -93,7 +102,7 @@ public class MessageTagProvider {
 	 */
 
 	public static boolean registerType(@NotNull final MessageTypeTag type) {
-		return !isRegistered(type) && types.add(type);
+		return !canRegister(type) && types.add(type);
 	}
 
 	public static int registerTypes(@NotNull final MessageTypeTag... types) {
