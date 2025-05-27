@@ -5,7 +5,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class ActionBarMessageType implements MessageTypeTag {
 
+	public static final ActionBarMessageType INSTANCE = new ActionBarMessageType();
 	private final String[] aliases = {"actionbar"};
+
+	private ActionBarMessageType() {}
 
 	@Override
 	public @NotNull MessageType getType() {

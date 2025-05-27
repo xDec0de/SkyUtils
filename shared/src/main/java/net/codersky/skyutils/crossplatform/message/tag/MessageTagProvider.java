@@ -18,8 +18,8 @@ public class MessageTagProvider {
 
 	static {
 		// NOTE: This reduces list sizes by default, as in most cases no external tags will be registered.
-		filters = JCollections.asArrayList(new ConsoleMessageFilter(), new PlayerMessageFilter());
-		types = JCollections.asArrayList(new ActionBarMessageType());
+		filters = JCollections.asArrayList(ConsoleMessageFilter.INSTANCE, PlayerMessageFilter.INSTANCE);
+		types = JCollections.asArrayList(ActionBarMessageType.INSTANCE);
 	}
 
 	private static boolean tagMatches(@NotNull MessageTag tag, @NotNull String id) {

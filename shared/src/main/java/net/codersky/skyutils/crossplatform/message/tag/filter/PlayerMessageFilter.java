@@ -6,7 +6,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class PlayerMessageFilter implements MessageFilter {
 
+	public final static PlayerMessageFilter INSTANCE = new PlayerMessageFilter();
 	private final String[] aliases = {"player"};
+
+	private PlayerMessageFilter() {}
 
 	@Override
 	public boolean filter(@NotNull MessageReceiver receiver) {
