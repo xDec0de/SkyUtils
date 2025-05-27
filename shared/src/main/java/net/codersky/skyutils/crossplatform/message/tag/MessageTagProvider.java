@@ -93,8 +93,8 @@ public class MessageTagProvider {
 	}
 
 	@Nullable
-	public static MessageFilter getFilter(@NotNull String key) {
-		return getTag(key, MessageFilter.class);
+	public static MessageFilter getFilter(@NotNull final String key) {
+		return JCollections.get(filters, filter -> tagMatches(filter, key));
 	}
 
 	/*
@@ -115,6 +115,6 @@ public class MessageTagProvider {
 
 	@Nullable
 	public static MessageTypeTag getType(@NotNull String key) {
-		return getTag(key, MessageTypeTag.class);
+		return JCollections.get(types, type -> tagMatches(type, key));
 	}
 }
