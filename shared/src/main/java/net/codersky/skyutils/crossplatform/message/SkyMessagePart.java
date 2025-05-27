@@ -2,13 +2,9 @@ package net.codersky.skyutils.crossplatform.message;
 
 import net.codersky.jsky.strings.tag.JTag;
 import net.codersky.skyutils.crossplatform.MessageReceiver;
-import net.codersky.skyutils.crossplatform.SkyConsole;
 import net.codersky.skyutils.crossplatform.message.tag.filter.MessageFilter;
-import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.codersky.skyutils.java.strings.SkyStrings;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
@@ -34,15 +30,14 @@ public class SkyMessagePart {
 	}
 
 	/*
-	 - Sending
+	 - Sending utility
 	 */
 
-	void send(@NotNull MessageReceiver receiver) {
-		if (!filter.test(receiver))
-			return;
-		if (receiver instanceof final SkyPlayer player)
-			player.sendJsonMessage(GsonComponentSerializer.gson().serialize(component));
-		else
-			receiver.sendMessage(LegacyComponentSerializer.legacyAmpersand().serialize(component));
+	boolean matches(@NotNull final MessageReceiver receiver) {
+		return filter.test(receiver);
+	}
+
+	Component getComponent() {
+		return component;
 	}
 }

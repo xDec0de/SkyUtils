@@ -2,14 +2,17 @@ package net.codersky.skyutils.crossplatform.message;
 
 import net.codersky.jsky.collections.JCollections;
 import net.codersky.jsky.strings.tag.JTag;
+import net.codersky.jsky.strings.tag.JTagParseAllResult;
 import net.codersky.jsky.strings.tag.JTagParser;
 import net.codersky.skyutils.crossplatform.MessageReceiver;
 import net.codersky.skyutils.crossplatform.message.tag.MessageTag;
 import net.codersky.skyutils.crossplatform.message.tag.filter.ConsoleMessageFilter;
 import net.codersky.skyutils.crossplatform.message.tag.filter.MessageFilter;
 import net.codersky.skyutils.crossplatform.message.tag.filter.PlayerMessageFilter;
-import net.codersky.skyutils.java.strings.SkyStrings;
+import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,24 +34,40 @@ public class SkyMessage {
 		this.messageParts = Objects.requireNonNull(parts);
 	}
 
+	/*
+	 - Building
+	 */
+
 	@NotNull
 	public static SkyMessage of(@NotNull String message) {
-		final StringBuilder excess = new StringBuilder();
-		final JTag[] tags = JTagParser.parse(message, 0, excess);
-		if (tags.length == 0)
-			return new SkyMessage(List.of(new SkyMessagePart(message)));
-		final String excessStr = excess.toString();
 		final List<SkyMessagePart> parts = new ArrayList<>();
-		for (final JTag tag : tags)
-			parts.add(new SkyMessagePart(tag));
-		if (!excessStr.isBlank())
-			parts.add(new SkyMessagePart(excessStr));
+		final JTagParseAllResult result = JTagParser.parseAll(message);
+		for (final Object obj : result.getTags()) {
+			if (obj instanceof final JTag tag)
+				parts.add(new SkyMessagePart(tag));
+			else if (obj instanceof final String str)
+				parts.add(new SkyMessagePart(str));
+		}
 		return new SkyMessage(parts);
 	}
 
-	public boolean send(@NotNull MessageReceiver receiver) {
+	/*
+	 - Sending
+	 */
+
+	public boolean send(@NotNull final MessageReceiver receiver) {
+		Component toSend = null;
 		for (final SkyMessagePart part : messageParts)
-			part.send(receiver);
+			if (part.matches(receiver))
+				toSend = toSend == null ? part.getComponent() : toSend.append(part.getComponent());
+		return toSend == null || sendComponent(toSend, receiver);
+	}
+
+	private boolean sendComponent(@NotNull final Component component, @NotNull final MessageReceiver receiver) {
+		if (receiver instanceof final SkyPlayer player)
+			player.sendJsonMessage(GsonComponentSerializer.gson().serialize(component));
+		else
+			receiver.sendMessage(LegacyComponentSerializer.legacyAmpersand().serialize(component));
 		return true;
 	}
 
