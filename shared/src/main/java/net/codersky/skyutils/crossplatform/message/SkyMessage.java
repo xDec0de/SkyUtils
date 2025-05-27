@@ -9,6 +9,8 @@ import net.codersky.skyutils.crossplatform.message.tag.MessageTag;
 import net.codersky.skyutils.crossplatform.message.tag.filter.ConsoleMessageFilter;
 import net.codersky.skyutils.crossplatform.message.tag.filter.MessageFilter;
 import net.codersky.skyutils.crossplatform.message.tag.filter.PlayerMessageFilter;
+import net.codersky.skyutils.crossplatform.message.tag.type.ActionBarMessageType;
+import net.codersky.skyutils.crossplatform.message.tag.type.MessageTypeTag;
 import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
@@ -23,11 +25,13 @@ import java.util.Objects;
 public class SkyMessage {
 
 	private final static List<MessageFilter> filters;
+	private final static List<MessageTypeTag> types;
 
 	private final List<SkyMessagePart> messageParts;
 
 	static {
 		filters = JCollections.asArrayList(new ConsoleMessageFilter(), new PlayerMessageFilter());
+		types = JCollections.asArrayList(new ActionBarMessageType());
 	}
 
 	private SkyMessage(@NotNull List<SkyMessagePart> parts) {
@@ -87,5 +91,10 @@ public class SkyMessage {
 	@Nullable
 	public static MessageFilter getFilter(@NotNull String key) {
 		return JCollections.get(filters, filter -> tagMatches(filter, key));
+	}
+
+	@Nullable
+	public static MessageTypeTag getType(@NotNull String key) {
+		return JCollections.get(types, type -> tagMatches(type, key));
 	}
 }

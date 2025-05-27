@@ -11,6 +11,7 @@ import java.util.function.Predicate;
 
 public class SkyMessagePart {
 
+	private MessageType type = MessageType.CHAT;
 	private final Component component;
 	private final Predicate<MessageReceiver> filter;
 
@@ -33,8 +34,13 @@ public class SkyMessagePart {
 	 - Sending utility
 	 */
 
+	@NotNull
+	MessageType getType() {
+		return type;
+	}
+
 	boolean matches(@NotNull final MessageReceiver receiver) {
-		return filter.test(receiver);
+		return type.isSupportedBy(receiver) && filter.test(receiver);
 	}
 
 	Component getComponent() {
