@@ -213,4 +213,8 @@ public interface MessageReceiver extends Replacement {
 	default boolean sendMessage(@NotNull Component message, @NotNull Object... replacements) {
 		return !canReceive(message) || sendMessage(message, new Replacer(replacements));
 	}
+
+	default boolean send(@NotNull final SkyMessage message) {
+		return message.send(this);
+	}
 }
