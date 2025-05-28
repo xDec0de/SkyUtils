@@ -4,7 +4,7 @@ import net.codersky.skyutils.crossplatform.MessageReceiver;
 import net.codersky.skyutils.crossplatform.SkyConsole;
 import org.jetbrains.annotations.NotNull;
 
-public enum MessageType {
+public enum MessageTarget {
 
 	CHAT,
 	ACTIONBAR;

@@ -12,7 +12,7 @@ import java.util.function.Predicate;
 
 public class SkyMessagePart {
 
-	private MessageType type = MessageType.CHAT;
+	private MessageTarget type = MessageTarget.CHAT;
 	private final Component component;
 	private final Predicate<MessageReceiver> filter;
 
@@ -36,7 +36,7 @@ public class SkyMessagePart {
 	 */
 
 	@NotNull
-	MessageType getType() {
+	MessageTarget getType() {
 		return type;
 	}
 
