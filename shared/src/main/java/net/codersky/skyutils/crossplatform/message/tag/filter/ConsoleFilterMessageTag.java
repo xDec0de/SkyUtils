@@ -4,12 +4,12 @@ import net.codersky.skyutils.crossplatform.MessageReceiver;
 import net.codersky.skyutils.crossplatform.SkyConsole;
 import org.jetbrains.annotations.NotNull;
 
-public class ConsoleMessageFilter implements MessageFilter {
+public class ConsoleFilterMessageTag implements FilterMessageTag {
 
-	public static final ConsoleMessageFilter INSTANCE = new ConsoleMessageFilter();
+	public static final ConsoleFilterMessageTag INSTANCE = new ConsoleFilterMessageTag();
 	private final String[] aliases = {"console"};
 
-	private ConsoleMessageFilter() {};
+	private ConsoleFilterMessageTag() {};
 
 	@Override
 	public boolean filter(@NotNull MessageReceiver receiver) {

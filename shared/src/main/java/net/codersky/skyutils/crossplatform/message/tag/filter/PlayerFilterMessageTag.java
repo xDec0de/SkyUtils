@@ -4,12 +4,12 @@ import net.codersky.skyutils.crossplatform.MessageReceiver;
 import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import org.jetbrains.annotations.NotNull;
 
-public class PlayerMessageFilter implements MessageFilter {
+public class PlayerFilterMessageTag implements FilterMessageTag {
 
-	public final static PlayerMessageFilter INSTANCE = new PlayerMessageFilter();
+	public final static PlayerFilterMessageTag INSTANCE = new PlayerFilterMessageTag();
 	private final String[] aliases = {"player"};
 
-	private PlayerMessageFilter() {}
+	private PlayerFilterMessageTag() {}
 
 	@Override
 	public boolean filter(@NotNull MessageReceiver receiver) {

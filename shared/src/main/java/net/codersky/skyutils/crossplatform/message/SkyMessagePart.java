@@ -3,7 +3,7 @@ package net.codersky.skyutils.crossplatform.message;
 import net.codersky.jsky.strings.tag.JTag;
 import net.codersky.skyutils.crossplatform.MessageReceiver;
 import net.codersky.skyutils.crossplatform.message.tag.MessageTagProvider;
-import net.codersky.skyutils.crossplatform.message.tag.filter.MessageFilter;
+import net.codersky.skyutils.crossplatform.message.tag.filter.FilterMessageTag;
 import net.codersky.skyutils.java.strings.SkyStrings;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -27,7 +27,7 @@ public class SkyMessagePart {
 	}
 
 	private Predicate<MessageReceiver> getFilter(@NotNull JTag tag) {
-		final MessageFilter msgFilter = MessageTagProvider.getFilter(tag.getName());
+		final FilterMessageTag msgFilter = MessageTagProvider.getFilter(tag.getName());
 		return msgFilter == null ? r -> true : msgFilter::filter;
 	}
 

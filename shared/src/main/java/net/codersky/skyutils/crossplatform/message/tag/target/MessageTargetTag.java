@@ -1,4 +1,4 @@
-package net.codersky.skyutils.crossplatform.message.tag.type;
+package net.codersky.skyutils.crossplatform.message.tag.target;
 
 import net.codersky.skyutils.crossplatform.message.MessageTarget;
 import net.codersky.skyutils.crossplatform.message.tag.MessageTag;
