@@ -1,0 +1,31 @@
+package net.codersky.skyutils.crossplatform.message.tag.event;
+
+import net.codersky.skyutils.crossplatform.message.MessageType;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
+import org.jetbrains.annotations.NotNull;
+
+public class OpenFileMessageEvent implements MessageEvent {
+
+	public static final OpenFileMessageEvent INSTANCE = new OpenFileMessageEvent();
+	private final String[] aliases = {"open_file"};
+
+	private OpenFileMessageEvent() {}
+
+	@Override
+	public @NotNull Component apply(@NotNull MessageType type, @NotNull Component component, @NotNull String context) {
+		if (type != MessageType.CHAT)
+			return component;
+		return component.clickEvent(ClickEvent.openFile(context));
+	}
+
+	@Override
+	public @NotNull String getKey() {
+		return "file";
+	}
+
+	@Override
+	public @NotNull String @NotNull [] getAliases() {
+		return aliases;
+	}
+}
