@@ -14,12 +14,12 @@ public interface EventMessageTag extends MessageTag {
 	 * This method is considered internal as it exposes the <b>internal</b>
 	 * Adventure API ({@link Component}) used by SkyUtils.
 	 *
-	 * @param type The current {@link MessageTarget}. Some events may
+	 * @param target The current {@link MessageTarget}. Some events may
 	 * not support some message types, in which case, they can just
 	 * return the provided {@code component}.
 	 * @param component The {@link Component} to modify.
 	 */
 	@NotNull
 	@ApiStatus.Internal
-	Component apply(@NotNull MessageTarget type, @NotNull Component component, @NotNull String context);
+	Component apply(@NotNull MessageTarget target, @NotNull Component component, @NotNull String context);
 }

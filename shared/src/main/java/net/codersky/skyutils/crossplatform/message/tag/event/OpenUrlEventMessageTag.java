@@ -13,8 +13,8 @@ public class OpenUrlEventMessageTag implements EventMessageTag {
 	private OpenUrlEventMessageTag() {}
 
 	@Override
-	public @NotNull Component apply(@NotNull MessageTarget type, @NotNull Component component, @NotNull String context) {
-		if (type != MessageTarget.CHAT)
+	public @NotNull Component apply(@NotNull MessageTarget target, @NotNull Component component, @NotNull String context) {
+		if (target != MessageTarget.CHAT)
 			return component;
 		return component.clickEvent(ClickEvent.openUrl(context));
 	}

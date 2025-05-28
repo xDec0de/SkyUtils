@@ -10,16 +10,15 @@ import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class SkyMessage {
 
-	private final List<SkyMessagePart> messageParts;
+	private final List<SkyMessagePortion> portions;
 
-	private SkyMessage(@NotNull List<SkyMessagePart> parts) {
-		this.messageParts = Objects.requireNonNull(parts);
+	SkyMessage(@NotNull List<SkyMessagePortion> portions) {
+		this.portions = Objects.requireNonNull(portions);
 	}
 
 	/*
@@ -27,16 +26,17 @@ public class SkyMessage {
 	 */
 
 	@NotNull
-	public static SkyMessage of(@NotNull String message) {
-		final List<SkyMessagePart> parts = new ArrayList<>();
-		final JTagParseAllResult result = JTagParser.parseAll(message);
-		for (final Object obj : result.getTags()) {
+	public static SkyMessage of(String message) {
+		final SkyMessageBuilder builder = new SkyMessageBuilder();
+		final JTagParseAllResult res = JTagParser.parseAll(message, 0, 1);
+		for (final Object obj : res) {
+			builder.newPortion(MessageClear.ALL);
 			if (obj instanceof final JTag tag)
-				parts.add(new SkyMessagePart(tag));
+				builder.appendTag(tag);
 			else if (obj instanceof final String str)
-				parts.add(new SkyMessagePart(str));
+				builder.append(str);
 		}
-		return new SkyMessage(parts);
+		return builder.build();
 	}
 
 	/*
@@ -45,9 +45,9 @@ public class SkyMessage {
 
 	public boolean send(@NotNull final MessageReceiver receiver) {
 		Component toSend = null;
-		for (final SkyMessagePart part : messageParts)
-			if (part.matches(receiver))
-				toSend = toSend == null ? part.getComponent() : toSend.append(part.getComponent());
+		for (final SkyMessagePortion portion : portions)
+			if (portion.getFilter().test(receiver))
+				toSend = toSend == null ? portion.getComponent() : toSend.append(portion.getComponent());
 		return toSend == null || sendComponent(toSend, receiver);
 	}
 
