@@ -64,6 +64,11 @@ public class MessageTagProvider {
 		return tag == null ? null : clazz.cast(tag);
 	}
 
+	@Nullable
+	public static MessageTag getTag(@NotNull final JTag tag) {
+		return getTag(tag.getName());
+	}
+
 	/*
 	 - Registration check
 	 */
@@ -122,6 +127,11 @@ public class MessageTagProvider {
 	@Nullable
 	public static MessageTargetTag getTarget(@NotNull final String key) {
 		return JCollections.get(types, type -> tagMatches(type, key));
+	}
+
+	@Nullable
+	public static MessageTargetTag getTarget(@NotNull final JTag tag) {
+		return getTarget(tag.getName());
 	}
 
 	/*
