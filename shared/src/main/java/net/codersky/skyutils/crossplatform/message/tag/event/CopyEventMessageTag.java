@@ -5,23 +5,23 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class RunCommandMessageEvent implements EventMessageTag {
+public class CopyEventMessageTag implements EventMessageTag {
 
-	public static final RunCommandMessageEvent INSTANCE = new RunCommandMessageEvent();
-	private final String[] aliases = {"run_cmd", "run_command"};
+	public static final CopyEventMessageTag INSTANCE = new CopyEventMessageTag();
+	private final String[] aliases = {"copy_to_clipboard"};
 
-	private RunCommandMessageEvent() {}
+	private CopyEventMessageTag() {}
 
 	@Override
 	public @NotNull Component apply(@NotNull MessageTarget type, @NotNull Component component, @NotNull String context) {
 		if (type != MessageTarget.CHAT)
 			return component;
-		return component.clickEvent(ClickEvent.runCommand(context));
+		return component.clickEvent(ClickEvent.copyToClipboard(context));
 	}
 
 	@Override
 	public @NotNull String getKey() {
-		return "run";
+		return "copy";
 	}
 
 	@Override

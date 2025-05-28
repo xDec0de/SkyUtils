@@ -2,26 +2,26 @@ package net.codersky.skyutils.crossplatform.message.tag.event;
 
 import net.codersky.skyutils.crossplatform.message.MessageTarget;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class OpenFileMessageEvent implements EventMessageTag {
+public class ShowTextEventMessageTag implements EventMessageTag {
 
-	public static final OpenFileMessageEvent INSTANCE = new OpenFileMessageEvent();
-	private final String[] aliases = {"open_file"};
+	public static final ShowTextEventMessageTag INSTANCE = new ShowTextEventMessageTag();
+	private final String[] aliases = {"txt", "show", "show_text"};
 
-	private OpenFileMessageEvent() {}
+	private ShowTextEventMessageTag() {}
 
 	@Override
 	public @NotNull Component apply(@NotNull MessageTarget type, @NotNull Component component, @NotNull String context) {
 		if (type != MessageTarget.CHAT)
 			return component;
-		return component.clickEvent(ClickEvent.openFile(context));
+		return component.hoverEvent(HoverEvent.showText(Component.text(context)));
 	}
 
 	@Override
 	public @NotNull String getKey() {
-		return "file";
+		return "text";
 	}
 
 	@Override

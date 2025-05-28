@@ -5,23 +5,23 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class OpenUrlMessageEvent implements EventMessageTag {
+public class OpenFileEventMessageTag implements EventMessageTag {
 
-	public static final OpenUrlMessageEvent INSTANCE = new OpenUrlMessageEvent();
-	private final String[] aliases = {"open_url"};
+	public static final OpenFileEventMessageTag INSTANCE = new OpenFileEventMessageTag();
+	private final String[] aliases = {"open_file"};
 
-	private OpenUrlMessageEvent() {}
+	private OpenFileEventMessageTag() {}
 
 	@Override
 	public @NotNull Component apply(@NotNull MessageTarget type, @NotNull Component component, @NotNull String context) {
 		if (type != MessageTarget.CHAT)
 			return component;
-		return component.clickEvent(ClickEvent.openUrl(context));
+		return component.clickEvent(ClickEvent.openFile(context));
 	}
 
 	@Override
 	public @NotNull String getKey() {
-		return "url";
+		return "file";
 	}
 
 	@Override
