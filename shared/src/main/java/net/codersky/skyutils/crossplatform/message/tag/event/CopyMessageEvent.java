@@ -5,7 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class CopyMessageEvent implements MessageEvent {
+public class CopyMessageEvent implements EventMessageTag {
 
 	public static final CopyMessageEvent INSTANCE = new CopyMessageEvent();
 	private final String[] aliases = {"copy_to_clipboard"};

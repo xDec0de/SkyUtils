@@ -6,10 +6,10 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
-public interface MessageEvent extends MessageTag {
+public interface EventMessageTag extends MessageTag {
 
 	/**
-	 * Applies this {@link MessageEvent} to the provided {@code component}.
+	 * Applies this {@link EventMessageTag} to the provided {@code component}.
 	 * <p>
 	 * This method is considered internal as it exposes the <b>internal</b>
 	 * Adventure API ({@link Component}) used by SkyUtils.

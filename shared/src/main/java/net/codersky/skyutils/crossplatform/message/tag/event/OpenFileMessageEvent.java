@@ -5,7 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class OpenFileMessageEvent implements MessageEvent {
+public class OpenFileMessageEvent implements EventMessageTag {
 
 	public static final OpenFileMessageEvent INSTANCE = new OpenFileMessageEvent();
 	private final String[] aliases = {"open_file"};

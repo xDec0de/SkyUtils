@@ -5,7 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class SuggestCommandMessageEvent implements MessageEvent {
+public class SuggestCommandMessageEvent implements EventMessageTag {
 
 	public static final SuggestCommandMessageEvent INSTANCE = new SuggestCommandMessageEvent();
 	private final String[] aliases = {"suggest_cmd", "suggest_command"};

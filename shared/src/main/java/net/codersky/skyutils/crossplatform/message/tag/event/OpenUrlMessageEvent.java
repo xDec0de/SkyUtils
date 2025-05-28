@@ -5,7 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class OpenUrlMessageEvent implements MessageEvent {
+public class OpenUrlMessageEvent implements EventMessageTag {
 
 	public static final OpenUrlMessageEvent INSTANCE = new OpenUrlMessageEvent();
 	private final String[] aliases = {"open_url"};

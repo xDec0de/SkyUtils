@@ -5,7 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class ShowTextMessageEvent implements MessageEvent {
+public class ShowTextMessageEvent implements EventMessageTag {
 
 	public static final ShowTextMessageEvent INSTANCE = new ShowTextMessageEvent();
 	private final String[] aliases = {"txt", "show", "show_text"};

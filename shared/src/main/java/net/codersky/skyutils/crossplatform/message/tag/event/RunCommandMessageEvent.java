@@ -5,7 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class RunCommandMessageEvent implements MessageEvent {
+public class RunCommandMessageEvent implements EventMessageTag {
 
 	public static final RunCommandMessageEvent INSTANCE = new RunCommandMessageEvent();
 	private final String[] aliases = {"run_cmd", "run_command"};
