@@ -3,12 +3,12 @@ package net.codersky.skyutils.crossplatform.message.tag.target;
 import net.codersky.skyutils.crossplatform.message.MessageTarget;
 import org.jetbrains.annotations.NotNull;
 
-public class ActionBarMessageTargetTag implements MessageTargetTag {
+public class ActionBarTargetMessageTag implements TargetMessageTag {
 
-	public static final ActionBarMessageTargetTag INSTANCE = new ActionBarMessageTargetTag();
+	public static final ActionBarTargetMessageTag INSTANCE = new ActionBarTargetMessageTag();
 	private final String[] aliases = {"actionbar"};
 
-	private ActionBarMessageTargetTag() {}
+	private ActionBarTargetMessageTag() {}
 
 	@Override
 	public @NotNull MessageTarget getType() {

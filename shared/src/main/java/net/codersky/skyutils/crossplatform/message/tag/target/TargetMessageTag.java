@@ -4,7 +4,7 @@ import net.codersky.skyutils.crossplatform.message.MessageTarget;
 import net.codersky.skyutils.crossplatform.message.tag.MessageTag;
 import org.jetbrains.annotations.NotNull;
 
-public interface MessageTargetTag extends MessageTag {
+public interface TargetMessageTag extends MessageTag {
 
 	@NotNull
 	MessageTarget getType();
