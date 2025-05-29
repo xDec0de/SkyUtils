@@ -69,9 +69,14 @@ subprojects {
 
 	version = rootProject.version
 
-	// Disable all tasks for the "platforms" project
-	if (name == "platforms") {
+	// Disable all tasks for container projects
+	if (project.name == "platforms" || project.name == "test-plugins") {
 		tasks.configureEach { enabled = false }
+		return@subprojects
+	}
+
+	// Skip publishing setup for test-plugins
+	if (project.parent?.name == "test-plugins") {
 		return@subprojects
 	}
 
