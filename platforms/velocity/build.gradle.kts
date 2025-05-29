@@ -9,13 +9,7 @@ repositories {
 
 dependencies {
 	api(project(":shared"))
+	compileOnly(libs.adventure.api)
 	compileOnly(libs.velocity)
-	api(libs.jsky.base)
-	api(libs.jsky.yaml)
-}
-
-tasks {
-	shadowJar {
-		relocate("org.yaml.snakeyaml", "net.codersky.skyutils.shaded.snakeyaml")
-	}
+	compileOnly(libs.jetbrains.annotations)
 }
