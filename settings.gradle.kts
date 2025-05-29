@@ -27,3 +27,6 @@ include("platforms:paper")
 
 // Proxy platforms
 include(":platforms:velocity")
+
+// Testing
+include(":test-plugins:paper")

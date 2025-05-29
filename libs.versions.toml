@@ -8,7 +8,7 @@ adventure-serializer-bungee = "4.3.4"
 spigot = "1.20-R0.1-SNAPSHOT"
 paper = "1.21.3-R0.1-SNAPSHOT"
 velocity = "3.3.0-SNAPSHOT"
-run-paper = "2.3.0"
+run-paper = "2.3.1"
 
 [libraries]
 jsky-base = { module = "net.codersky.jsky:base", version.ref = "jsky" }

@@ -10,6 +10,7 @@ public class SKUPaperTest extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		System.out.println("Enabling SkyUtils!");
 		utils.registerCommands(new SkyMessageCmd(utils));
 	}
 }

@@ -1,0 +1,5 @@
+main: net.codersky.skyutils.paper.test.SKUPaperTest
+version: "1.0.0"
+name: "SKUPaperTest"
+depend:
+  - SkyUtils
