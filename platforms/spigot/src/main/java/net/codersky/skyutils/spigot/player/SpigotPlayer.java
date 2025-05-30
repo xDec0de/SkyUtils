@@ -10,8 +10,6 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.UUID;
-
 public interface SpigotPlayer extends OfflineSpigotPlayer, SkyPlayer {
 
 	/*
