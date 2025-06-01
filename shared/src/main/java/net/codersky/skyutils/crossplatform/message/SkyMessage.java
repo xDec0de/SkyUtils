@@ -3,6 +3,7 @@ package net.codersky.skyutils.crossplatform.message;
 import net.codersky.jsky.strings.tag.JTag;
 import net.codersky.jsky.strings.tag.JTagParseAllResult;
 import net.codersky.jsky.strings.tag.JTagParser;
+import net.codersky.skyutils.cmd.SkyCommandSender;
 import net.codersky.skyutils.crossplatform.MessageReceiver;
 import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.kyori.adventure.text.Component;
@@ -52,7 +53,10 @@ public class SkyMessage {
 	}
 
 	private boolean sendComponent(@NotNull final Component component, @NotNull final MessageReceiver receiver) {
-		if (receiver instanceof final SkyPlayer player)
+		MessageReceiver actualReceiver = receiver;
+		if (receiver instanceof SkyCommandSender sender)
+			actualReceiver = sender.asReceiver();
+		if (actualReceiver instanceof final SkyPlayer player)
 			player.sendJsonMessage(GsonComponentSerializer.gson().serialize(component));
 		else
 			receiver.sendMessage(LegacyComponentSerializer.legacyAmpersand().serialize(component));
