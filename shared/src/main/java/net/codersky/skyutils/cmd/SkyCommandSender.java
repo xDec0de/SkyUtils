@@ -7,6 +7,8 @@ import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 public interface SkyCommandSender extends MessageReceiver {
 
 	/*
@@ -39,6 +41,29 @@ public interface SkyCommandSender extends MessageReceiver {
 	default Object asConsoleHandle() {
 		final SkyConsole console = asConsole();
 		return console == null ? null : console.getHandle();
+	}
+
+	/*
+	 - MessageReceiver
+	 */
+
+	/**
+	 * Converts this {@link SkyCommandSender} to either a
+	 * {@link SkyPlayer} or {@link SkyConsole} instance,
+	 * useful to simplify casting in some specific cases.
+	 *
+	 * @return The {@link SkyPlayer} or {@link SkyConsole}
+	 * instance of this {@link SkyCommandSender}, as a {@link MessageReceiver}.
+	 *
+	 * @since SkyUtils 1.0.0
+	 *
+	 * @see #asPlayer()
+	 * @see #asConsole()
+	 */
+	@NotNull
+	default MessageReceiver asReceiver() {
+		final SkyPlayer player = asPlayer();
+		return player != null ? player : Objects.requireNonNull(asConsole());
 	}
 
 	/*
