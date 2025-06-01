@@ -7,6 +7,7 @@ import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -67,7 +68,7 @@ public interface SpigotPlayer extends OfflineSpigotPlayer, SkyPlayer {
 
 	@Override
 	default boolean sendJsonMessage(@NotNull String json) {
-		getHandle().sendRawMessage(json);
+		getHandle().spigot().sendMessage(ComponentSerializer.parse(json));
 		return true;
 	}
 
