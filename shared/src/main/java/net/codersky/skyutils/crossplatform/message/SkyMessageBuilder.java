@@ -175,10 +175,11 @@ public class SkyMessageBuilder {
 	 */
 
 	public SkyMessageBuilder newPortion(@NotNull final MessageClear clear) {
-		if (component == Component.empty())
+		if (this.component == Component.empty())
 			return clear.clearOn(this);
 		final SkyMessagePortion portion = new SkyMessagePortion(msgTarget, component, getPredicate());
 		portions.add(portion);
+		this.component = Component.empty();
 		return clear.clearOn(this);
 	}
 
