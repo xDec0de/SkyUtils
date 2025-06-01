@@ -30,11 +30,11 @@ public class SkyMessage {
 		final SkyMessageBuilder builder = new SkyMessageBuilder();
 		final JTagParseAllResult res = JTagParser.parseAll(message, 0, 1);
 		for (final Object obj : res) {
-			builder.newPortion(MessageClear.ALL);
 			if (obj instanceof final JTag tag)
 				builder.appendTag(tag);
 			else if (obj instanceof final String str)
 				builder.append(str);
+			builder.newPortion(MessageClear.ALL);
 		}
 		return builder.build();
 	}
