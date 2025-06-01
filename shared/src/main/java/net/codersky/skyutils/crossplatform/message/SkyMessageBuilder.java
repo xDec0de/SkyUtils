@@ -215,18 +215,12 @@ public class SkyMessageBuilder {
 	}
 
 	private SkyMessageBuilder processEvents(final JTag tag) {
-		final JTagParseAllResult res = JTagParser.parseAll(tag.getContent(), 0, 1);
-		Component comp = Component.empty();
-		final StringBuilder builder = new StringBuilder();
-		for (final Object obj : res) {
-			if (obj instanceof final JTag eTag) {
-				final EventMessageTag event = MessageTagProvider.getEvent(eTag);
-				if (event != null)
-					comp = event.apply(getTarget(), comp, eTag.getContent());
-			} else if (obj instanceof final String str)
-				builder.append(str);
+		Component comp = Component.text(tag.getContent());
+		for (JTag eTag : tag.getChildren()) {
+			final EventMessageTag event = MessageTagProvider.getEvent(eTag);
+			if (event != null)
+				comp = event.apply(getTarget(), comp, eTag.getContent());
 		}
-		comp = Component.text(builder.toString());
 		this.component = this.component.append(comp);
 		return this;
 	}
