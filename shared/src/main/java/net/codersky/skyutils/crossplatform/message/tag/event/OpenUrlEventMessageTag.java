@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 public class OpenUrlEventMessageTag implements EventMessageTag {
 
 	public static final OpenUrlEventMessageTag INSTANCE = new OpenUrlEventMessageTag();
-	private final String[] aliases = {"open_url"};
 
 	private OpenUrlEventMessageTag() {}
 
@@ -20,12 +19,7 @@ public class OpenUrlEventMessageTag implements EventMessageTag {
 	}
 
 	@Override
-	public @NotNull String getKey() {
-		return "url";
-	}
-
-	@Override
-	public @NotNull String @NotNull [] getAliases() {
-		return aliases;
+	public boolean matches(@NotNull String name) {
+		return name.equals("url") || name.equals("open_url");
 	}
 }

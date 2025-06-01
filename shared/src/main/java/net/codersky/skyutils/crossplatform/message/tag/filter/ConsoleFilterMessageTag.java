@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 public class ConsoleFilterMessageTag implements FilterMessageTag {
 
 	public static final ConsoleFilterMessageTag INSTANCE = new ConsoleFilterMessageTag();
-	private final String[] aliases = {"console"};
 
 	private ConsoleFilterMessageTag() {};
 
@@ -17,12 +16,7 @@ public class ConsoleFilterMessageTag implements FilterMessageTag {
 	}
 
 	@Override
-	public @NotNull String getKey() {
-		return "c";
-	}
-
-	@Override
-	public @NotNull String @NotNull [] getAliases() {
-		return aliases;
+	public boolean matches(@NotNull String name) {
+		return name.equals("c") || name.equals("console");
 	}
 }

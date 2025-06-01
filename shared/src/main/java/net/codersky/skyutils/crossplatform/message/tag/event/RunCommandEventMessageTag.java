@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 public class RunCommandEventMessageTag implements EventMessageTag {
 
 	public static final RunCommandEventMessageTag INSTANCE = new RunCommandEventMessageTag();
-	private final String[] aliases = {"run_cmd", "run_command"};
 
 	private RunCommandEventMessageTag() {}
 
@@ -20,12 +19,7 @@ public class RunCommandEventMessageTag implements EventMessageTag {
 	}
 
 	@Override
-	public @NotNull String getKey() {
-		return "run";
-	}
-
-	@Override
-	public @NotNull String @NotNull [] getAliases() {
-		return aliases;
+	public boolean matches(@NotNull String name) {
+		return name.equals("run") || name.equals("run_cmd") || name.equals("run_command");
 	}
 }

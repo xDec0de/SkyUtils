@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 public class OpenFileEventMessageTag implements EventMessageTag {
 
 	public static final OpenFileEventMessageTag INSTANCE = new OpenFileEventMessageTag();
-	private final String[] aliases = {"open_file"};
 
 	private OpenFileEventMessageTag() {}
 
@@ -20,12 +19,7 @@ public class OpenFileEventMessageTag implements EventMessageTag {
 	}
 
 	@Override
-	public @NotNull String getKey() {
-		return "file";
-	}
-
-	@Override
-	public @NotNull String @NotNull [] getAliases() {
-		return aliases;
+	public boolean matches(@NotNull String name) {
+		return name.equals("file") || name.equals("open_file");
 	}
 }

@@ -6,7 +6,7 @@ import net.codersky.jsky.strings.tag.JTagParser;
 import net.codersky.skyutils.cmd.SkyCommandSender;
 import net.codersky.skyutils.crossplatform.MessageReceiver;
 import net.codersky.skyutils.crossplatform.player.SkyPlayer;
-import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
@@ -27,7 +27,7 @@ public class SkyMessage {
 	 */
 
 	@NotNull
-	public static SkyMessage of(String message) {
+	public static SkyMessage of(@NotNull final String message) {
 		final SkyMessageBuilder builder = new SkyMessageBuilder();
 		final JTagParseAllResult res = JTagParser.parseAll(message, 0, 1);
 		for (final Object obj : res) {
@@ -45,14 +45,14 @@ public class SkyMessage {
 	 */
 
 	public boolean send(@NotNull final MessageReceiver receiver) {
-		Component toSend = null;
+		TextComponent toSend = null;
 		for (final SkyMessagePortion portion : portions)
 			if (portion.getFilter().test(receiver))
 				toSend = toSend == null ? portion.getComponent() : toSend.append(portion.getComponent());
 		return toSend == null || sendComponent(toSend, receiver);
 	}
 
-	private boolean sendComponent(@NotNull final Component component, @NotNull final MessageReceiver receiver) {
+	private boolean sendComponent(@NotNull final TextComponent component, @NotNull final MessageReceiver receiver) {
 		MessageReceiver actualReceiver = receiver;
 		if (receiver instanceof SkyCommandSender sender)
 			actualReceiver = sender.asReceiver();

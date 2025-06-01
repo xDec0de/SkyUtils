@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 public class ShowTextEventMessageTag implements EventMessageTag {
 
 	public static final ShowTextEventMessageTag INSTANCE = new ShowTextEventMessageTag();
-	private final String[] aliases = {"txt", "show", "show_text"};
 
 	private ShowTextEventMessageTag() {}
 
@@ -20,12 +19,7 @@ public class ShowTextEventMessageTag implements EventMessageTag {
 	}
 
 	@Override
-	public @NotNull String getKey() {
-		return "text";
-	}
-
-	@Override
-	public @NotNull String @NotNull [] getAliases() {
-		return aliases;
+	public boolean matches(@NotNull String name) {
+		return name.equals("txt") || name.equals("text") || name.equals("show") || name.equals("show_text");
 	}
 }

@@ -38,7 +38,7 @@ public enum MessageClear {
 		@Override
 		public @NotNull SkyMessageBuilder clearOn(@NotNull SkyMessageBuilder builder) {
 			builder.clearFilters();
-			return builder.clearModifiers();
+			return builder.clearEvents();
 		}
 	},
 

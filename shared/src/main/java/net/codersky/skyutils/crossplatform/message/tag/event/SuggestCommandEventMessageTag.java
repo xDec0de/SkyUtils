@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 public class SuggestCommandEventMessageTag implements EventMessageTag {
 
 	public static final SuggestCommandEventMessageTag INSTANCE = new SuggestCommandEventMessageTag();
-	private final String[] aliases = {"suggest_cmd", "suggest_command"};
 
 	private SuggestCommandEventMessageTag() {}
 
@@ -20,12 +19,7 @@ public class SuggestCommandEventMessageTag implements EventMessageTag {
 	}
 
 	@Override
-	public @NotNull String getKey() {
-		return "suggest";
-	}
-
-	@Override
-	public @NotNull String @NotNull [] getAliases() {
-		return aliases;
+	public boolean matches(@NotNull String name) {
+		return name.equals("suggest") || name.equals("suggest_cmd") || name.equals("suggest_command");
 	}
 }

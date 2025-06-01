@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 public class PlayerFilterMessageTag implements FilterMessageTag {
 
 	public final static PlayerFilterMessageTag INSTANCE = new PlayerFilterMessageTag();
-	private final String[] aliases = {"player"};
 
 	private PlayerFilterMessageTag() {}
 
@@ -17,12 +16,7 @@ public class PlayerFilterMessageTag implements FilterMessageTag {
 	}
 
 	@Override
-	public @NotNull String getKey() {
-		return "p";
-	}
-
-	@Override
-	public @NotNull String @NotNull [] getAliases() {
-		return aliases;
+	public boolean matches(@NotNull String name) {
+		return name.equals("p") || name.equals("player");
 	}
 }

@@ -1,7 +1,7 @@
 package net.codersky.skyutils.crossplatform.message;
 
 import net.codersky.skyutils.crossplatform.MessageReceiver;
-import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -9,10 +9,10 @@ import java.util.function.Predicate;
 class SkyMessagePortion {
 
 	private final MessageTarget type;
-	private final Component component;
+	private final TextComponent component;
 	private final Predicate<MessageReceiver> filter;
 
-	SkyMessagePortion(final MessageTarget type, final Component component, final Predicate<MessageReceiver> filter) {
+	SkyMessagePortion(final MessageTarget type, final TextComponent component, final Predicate<MessageReceiver> filter) {
 		this.type = Objects.requireNonNull(type);
 		this.component = Objects.requireNonNull(component);
 		this.filter = Objects.requireNonNull(filter);
@@ -22,7 +22,7 @@ class SkyMessagePortion {
 		return type;
 	}
 
-	Component getComponent() {
+	TextComponent getComponent() {
 		return component;
 	}
 

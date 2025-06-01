@@ -13,6 +13,7 @@ import net.codersky.skyutils.crossplatform.message.tag.filter.FilterMessageTag;
 import net.codersky.skyutils.crossplatform.message.tag.filter.PlayerFilterMessageTag;
 import net.codersky.skyutils.crossplatform.message.tag.target.TargetMessageTag;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,8 +28,8 @@ public class SkyMessageBuilder {
 
 	private MessageTarget msgTarget = MessageTarget.CHAT;
 	private final List<FilterMessageTag> filters = new ArrayList<>();
-	private final List<EventMessageTag> modifiers = new ArrayList<>();
-	private Component component = Component.empty();
+	private final List<EventMessageTag> events = new ArrayList<>();
+	private TextComponent component = Component.empty();
 
 	public SkyMessageBuilder append(@NotNull final String str) {
 		this.component = component.append(Component.text(str));
@@ -49,8 +50,8 @@ public class SkyMessageBuilder {
 	 */
 
 	@Nullable
-	public FilterMessageTag getFilter(@NotNull final String key) {
-		return JCollections.get(filters, f -> tagMatches(f, key));
+	public FilterMessageTag getFilter(@NotNull final String name) {
+		return JCollections.get(filters, f -> f.matches(name));
 	}
 
 	@Nullable
@@ -67,7 +68,7 @@ public class SkyMessageBuilder {
 	}
 
 	public boolean hasFilter(@NotNull final FilterMessageTag filter) {
-		return JCollections.get(filters, f -> tagMatches(f, filter)) != null;
+		return JCollections.get(filters, f -> f.getClass().equals(filter.getClass())) != null;
 	}
 
 	@NotNull
@@ -104,7 +105,7 @@ public class SkyMessageBuilder {
 	@NotNull
 	public SkyMessageBuilder playerOnly(boolean keepModifiers) {
 		if (!keepModifiers)
-			clearModifiers();
+			clearEvents();
 		removeFilter(ConsoleFilterMessageTag.INSTANCE);
 		return addFilter(PlayerFilterMessageTag.INSTANCE);
 	}
@@ -121,7 +122,7 @@ public class SkyMessageBuilder {
 	@NotNull
 	public SkyMessageBuilder consoleOnly(boolean keepModifiers) {
 		if (!keepModifiers)
-			clearModifiers();
+			clearEvents();
 		removeFilter(PlayerFilterMessageTag.INSTANCE);
 		return addFilter(ConsoleFilterMessageTag.INSTANCE);
 	}
@@ -132,12 +133,12 @@ public class SkyMessageBuilder {
 	}
 
 	/*
-	 - Modifiers
+	 - Events
 	 */
 
 	@NotNull
-	public SkyMessageBuilder clearModifiers() {
-		modifiers.clear();
+	public SkyMessageBuilder clearEvents() {
+		events.clear();
 		return this;
 	}
 
@@ -217,33 +218,11 @@ public class SkyMessageBuilder {
 	private SkyMessageBuilder processEvents(final JTag tag) {
 		Component comp = Component.text(tag.getContent());
 		for (JTag eTag : tag.getChildren()) {
-			final EventMessageTag event = MessageTagProvider.getEvent(eTag);
+			final EventMessageTag event = MessageTagProvider.getEventTag(eTag);
 			if (event != null)
 				comp = event.apply(getTarget(), comp, eTag.getContent());
 		}
 		this.component = this.component.append(comp);
 		return this;
-	}
-
-	/*
-	 - Utility
-	 */
-
-	private boolean tagMatches(@NotNull MessageTag tag, @NotNull MessageTag other) {
-		if (tagMatches(tag, other.getKey()))
-			return true;
-		for (final String alias : other.getAliases())
-			if (tagMatches(tag, alias))
-				return true;
-		return false;
-	}
-
-	private boolean tagMatches(@NotNull MessageTag tag, @NotNull String id) {
-		if (tag.getKey().equalsIgnoreCase(id))
-			return true;
-		for (final String alias : tag.getAliases())
-			if (alias.equalsIgnoreCase(id))
-				return true;
-		return false;
 	}
 }

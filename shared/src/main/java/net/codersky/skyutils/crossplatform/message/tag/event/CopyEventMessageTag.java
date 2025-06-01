@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 public class CopyEventMessageTag implements EventMessageTag {
 
 	public static final CopyEventMessageTag INSTANCE = new CopyEventMessageTag();
-	private final String[] aliases = {"copy_to_clipboard"};
 
 	private CopyEventMessageTag() {}
 
@@ -20,12 +19,7 @@ public class CopyEventMessageTag implements EventMessageTag {
 	}
 
 	@Override
-	public @NotNull String getKey() {
-		return "copy";
-	}
-
-	@Override
-	public @NotNull String @NotNull [] getAliases() {
-		return aliases;
+	public boolean matches(@NotNull String name) {
+		return name.equals("copy") || name.equals("copy_to_clipboard");
 	}
 }

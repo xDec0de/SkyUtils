@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
 public class ActionBarTargetMessageTag implements TargetMessageTag {
 
 	public static final ActionBarTargetMessageTag INSTANCE = new ActionBarTargetMessageTag();
-	private final String[] aliases = {"actionbar"};
 
 	private ActionBarTargetMessageTag() {}
 
@@ -16,12 +15,7 @@ public class ActionBarTargetMessageTag implements TargetMessageTag {
 	}
 
 	@Override
-	public @NotNull String getKey() {
-		return "ab";
-	}
-
-	@Override
-	public @NotNull String @NotNull [] getAliases() {
-		return aliases;
+	public boolean matches(@NotNull String name) {
+		return name.equals("ab") || name.equals("actionbar");
 	}
 }
