@@ -2,6 +2,8 @@ package net.codersky.skyutils.crossplatform.message.tag;
 
 import net.codersky.jsky.collections.JCollections;
 import net.codersky.jsky.strings.tag.JTag;
+import net.codersky.skyutils.crossplatform.message.tag.color.ColorMessageTag;
+import net.codersky.skyutils.crossplatform.message.tag.color.HexGradientMessageTag;
 import net.codersky.skyutils.crossplatform.message.tag.event.CopyEventMessageTag;
 import net.codersky.skyutils.crossplatform.message.tag.event.EventMessageTag;
 import net.codersky.skyutils.crossplatform.message.tag.event.OpenFileEventMessageTag;
@@ -23,12 +25,16 @@ import java.util.function.Predicate;
 
 public class MessageTagProvider {
 
+	private final static List<ColorMessageTag> colorTags;
 	private final static List<EventMessageTag> eventTags;
 	private final static List<FilterMessageTag> filterTags;
 	private final static List<TargetMessageTag> targetTags;
 
 	static {
 		// NOTE: This reduces list sizes by default, as in most cases no external tags will be registered.
+		colorTags = JCollections.asArrayList(
+				HexGradientMessageTag.INSTANCE
+		);
 		eventTags = JCollections.asArrayList(
 				CopyEventMessageTag.INSTANCE,
 				OpenFileEventMessageTag.INSTANCE,
@@ -53,6 +59,8 @@ public class MessageTagProvider {
 	@Nullable
 	public static MessageTag getTag(@NotNull final Predicate<MessageTag> condition) {
 		MessageTag tag;
+		if ((tag = JCollections.get(colorTags, condition::test)) != null)
+			return tag;
 		if ((tag = JCollections.get(targetTags, condition::test)) != null)
 			return tag;
 		if ((tag = JCollections.get(filterTags, condition::test)) != null)
@@ -70,6 +78,24 @@ public class MessageTagProvider {
 	@Nullable
 	public static MessageTag getTag(@NotNull final JTag tag) {
 		return getTag(tag.getName());
+	}
+
+	/*
+	 - Colors
+	 */
+
+	public static void registerColorTags(@NotNull final ColorMessageTag... colors) {
+		colorTags.addAll(Arrays.asList(colors));
+	}
+
+	@Nullable
+	public static ColorMessageTag getColorTag(@NotNull final String name) {
+		return JCollections.get(colorTags, event -> event.matches(name));
+	}
+
+	@Nullable
+	public static ColorMessageTag getColorTag(@NotNull final JTag tag) {
+		return getColorTag(tag.getName());
 	}
 
 	/*
