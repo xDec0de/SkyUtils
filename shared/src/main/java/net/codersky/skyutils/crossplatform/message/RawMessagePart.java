@@ -8,7 +8,7 @@ import java.util.function.Predicate;
 
 class RawMessagePart {
 
-	private StringBuilder content;
+	private final StringBuilder content;
 	private Predicate<MessageReceiver> condition = null;
 
 	RawMessagePart(@NotNull final StringBuilder content) {
@@ -28,8 +28,10 @@ class RawMessagePart {
 		return condition;
 	}
 
-	void setCondition(@Nullable final Predicate<MessageReceiver> condition) {
+	@NotNull
+	RawMessagePart setCondition(@Nullable final Predicate<MessageReceiver> condition) {
 		this.condition = condition;
+		return this;
 	}
 
 	boolean matches(@NotNull final MessageReceiver receiver) {
@@ -44,8 +46,10 @@ class RawMessagePart {
 		return content.isEmpty();
 	}
 
-	void append(@NotNull final String str) {
+	@NotNull
+	RawMessagePart append(@NotNull final String str) {
 		content.append(str);
+		return this;
 	}
 
 	@NotNull

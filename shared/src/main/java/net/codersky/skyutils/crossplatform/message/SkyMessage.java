@@ -1,6 +1,5 @@
 package net.codersky.skyutils.crossplatform.message;
 
-import net.codersky.jsky.collections.JCollections;
 import net.codersky.jsky.strings.tag.JTag;
 import net.codersky.jsky.strings.tag.JTagParseAllResult;
 import net.codersky.jsky.strings.tag.JTagParser;
@@ -16,9 +15,8 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class SkyMessage {
 
@@ -47,7 +45,7 @@ public class SkyMessage {
 
 	@NotNull
 	public static SkyMessage of(@NotNull final String message) {
-		return of(toParts(new MessagePartMap(), null, message).values());
+		return of(toParts(new LinkedList<>(), null, message));
 	}
 
 	/*
@@ -55,43 +53,30 @@ public class SkyMessage {
 	 */
 
 	@NotNull
-	private static MessagePartMap toParts(MessagePartMap parts, Class<? extends FilterMessageTag> type, @NotNull final String message) {
+	private static List<RawMessagePart> toParts(LinkedList<RawMessagePart> parts, RawMessagePart part, @NotNull final String message) {
 		final JTagParseAllResult result = JTagParser.parseAll(message, 0, 0);
+		RawMessagePart currentPart = part == null ? new RawMessagePart() : part;
+		boolean subTagFound = false;
 		for (final Object obj : result) {
 			if (obj instanceof final JTag tag) {
 				final FilterMessageTag filter = MessageTagProvider.getFilterTag(tag);
-				if (filter != null)
-					parts.append(filter.getClass(), tag.getContent());
-				else {
-					parts.append(type, "<" + tag.getName() + ":");
-					toParts(parts, type, tag.getContent());
-					parts.append(type, ">");
+				if (filter != null) {
+					if (!currentPart.isEmpty())
+						parts.add(currentPart);
+					parts.add(new RawMessagePart().append(tag.getContent()).setCondition(filter::filter));
+					currentPart = new RawMessagePart();
+				} else {
+					subTagFound = true;
+					currentPart.append("<").append(tag.getName()).append(":");
+					currentPart = toParts(parts, currentPart, tag.getContent()).getLast();
+					currentPart.append(">");
 				}
 			} else if (obj instanceof final String str)
-				parts.append(type, str);
+				currentPart.append(str);
 		}
+		if (!subTagFound && !currentPart.isEmpty())
+			parts.add(currentPart);
 		return parts;
-	}
-
-	private static class MessagePartMap {
-
-		private final RawMessagePart noFilter = new RawMessagePart();
-		final Map<Class<? extends FilterMessageTag>, RawMessagePart> map = new HashMap<>();
-
-		void append(Class<? extends FilterMessageTag> clazz, final String str) {
-			if (clazz == null) {
-				noFilter.append(str);
-				for (RawMessagePart part : map.values())
-					part.append(str);
-			} else
-				map.computeIfAbsent(clazz, k -> new RawMessagePart(noFilter.getContent())).append(str);
-		}
-
-		List<RawMessagePart> values() {
-			final List<RawMessagePart> result = JCollections.asArrayList(noFilter);
-			result.addAll(map.values());
-			return result;
-		}
 	}
 
 	/*
@@ -100,17 +85,17 @@ public class SkyMessage {
 
 	public boolean send(@NotNull final MessageReceiver receiver) {
 		Component toSend = null;
+		MessageReceiver actualReceiver = receiver;
+		if (actualReceiver instanceof final SkyCommandSender sender)
+			actualReceiver = sender.asReceiver();
 		for (final SkyMessagePart part : parts)
-			if (part.test(receiver))
+			if (part.test(actualReceiver))
 				toSend = toSend == null ? part.getComponent() : toSend.append(part.getComponent());
-		return toSend == null || sendComponent(toSend, receiver);
+		return toSend == null || sendComponent(toSend, actualReceiver);
 	}
 
 	private boolean sendComponent(@NotNull final Component component, @NotNull final MessageReceiver receiver) {
-		MessageReceiver actualReceiver = receiver;
-		if (receiver instanceof SkyCommandSender sender)
-			actualReceiver = sender.asReceiver();
-		if (actualReceiver instanceof final SkyPlayer player)
+		if (receiver instanceof final SkyPlayer player)
 			player.sendJsonMessage(GsonComponentSerializer.gson().serialize(component));
 		else
 			receiver.sendMessage(LegacyComponentSerializer.legacyAmpersand().serialize(component));
