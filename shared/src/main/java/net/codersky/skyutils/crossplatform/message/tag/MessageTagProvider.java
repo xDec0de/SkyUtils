@@ -125,10 +125,6 @@ public class MessageTagProvider {
 	 - Filters
 	 */
 
-	public static void registerFilterTags(@NotNull final FilterMessageTag... filters) {
-		filterTags.addAll(Arrays.asList(filters));
-	}
-
 	@Nullable
 	public static FilterMessageTag getFilterTag(@NotNull final String name) {
 		return JCollections.get(filterTags, filter -> filter.matches(name));

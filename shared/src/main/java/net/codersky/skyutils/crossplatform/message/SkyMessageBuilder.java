@@ -1,47 +1,73 @@
 package net.codersky.skyutils.crossplatform.message;
 
+import net.codersky.jsky.strings.tag.JTag;
+import net.codersky.jsky.strings.tag.JTagParseAllResult;
+import net.codersky.jsky.strings.tag.JTagParser;
+import net.codersky.skyutils.cmd.SkyCommandSender;
 import net.codersky.skyutils.crossplatform.MessageReceiver;
 import net.codersky.skyutils.crossplatform.message.event.MessageEvent;
-import net.codersky.skyutils.crossplatform.message.tag.filter.ConsoleFilterMessageTag;
+import net.codersky.skyutils.crossplatform.message.tag.MessageTagProvider;
 import net.codersky.skyutils.crossplatform.message.tag.filter.FilterMessageTag;
 import net.codersky.skyutils.crossplatform.message.tag.filter.PlayerFilterMessageTag;
+import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SkyMessageBuilder {
 
-	private final List<RawMessagePart> portions = new ArrayList<>();
-	private RawMessagePart portion = new RawMessagePart();
-
-	public SkyMessageBuilder append(@NotNull final String str) {
-		portion.append(str);
-		return this;
-	}
+	private final StringBuilder player = new StringBuilder();
+	private final StringBuilder console = new StringBuilder();
 
 	/*
-	 - Filter
+	 - Of
 	 */
 
 	@NotNull
-	public SkyMessageBuilder withFilter(@NotNull final String msg, @NotNull final FilterMessageTag filter) {
-		portion.setCondition(filter::filter);
-		if (portion.isEmpty())
-			return this;
-		portions.add(portion);
-		portion = new RawMessagePart();
+	public static SkyMessageBuilder of(@NotNull final String unfiltered) {
+		final SkyMessageBuilder builder = new SkyMessageBuilder();
+		final JTagParseAllResult res = JTagParser.parseAll(unfiltered);
+		for (final Object obj : res) {
+			if (obj instanceof final JTag tag) {
+				final FilterMessageTag filter = MessageTagProvider.getFilterTag(tag);
+				if (filter != null) {
+					if (filter.getClass() == PlayerFilterMessageTag.class)
+						builder.playerOnly(tag.getContent());
+					else
+						builder.consoleOnly(tag.getContent());
+				} else
+					builder.append("<" + tag.getName() + ":").append(of(tag.getContent())).append(">");
+			} else if (obj instanceof final String str)
+				builder.append(str);
+		}
+		return builder;
+	}
+
+	/*
+	 - Append
+	 */
+
+	@NotNull
+	public SkyMessageBuilder append(@NotNull final String str) {
+		this.player.append(str);
 		return this;
 	}
 
 	@NotNull
 	public SkyMessageBuilder consoleOnly(@NotNull final String msg) {
-		return withFilter(msg, ConsoleFilterMessageTag.INSTANCE);
+		this.console.append(msg);
+		return this;
 	}
 
 	@NotNull
 	public SkyMessageBuilder playerOnly(@NotNull final String msg) {
-		return withFilter(msg, PlayerFilterMessageTag.INSTANCE);
+		this.player.append(msg);
+		return this;
+	}
+
+	@NotNull
+	public SkyMessageBuilder append(@NotNull final SkyMessageBuilder other) {
+		this.player.append(other.player);
+		this.console.append(other.console);
+		return this;
 	}
 
 	/*
@@ -63,9 +89,7 @@ public class SkyMessageBuilder {
 
 	@NotNull
 	public SkyMessage build() {
-		final List<RawMessagePart> toBuild = new ArrayList<>(portions);
-		toBuild.add(portion);
-		return SkyMessage.of(toBuild);
+		return SkyMessage.of(this);
 	}
 
 	/*
@@ -73,20 +97,26 @@ public class SkyMessageBuilder {
 	 */
 
 	@NotNull
+	public String toPlayerString() {
+		return player.toString();
+	}
+
+	@NotNull
+	public String toConsoleString() {
+		return console.toString();
+	}
+
+	@NotNull
 	public String toString(@NotNull final MessageReceiver receiver) {
-		final StringBuilder res = new StringBuilder();
-		for (final RawMessagePart portion : portions)
-			if (portion.matches(receiver))
-				res.append(portion.getContent());
-		return res.toString();
+		MessageReceiver actualReceiver = receiver;
+		if (actualReceiver instanceof final SkyCommandSender sender)
+			actualReceiver = sender.asReceiver();
+		return actualReceiver instanceof SkyPlayer ? toPlayerString() : toConsoleString();
 	}
 
 	@NotNull
 	@Override
 	public String toString() {
-		final StringBuilder res = new StringBuilder();
-		for (final RawMessagePart portion : portions)
-			res.append(portion.getContent());
-		return res.append(portion.getContent()).toString();
+		return "SkyMessageBuilder{player=" + player + ", console=" + console + "}";
 	}
 }
