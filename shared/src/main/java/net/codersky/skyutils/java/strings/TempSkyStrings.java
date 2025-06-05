@@ -125,32 +125,39 @@ public class TempSkyStrings extends JStrings {
 	 - Append - GradientMessageTag
 	 */
 
+	// TODO: Ugly method. I don't like it, but I'm tired... Should be improved though
+
 	private static void appendGradientTag(StringBuilder builder, GradientMessageTag tag, String content) {
 		final JTagParseAllResult parseResult = JTagParser.parseAll(content);
 		final GradientMessageTagResult res = getGradientResult(tag, parseResult);
 		final String[] colors = toLegacyHex(res.colors());
 		int lastColor = 0;
 		boolean jumped = false;
+		boolean close = false;
 		for (final Object obj : parseResult) {
 			String str = null;
 			if (obj instanceof final JTag child) {
 				builder.append('<').append(child.getName()).append(':');
 				if (MessageTagProvider.isMainEventTag(child)) {
+					for (final JTag eventChild : child.getChildren())
+						appendTag(builder, eventChild);
 					str = child.getContent();
+					close = true;
 				} else
 					appendTag(builder, child);
-			} if (obj instanceof final String str1)
-				str = str1;
+			} if (obj instanceof String)
+				str = (String) obj;
 			int start = 0;
 			if (!jumped) {
 				start = res.start();
 				jumped = true;
 			}
-			if (str != null)
-				for (int i = start; i < str.length(); i++, lastColor++) {
-					System.out.println("Appending color " + colors[lastColor] + " to " + str.charAt(i));
-					builder.append(colors[lastColor]).append(str.charAt(i));
-				}
+			if (str == null)
+				continue;
+			for (int i = start; i < str.length(); i++, lastColor++)
+				builder.append(colors[lastColor]).append(str.charAt(i));
+			if (close)
+				builder.append('>');
 		}
 	}
 
