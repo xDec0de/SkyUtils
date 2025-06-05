@@ -5,12 +5,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.awt.Color;
 
-public interface ColorMessageTag extends MessageTag {
+public interface GradientMessageTag extends MessageTag {
 
-	Color[] NO_COLORS = new Color[0];
+	GradientMessageTagResult NO_COLORS = new GradientMessageTagResult(new Color[0], 0);
 
 	@NotNull
-	Color[] getColors(@NotNull final String input);
+	GradientMessageTagResult getColors(@NotNull final String input);
 
 	static @NotNull Color @NotNull[] createGradient(final @NotNull Color @NotNull[] colors, final int size) {
 		if (colors.length == size)

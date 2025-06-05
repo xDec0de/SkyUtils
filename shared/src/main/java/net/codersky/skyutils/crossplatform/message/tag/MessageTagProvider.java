@@ -2,7 +2,7 @@ package net.codersky.skyutils.crossplatform.message.tag;
 
 import net.codersky.jsky.collections.JCollections;
 import net.codersky.jsky.strings.tag.JTag;
-import net.codersky.skyutils.crossplatform.message.tag.color.ColorMessageTag;
+import net.codersky.skyutils.crossplatform.message.tag.color.GradientMessageTag;
 import net.codersky.skyutils.crossplatform.message.tag.color.HexGradientMessageTag;
 import net.codersky.skyutils.crossplatform.message.tag.event.CopyEventMessageTag;
 import net.codersky.skyutils.crossplatform.message.tag.event.EventMessageTag;
@@ -25,7 +25,7 @@ import java.util.function.Predicate;
 
 public class MessageTagProvider {
 
-	private final static List<ColorMessageTag> colorTags;
+	private final static List<GradientMessageTag> colorTags;
 	private final static List<EventMessageTag> eventTags;
 	private final static List<FilterMessageTag> filterTags;
 	private final static List<TargetMessageTag> targetTags;
@@ -84,17 +84,17 @@ public class MessageTagProvider {
 	 - Colors
 	 */
 
-	public static void registerColorTags(@NotNull final ColorMessageTag... colors) {
+	public static void registerColorTags(@NotNull final GradientMessageTag... colors) {
 		colorTags.addAll(Arrays.asList(colors));
 	}
 
 	@Nullable
-	public static ColorMessageTag getColorTag(@NotNull final String name) {
+	public static GradientMessageTag getColorTag(@NotNull final String name) {
 		return JCollections.get(colorTags, event -> event.matches(name));
 	}
 
 	@Nullable
-	public static ColorMessageTag getColorTag(@NotNull final JTag tag) {
+	public static GradientMessageTag getColorTag(@NotNull final JTag tag) {
 		return getColorTag(tag.getName());
 	}
 

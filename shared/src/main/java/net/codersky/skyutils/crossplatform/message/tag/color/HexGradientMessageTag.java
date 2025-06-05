@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.awt.Color;
 
-public class HexGradientMessageTag implements ColorMessageTag {
+public class HexGradientMessageTag implements GradientMessageTag {
 
 	// NOTE: Tag format: <g:F00:000:Hello world>
 
@@ -24,11 +24,12 @@ public class HexGradientMessageTag implements ColorMessageTag {
 	}
 
 	/*
-	 - ColorMessageTag implementation
+	 - GradientMessageTag implementation
 	 */
 
+	@NotNull
 	@Override
-	public @NotNull Color @NotNull [] getColors(@NotNull final String input) {
+	public GradientMessageTagResult getColors(@NotNull final String input) {
 		final int separator = input.lastIndexOf(':');
 		if (separator == -1)
 			return NO_COLORS;
@@ -36,8 +37,9 @@ public class HexGradientMessageTag implements ColorMessageTag {
 		if (hexColors == null)
 			return NO_COLORS;
 		if (hexColors.length <= 1)
-			return hexColors;
-		return ColorMessageTag.createGradient(hexColors, input.length() - separator - 1);
+			return new GradientMessageTagResult(hexColors, separator + 1);
+		final Color[] gradient = GradientMessageTag.createGradient(hexColors, input.length() - separator - 1);
+		return new GradientMessageTagResult(gradient, separator + 1);
 	}
 
 	@Nullable
