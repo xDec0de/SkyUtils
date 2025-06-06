@@ -6,7 +6,6 @@ import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
-import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
@@ -60,16 +59,20 @@ public class VelocityPlayer extends OfflineVelocityPlayer implements SkyPlayer {
 		return getVersion().greaterThan(ProtocolVersion.MINECRAFT_1_15_2);
 	}
 
+	boolean canReceive(@NotNull final Component component) {
+		return Component.IS_NOT_EMPTY.test(component);
+	}
+
 	/*
 	 - MessageReceiver implementation
 	 */
 
 	@Override
 	public boolean sendMessage(@NotNull String message) {
-		return sendMessage(Component.text(message));
+		getHandle().sendMessage(Component.text(message));
+		return true;
 	}
 
-	@Override
 	public boolean sendMessage(@NotNull Component message) {
 		if (canReceive(message))
 			handle.sendMessage(message);
@@ -99,7 +102,6 @@ public class VelocityPlayer extends OfflineVelocityPlayer implements SkyPlayer {
 		return sendActionBar(Component.text(message));
 	}
 
-	@Override
 	public boolean sendActionBar(@NotNull Component message) {
 		if (canReceive(message))
 			handle.sendActionBar(message);

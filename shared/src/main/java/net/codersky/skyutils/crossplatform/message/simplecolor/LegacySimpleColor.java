@@ -1,6 +1,6 @@
 package net.codersky.skyutils.crossplatform.message.simplecolor;
 
-import net.codersky.skyutils.java.strings.TempSkyStrings;
+import net.codersky.skyutils.SkyStrings;
 import org.jetbrains.annotations.NotNull;
 
 public class LegacySimpleColor implements SimpleColor {
@@ -16,8 +16,8 @@ public class LegacySimpleColor implements SimpleColor {
 		final int length = str.length() - 1;
 		final char[] arr = str.toCharArray();
 		for (int i = 0; i < length; i++)
-			if (arr[i] == ch && TempSkyStrings.isColorChar(arr[i + 1]))
-				arr[i++] = TempSkyStrings.COLOR_CHAR;
+			if (arr[i] == ch && SkyStrings.isColorChar(arr[i + 1]))
+				arr[i++] = SkyStrings.COLOR_CHAR;
 		return new String(arr);
 	}
 
@@ -33,7 +33,7 @@ public class LegacySimpleColor implements SimpleColor {
 		final StringBuilder result = new StringBuilder();
 		for (int i = 0; i < len; i++) {
 			char ch = sequence.charAt(i);
-			if ((ch == colorChar || ch == TempSkyStrings.COLOR_CHAR) && (i + 1 < len) && TempSkyStrings.isColorChar(sequence.charAt(i + 1)))
+			if ((ch == colorChar || ch == SkyStrings.COLOR_CHAR) && (i + 1 < len) && SkyStrings.isColorChar(sequence.charAt(i + 1)))
 				i++;
 			else
 				result.append(ch);

@@ -1,8 +1,6 @@
 package net.codersky.skyutils.spigot.console;
 
 import net.codersky.skyutils.crossplatform.SkyConsole;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -38,13 +36,6 @@ public class SpigotConsole implements SkyConsole {
 	public boolean sendMessage(@NotNull String message) {
 		if (canReceive(message))
 			handle.sendMessage(message);
-		return true;
-	}
-
-	@Override
-	public boolean sendMessage(@NotNull Component message) {
-		if (canReceive(message))
-			handle.sendMessage(LegacyComponentSerializer.legacySection().serialize(message));
 		return true;
 	}
 }

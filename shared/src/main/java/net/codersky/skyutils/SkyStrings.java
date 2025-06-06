@@ -1,4 +1,4 @@
-package net.codersky.skyutils.java.strings;
+package net.codersky.skyutils;
 
 import net.codersky.jsky.collections.JCollections;
 import net.codersky.jsky.strings.JStrings;
@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.Color;
 import java.util.List;
 
-public class TempSkyStrings extends JStrings {
+public class SkyStrings extends JStrings {
 
 	/** The pattern character used for Minecraft pattern codes. */
 	public static char COLOR_CHAR = '§';
@@ -24,7 +24,7 @@ public class TempSkyStrings extends JStrings {
 			LegacySimpleColor.INSTANCE
 	);
 
-	private TempSkyStrings() {}
+	private SkyStrings() {}
 
 	/*
 	 - Strip pattern
@@ -76,7 +76,7 @@ public class TempSkyStrings extends JStrings {
 
 	@NotNull
 	public static String[] toLegacyHex(@NotNull final Color[] colors) {
-		return JCollections.map(colors, new String[colors.length], TempSkyStrings::toLegacyHex);
+		return JCollections.map(colors, new String[colors.length], SkyStrings::toLegacyHex);
 	}
 
 	/*
@@ -173,6 +173,6 @@ public class TempSkyStrings extends JStrings {
 	}
 
 	/*public static void main(String[] args) {
-		System.out.println(applyColor("<p:<g:FF0:000:Hi <e:<txt:Hi>world>>>"));
+		System.out.println(applyColor("<g:FF0:000:Hi <e:<txt:Hi>world>>"));
 	}*/
 }

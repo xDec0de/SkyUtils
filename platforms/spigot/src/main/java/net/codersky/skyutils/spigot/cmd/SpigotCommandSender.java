@@ -1,11 +1,9 @@
 package net.codersky.skyutils.spigot.cmd;
 
 import net.codersky.skyutils.cmd.SkyCommandSender;
-import net.codersky.skyutils.crossplatform.SkyConsole;
 import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.codersky.skyutils.spigot.SpigotUtils;
 import net.codersky.skyutils.spigot.console.SpigotConsole;
-import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -81,19 +79,6 @@ public class SpigotCommandSender implements SkyCommandSender {
 	public boolean sendMessage(@NotNull String message) {
 		if (canReceive(message))
 			sender.sendMessage(message);
-		return true;
-	}
-
-	@Override
-	public boolean sendMessage(@NotNull Component message) {
-		// SkyPlayer & SkyConsole implementations will already check if the message
-		// can be received. Not doing it here to avoid double-checking
-		final SkyPlayer player = asPlayer();
-		if (player != null)
-			return player.sendMessage(message);
-		final SkyConsole console = asConsole();
-		if (console != null)
-			return console.sendMessage(message);
 		return true;
 	}
 

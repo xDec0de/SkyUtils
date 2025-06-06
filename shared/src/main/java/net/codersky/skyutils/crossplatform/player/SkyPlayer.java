@@ -3,11 +3,9 @@ package net.codersky.skyutils.crossplatform.player;
 import net.codersky.jsky.strings.Replacer;
 import net.codersky.skyutils.cmd.SkyCommand;
 import net.codersky.skyutils.crossplatform.MessageReceiver;
-import net.codersky.skyutils.crossplatform.message.SkyReplacer;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.key.KeyPattern;
 import net.kyori.adventure.sound.Sound;
-import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -88,64 +86,13 @@ public interface SkyPlayer extends OfflineSkyPlayer, MessageReceiver {
 	}
 
 	/*
-	 - Actionbar Adventure messages
-	 */
-
-	/**
-	 * Sends an ActionBar {@link Component} {@code message} to this {@link OfflineSkyPlayer player}.
-	 *
-	 * @param message The Adventure {@link Component} to send to this {@link OfflineSkyPlayer player}.
-	 *
-	 * @return Always {@code true} to make it easier to create {@link SkyCommand SkyCommands}.
-	 *
-	 * @throws NullPointerException if {@code message} is {@code null}
-	 *
-	 * @since SkyUtils 1.0.0
-	 */
-	boolean sendActionBar(@NotNull Component message);
-
-	/**
-	 * Sends an ActionBar {@link Component} {@code message} to this {@link OfflineSkyPlayer player},
-	 * applying {@code replacer} to {@code message} before sending it.
-	 *
-	 * @param message The Adventure {@link Component} to send to this {@link OfflineSkyPlayer player}.
-	 * @param replacer The {@link Replacer} to apply to the {@code message} before sending it.
-	 *
-	 * @return Always {@code true} to make it easier to create {@link SkyCommand SkyCommands}.
-	 *
-	 * @throws NullPointerException if any parameter is {@code null}
-	 *
-	 * @since SkyUtils 1.0.0
-	 */
-	default boolean sendActionBar(@NotNull Component message, @NotNull SkyReplacer replacer) {
-		return !canReceive(message) || sendActionBar(replacer.replaceAt(message));
-	}
-
-	/**
-	 * Sends an ActionBar {@link Component} {@code message} to this {@link OfflineSkyPlayer player}, applying
-	 * a {@link Replacer} made with the specified {@code replacements} to {@code message} before sending it.
-	 *
-	 * @param message The Adventure {@link Component} to send to this {@link OfflineSkyPlayer player}.
-	 * @param replacements The replacements used to build a {@link Replacer} that will then be
-	 * applied to the {@code message} before sending it. The amount of replacements must be even
-	 * as specified on the {@link Replacer} {@link Replacer#Replacer constructor}.
-	 *
-	 * @return Always {@code true} to make it easier to create {@link SkyCommand SkyCommands}.
-	 *
-	 * @throws NullPointerException if any parameter is {@code null}
-	 *
-	 * @since SkyUtils 1.0.0
-	 */
-	default boolean sendActionBar(@NotNull Component message, @NotNull Object... replacements) {
-		return !canReceive(message) || sendActionBar(message, new Replacer(replacements));
-	}
-
-	/*
 	 - Sound
 	 */
 
+	@Deprecated(forRemoval = true)
 	boolean playSound(@NotNull Sound sound);
 
+	@Deprecated(forRemoval = true)
 	default boolean playSound(@KeyPattern @NotNull String key, @NotNull Sound.Source source, float volume, float pitch) {
 		return playSound(Sound.sound(Key.key(key), source, volume, pitch));
 	}

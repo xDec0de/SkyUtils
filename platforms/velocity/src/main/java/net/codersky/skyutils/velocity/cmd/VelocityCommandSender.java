@@ -59,8 +59,12 @@ public class VelocityCommandSender implements SkyCommandSender {
 	}
 
 	/*
-	 * Messages
+	 - Messages
 	 */
+
+	boolean canReceive(@NotNull final Component component) {
+		return Component.IS_NOT_EMPTY.test(component);
+	}
 
 	/**
 	 * Gets the name of this {@link VelocityCommandSender}. If
@@ -85,7 +89,6 @@ public class VelocityCommandSender implements SkyCommandSender {
 		return true;
 	}
 
-	@Override
 	public boolean sendMessage(@NotNull Component message) {
 		if (canReceive(message))
 			source.sendMessage(message);

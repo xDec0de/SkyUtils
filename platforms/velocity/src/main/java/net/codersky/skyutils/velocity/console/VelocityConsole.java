@@ -37,7 +37,10 @@ public class VelocityConsole implements SkyConsole {
 		return sendMessage(Component.text(message));
 	}
 
-	@Override
+	boolean canReceive(@NotNull final Component component) {
+		return Component.IS_NOT_EMPTY.test(component);
+	}
+
 	public boolean sendMessage(@NotNull Component message) {
 		if (canReceive(message))
 			handle.sendMessage(message);

@@ -5,7 +5,6 @@ import net.codersky.jsky.strings.Replacer;
 import net.codersky.skyutils.cmd.SkyCommand;
 import net.codersky.skyutils.cmd.SkyCommandSender;
 import net.codersky.skyutils.crossplatform.message.SkyMessage;
-import net.codersky.skyutils.crossplatform.message.SkyReplacer;
 import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -79,28 +78,6 @@ public interface MessageReceiver extends Replacement {
 		return message != null && !message.isEmpty();
 	}
 
-	/**
-	 * Checks if this {@link MessageReceiver} can receive the specified
-	 * {@code message}. <b>Implementations</b> must make sure to use this
-	 * method before sending any type of message to the actual receiver
-	 * as {@link MessageReceiver} must ignore empty or {@code null} messages.
-	 * <p>
-	 * If you really want to send an "empty" message, you can just send a
-	 * blank one with a space on it. This is considered an intentionally
-	 * empty message and can be sent to {@link MessageReceiver MessageReceivers}.
-	 *
-	 * @param message The {@link Component} message to check.
-	 *
-	 * @return {@code true} if the {@code message} can be sent to any
-	 * {@link MessageReceiver}, {@code false} otherwise.
-	 *
-	 * @since SkyUtils 1.0.0
-	 */
-	@Deprecated(forRemoval = true)
-	default boolean canReceive(@Nullable Component message) {
-		return message != null && Component.IS_NOT_EMPTY.test(message);
-	}
-
 	/*
 	 * Legacy messages (String)
 	 */
@@ -154,67 +131,7 @@ public interface MessageReceiver extends Replacement {
 		return !canReceive(message) || sendMessage(message, new Replacer(replacements));
 	}
 
-	/*
-	 * Adventure messages
-	 */
-
-	/**
-	 * Sends a {@link Component} {@code message} to this {@link MessageReceiver}.
-	 *
-	 * @param message The Adventure {@link Component} to send to this {@link MessageReceiver}.
-	 *
-	 * @return Always {@code true} to make it easier to create {@link SkyCommand MCCommands}.
-	 *
-	 * @throws NullPointerException if {@code message} is {@code null}
-	 *
-	 * @since SkyUtils 1.0.0
-	 */
-	@Deprecated(forRemoval = true)
-	boolean sendMessage(@NotNull Component message);
-
-	default boolean sendMessage(@NotNull SkyMessage message) {
-		return message.send(this);
-	}
-
-	/**
-	 * Sends a {@link Component} {@code message} to this {@link MessageReceiver}, applying {@code replacer}
-	 * to {@code message} before sending it.
-	 *
-	 * @param message The Adventure {@link Component} to send to this {@link MessageReceiver}.
-	 * @param replacer The {@link SkyReplacer} to apply to the {@code message} before sending it.
-	 *
-	 * @return Always {@code true} to make it easier to create {@link SkyCommand MCCommands}.
-	 *
-	 * @throws NullPointerException if any parameter is {@code null}
-	 *
-	 * @since SkyUtils 1.0.0
-	 */
-	@Deprecated(forRemoval = true)
-	default boolean sendMessage(@NotNull Component message, @NotNull SkyReplacer replacer) {
-		return !canReceive(message) || sendMessage(replacer.replaceAt(message));
-	}
-
-	/**
-	 * Sends a {@link Component} {@code message} to this {@link MessageReceiver}, applying
-	 * a {@link Replacer} made with the specified {@code replacements} to {@code message} before sending it.
-	 *
-	 * @param message The Adventure {@link Component} to send to this {@link MessageReceiver}.
-	 * @param replacements The replacements used to build a {@link Replacer} that will then be
-	 * applied to the {@code message} before sending it. The amount of replacements must be even
-	 * as specified on the {@link Replacer} {@link Replacer#Replacer constructor}.
-	 *
-	 * @return Always {@code true} to make it easier to create {@link SkyCommand MCCommands}.
-	 *
-	 * @throws NullPointerException if any parameter is {@code null}
-	 *
-	 * @since SkyUtils 1.0.0
-	 */
-	@Deprecated(forRemoval = true)
-	default boolean sendMessage(@NotNull Component message, @NotNull Object... replacements) {
-		return !canReceive(message) || sendMessage(message, new Replacer(replacements));
-	}
-
-	default boolean send(@NotNull final SkyMessage message) {
+	default boolean sendMessage(@NotNull final SkyMessage message) {
 		return message.send(this);
 	}
 }

@@ -1,11 +1,11 @@
 package net.codersky.skyutils.spigot.general;
 
-import javax.annotation.Nullable;
-
 import net.codersky.jsky.strings.Replacer;
-import net.codersky.skyutils.java.reflection.RefClass;
-import net.codersky.skyutils.java.reflection.RefObject;
+import net.codersky.skyutils.reflection.RefClass;
+import net.codersky.skyutils.reflection.RefObject;
 import org.bukkit.Bukkit;
+
+import javax.annotation.Nullable;
 
 public abstract class SpigotReflections {
 

@@ -3,9 +3,8 @@ package net.codersky.skyutils.cmd;
 import net.codersky.jsky.collections.JCollections;
 import net.codersky.jsky.math.JNumbers;
 import net.codersky.skyutils.SkyUtils;
+import net.codersky.skyutils.crossplatform.message.SkyMessageMap;
 import net.codersky.skyutils.crossplatform.player.SkyPlayer;
-import net.codersky.skyutils.java.strings.SkyStrings;
-import net.codersky.skyutils.files.MessagesFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -123,7 +122,7 @@ public interface SkyCommand<P, S extends SkyCommandSender> {
 	 * @return Generally {@code true} if the {@link SkyCommand command} has executed correctly.
 	 * Behavior when returning {@code false} depends on the platform that the {@link SkyCommand command}
 	 * is being executed on, for that reason, the recommendation is to always return {@code true} and
-	 * send custom messages to the {@code sender} in case of error by using a {@link MessagesFile}.
+	 * send custom messages to the {@code sender} in case of error by using a {@link SkyMessageMap}.
 	 *
 	 * @since SkyUtils 1.0.0
 	 */
@@ -348,7 +347,8 @@ public interface SkyCommand<P, S extends SkyCommandSender> {
 	default String asString(int arg, @NotNull String[] args, @NotNull String def) {
 		Objects.requireNonNull(def, "def cannot be null. Remove the parameter instead.");
 		final String result = args.length > arg ? args[arg] : def;
-		return removesEventPatterns() ? SkyStrings.stripEventPatterns(result) : result;
+		// TODO: Remove event tags
+		return result;
 	}
 
 	/**
@@ -365,7 +365,8 @@ public interface SkyCommand<P, S extends SkyCommandSender> {
 	@Nullable
 	default String asString(int arg, @NotNull String[] args) {
 		final String result = args.length > arg ? args[arg] : null;
-		return result != null && removesEventPatterns() ? SkyStrings.stripEventPatterns(result) : result;
+		// TODO: Remove event tags
+		return result;
 	}
 
 	// With modifier //
@@ -424,10 +425,11 @@ public interface SkyCommand<P, S extends SkyCommandSender> {
 		final StringBuilder builder = new StringBuilder(first);
 		final boolean removeEvents = removesEventPatterns();
 		Function<String, String> finalModifier = null;
-		if (modifier == null && removeEvents)
-			finalModifier = SkyStrings::stripEventPatterns;
-		else if (modifier != null)
-			finalModifier = str -> modifier.apply(SkyStrings.stripEventPatterns(str));
+		// TODO: Remove event tags
+		//if (modifier == null && removeEvents)
+		//	finalModifier = SkyStrings::stripEventPatterns;
+		//else if (modifier != null)
+		//	finalModifier = str -> modifier.apply(SkyStrings.stripEventPatterns(str));
 		for (int i = fromArg + 1; i < args.length; i++)
 			builder.append(' ').append(finalModifier == null ? args[i] : finalModifier.apply(args[i]));
 		return builder.toString();
@@ -545,7 +547,7 @@ public interface SkyCommand<P, S extends SkyCommandSender> {
 			return def;
 		final List<String> lst = new ArrayList<>(args.length - fromArg);
 		for (int i = fromArg + 1; i < args.length; i++)
-			lst.add(SkyStrings.stripEventPatterns(args[i]));
+			lst.add(args[i]); // TODO: Remove event tags
 		return lst;
 	}
 

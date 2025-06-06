@@ -3,12 +3,12 @@ package net.codersky.skyutils.crossplatform.message;
 import net.codersky.jsky.strings.tag.JTag;
 import net.codersky.jsky.strings.tag.JTagParseAllResult;
 import net.codersky.jsky.strings.tag.JTagParser;
+import net.codersky.skyutils.SkyStrings;
 import net.codersky.skyutils.cmd.SkyCommandSender;
 import net.codersky.skyutils.crossplatform.MessageReceiver;
 import net.codersky.skyutils.crossplatform.message.tag.MessageTagProvider;
 import net.codersky.skyutils.crossplatform.message.tag.event.EventMessageTag;
 import net.codersky.skyutils.crossplatform.player.SkyPlayer;
-import net.codersky.skyutils.java.strings.TempSkyStrings;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -44,8 +44,8 @@ public class SkyMessage {
 
 	@NotNull
 	public static SkyMessage of(@NotNull final SkyMessageBuilder builder) {
-		final String player = TempSkyStrings.applyColor(builder.toPlayerString());
-		final String console = TempSkyStrings.applyColor(builder.toConsoleString());
+		final String player = SkyStrings.applyColor(builder.toPlayerString());
+		final String console = SkyStrings.applyColor(builder.toConsoleString());
 		return new SkyMessage(buildComponent(player), buildComponent(console));
 	}
 

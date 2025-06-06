@@ -2,7 +2,7 @@ package net.codersky.skyutils.spigot.builders;
 
 import com.google.common.collect.Multimap;
 import net.codersky.jsky.collections.JCollections;
-import net.codersky.skyutils.java.strings.SkyStrings;
+import net.codersky.skyutils.SkyStrings;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

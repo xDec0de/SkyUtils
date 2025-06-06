@@ -2,11 +2,11 @@ package net.codersky.skyutils.spigot;
 
 import net.codersky.jsky.collections.JCollections;
 import net.codersky.skyutils.MCPlatform;
+import net.codersky.skyutils.SkyStrings;
 import net.codersky.skyutils.SkyUtils;
 import net.codersky.skyutils.cmd.GlobalCommand;
 import net.codersky.skyutils.crossplatform.server.ServerUtils;
-import net.codersky.skyutils.java.reflection.RefObject;
-import net.codersky.skyutils.java.strings.SkyStrings;
+import net.codersky.skyutils.reflection.RefObject;
 import net.codersky.skyutils.spigot.cmd.AdaptedSpigotCommand;
 import net.codersky.skyutils.spigot.cmd.CustomSpigotCommand;
 import net.codersky.skyutils.spigot.cmd.SpigotCommandSender;

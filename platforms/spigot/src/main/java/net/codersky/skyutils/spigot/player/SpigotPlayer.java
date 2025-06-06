@@ -55,13 +55,6 @@ public interface SpigotPlayer extends OfflineSpigotPlayer, SkyPlayer {
 		return true;
 	}
 
-	@Override
-	default boolean sendMessage(@NotNull Component message) {
-		if (canReceive(message))
-			getHandle().spigot().sendMessage(toBase(message));
-		return false;
-	}
-
 	/*
 	 - JSON messages
 	 */
@@ -78,13 +71,6 @@ public interface SpigotPlayer extends OfflineSpigotPlayer, SkyPlayer {
 
 	@Override
 	default boolean sendActionBar(@NotNull String message) {
-		if (canReceive(message))
-			getHandle().spigot().sendMessage(ChatMessageType.ACTION_BAR, toBase(message));
-		return true;
-	}
-
-	@Override
-	default boolean sendActionBar(@NotNull Component message) {
 		if (canReceive(message))
 			getHandle().spigot().sendMessage(ChatMessageType.ACTION_BAR, toBase(message));
 		return true;

@@ -1,4 +1,4 @@
-package net.codersky.skyutils.java.reflection;
+package net.codersky.skyutils.reflection;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
