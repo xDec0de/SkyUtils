@@ -1,6 +1,5 @@
-package net.codersky.skyutils.general;
+package net.codersky.skyutils;
 
-import net.codersky.skyutils.SkyUtils;
 import net.codersky.skyutils.cmd.SkyCommand;
 
 /**
