@@ -5,7 +5,6 @@ import net.codersky.skyutils.MCPlatform;
 import net.codersky.skyutils.SkyStrings;
 import net.codersky.skyutils.SkyUtils;
 import net.codersky.skyutils.cmd.GlobalCommand;
-import net.codersky.skyutils.crossplatform.server.ServerUtils;
 import net.codersky.skyutils.reflection.RefObject;
 import net.codersky.skyutils.spigot.cmd.AdaptedSpigotCommand;
 import net.codersky.skyutils.spigot.cmd.CustomSpigotCommand;
@@ -45,7 +44,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
- * Spigot platform extension of the {@link ServerUtils} class,
+ * Spigot platform extension of the {@link SkyUtils} class,
  * which at the same time extends the {@link SkyUtils} class.
  * It offers access to the SkyUtils API for Spigot servers.
  *
@@ -55,7 +54,7 @@ import java.util.function.Predicate;
  *
  * @author xDec0de_
  */
-public class SpigotUtils<P extends JavaPlugin> extends ServerUtils<P> {
+public class SpigotUtils<P extends JavaPlugin> extends SkyUtils<P> {
 
 	private final SpigotTaskScheduler scheduler;
 

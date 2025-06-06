@@ -2,7 +2,6 @@ package net.codersky.skyutils.paper;
 
 import net.codersky.skyutils.MCPlatform;
 import net.codersky.skyutils.SkyUtils;
-import net.codersky.skyutils.crossplatform.server.ServerUtils;
 import net.codersky.skyutils.spigot.SpigotUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
@@ -13,9 +12,8 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Paper platform extension of the {@link SpigotUtils} class,
- * which at the same time extends the {@link ServerUtils} and
- * {@link SkyUtils} classes. It offers access to the SkyUtils
- * API for Paper servers.
+ * which at the same time extends the {@link SkyUtils} class.
+ * It offers access to the SkyUtils API for Paper servers.
  * <p>
  * The use of the Spigot platform is recommended unless you
  * are making a plugin for Paper only, incompatible with Spigot.

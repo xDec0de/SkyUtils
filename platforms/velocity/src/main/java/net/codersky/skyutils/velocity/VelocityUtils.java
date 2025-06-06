@@ -6,8 +6,8 @@ import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import net.codersky.jsky.collections.JCollections;
 import net.codersky.skyutils.MCPlatform;
+import net.codersky.skyutils.SkyUtils;
 import net.codersky.skyutils.cmd.GlobalCommand;
-import net.codersky.skyutils.crossplatform.proxy.ProxyUtils;
 import net.codersky.skyutils.velocity.cmd.AdaptedVelocityCommand;
 import net.codersky.skyutils.velocity.cmd.CustomVelocityCommand;
 import net.codersky.skyutils.velocity.cmd.VelocityCommandSender;
@@ -25,7 +25,7 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.UUID;
 
-public class VelocityUtils<P> extends ProxyUtils<P> {
+public class VelocityUtils<P> extends SkyUtils<P> {
 
 	private final ProxyServer proxy;
 	private final Path dataDirectory;
