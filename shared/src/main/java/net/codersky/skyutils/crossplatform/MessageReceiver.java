@@ -2,10 +2,10 @@ package net.codersky.skyutils.crossplatform;
 
 import net.codersky.jsky.strings.Replacement;
 import net.codersky.jsky.strings.Replacer;
-import net.codersky.skyutils.SkyReplacer;
 import net.codersky.skyutils.cmd.SkyCommand;
 import net.codersky.skyutils.cmd.SkyCommandSender;
 import net.codersky.skyutils.crossplatform.message.SkyMessage;
+import net.codersky.skyutils.crossplatform.message.SkyReplacer;
 import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;

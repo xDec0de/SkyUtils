@@ -16,10 +16,21 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+/**
+ * Class used to represent a compiled message ready to be
+ * {@link #send(MessageReceiver) sent} to any {@link MessageReceiver}.
+ *
+ * @since SkyUtils 1.0.0
+ *
+ * @see SkyMessageBuilder
+ * @see SkyReplacer
+ *
+ * @author xDec0de_
+ */
 public class SkyMessage {
 
-	private final Component player;
-	private final Component console;
+	@NotNull Component player;
+	@NotNull Component console;
 
 	private SkyMessage(@NotNull final Component player, @NotNull final Component console) {
 		this.player = Objects.requireNonNull(player);

@@ -1,9 +1,9 @@
 package net.codersky.skyutils.crossplatform.player;
 
 import net.codersky.jsky.strings.Replacer;
-import net.codersky.skyutils.SkyReplacer;
 import net.codersky.skyutils.cmd.SkyCommand;
 import net.codersky.skyutils.crossplatform.MessageReceiver;
+import net.codersky.skyutils.crossplatform.message.SkyReplacer;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.key.KeyPattern;
 import net.kyori.adventure.sound.Sound;
