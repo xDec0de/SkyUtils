@@ -18,7 +18,6 @@ dependencies {
 
 tasks {
 	shadowJar {
-		relocate("net.kyori.adventure", "net.codersky.skyutils.shaded.adventure")
 		relocate("net.kyori", "net.codersky.skyutils.shaded.kyori")
 		relocate("com.google.gson", "net.codersky.skyutils.shaded.gson")
 		exclude("org/jetbrains/**",
