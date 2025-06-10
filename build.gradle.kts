@@ -1,3 +1,4 @@
+import org.gradle.configurationcache.extensions.capitalized
 
 group = "net.codersky"
 version = "1.0.0-SNAPSHOT"
@@ -27,6 +28,8 @@ tasks {
 		doLast {
 			val buildOut = layout.buildDirectory.dir("libs").get().asFile
 				.apply { if (!exists()) mkdirs() }
+			val testOut = layout.buildDirectory.dir("libs/test-plugins").get().asFile
+				.apply { if (!exists()) mkdirs() }
 
 			subprojects.forEach { subproject ->
 				if (subproject.parent?.name == "SkyUtils")
@@ -38,11 +41,13 @@ tasks {
 					?.forEach { jarFile ->
 						copy {
 							from(jarFile)
-							into(buildOut)
-							var name = subproject.name;
-							if (subproject.parent?.name == "test-plugins")
-								name += "-test"
-							rename { "SkyUtils-${name}-${version}.jar" }
+							if (subproject.parent?.name == "test-plugins") {
+								into(testOut)
+								rename { "SkyUtils-Test${subproject.name.capitalized()}-${version}.jar" }
+							} else {
+								into(buildOut)
+								rename { "SkyUtils-${subproject.name.capitalized()}-${version}.jar" }
+							}
 						}
 					}
 					?: println("No JAR found in subproject: ${subproject.name}")
