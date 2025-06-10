@@ -4,7 +4,6 @@ jetbrains-annotations = "24.0.0"
 adventure-api = "4.17.0"
 adventure-serializer-legacy = "4.20.0"
 adventure-serializer-gson = "4.20.0"
-adventure-serializer-bungee = "4.3.4"
 spigot = "1.20-R0.1-SNAPSHOT"
 paper = "1.21.3-R0.1-SNAPSHOT"
 velocity = "3.3.0-SNAPSHOT"
@@ -17,7 +16,6 @@ jetbrains-annotations = { group = "org.jetbrains", name = "annotations", version
 adventure-api = { group = "net.kyori", name = "adventure-api", version.ref = "adventure-api" }
 adventure-serializer-legacy = { group = "net.kyori", name = "adventure-text-serializer-legacy", version.ref = "adventure-serializer-legacy" }
 adventure-serializer-gson = { group = "net.kyori", name = "adventure-text-serializer-gson", version.ref = "adventure-serializer-gson" }
-adventure-serializer-bungee = { group = "net.kyori", name = "adventure-text-serializer-bungeecord", version.ref = "adventure-serializer-bungee" }
 spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
 paper = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
 velocity = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }

@@ -13,3 +13,7 @@ dependencies {
 	compileOnly(libs.velocity)
 	compileOnly(libs.jetbrains.annotations)
 }
+
+tasks.shadowJar {
+	relocate("org.yaml.snakeyaml", "net.codersky.skyutils.shaded.snakeyaml")
+}

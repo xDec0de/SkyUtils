@@ -23,7 +23,6 @@ include(":shared")
 
 // Server platforms
 include(":platforms:spigot")
-include("platforms:paper")
 
 // Proxy platforms
 include(":platforms:velocity")

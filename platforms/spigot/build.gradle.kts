@@ -10,11 +10,21 @@ repositories {
 
 dependencies {
 	api(project(":shared"))
-	// TODO: Start - Remove when migration to SkyMessage is done.
 	implementation(libs.adventure.api)
-	implementation(libs.adventure.serializer.bungee)
 	implementation(libs.adventure.serializer.legacy)
-	// TODO: End - Remove when migration to SkyMessage is done.
+	implementation(libs.adventure.serializer.gson)
 	compileOnly(libs.spigot)
 	compileOnly(libs.jetbrains.annotations)
+}
+
+tasks {
+	shadowJar {
+		relocate("net.kyori.adventure", "net.codersky.skyutils.shaded.adventure")
+		relocate("net.kyori", "net.codersky.skyutils.shaded.kyori")
+		relocate("com.google.gson", "net.codersky.skyutils.shaded.gson")
+		exclude("org/jetbrains/**",
+			"org/intellij/**",
+			"org/yaml/**")
+		minimize()
+	}
 }

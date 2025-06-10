@@ -2,8 +2,6 @@ package net.codersky.skyutils.spigot.player;
 
 import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.kyori.adventure.sound.Sound;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -38,10 +36,6 @@ public interface SpigotPlayer extends OfflineSpigotPlayer, SkyPlayer {
 
 	default BaseComponent[] toBase(@NotNull String legacyStr) {
 		return TextComponent.fromLegacyText(legacyStr);
-	}
-
-	default BaseComponent[] toBase(@NotNull Component component) {
-		return BungeeComponentSerializer.get().serialize(component);
 	}
 
 	/*
