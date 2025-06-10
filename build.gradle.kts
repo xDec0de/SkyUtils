@@ -39,7 +39,10 @@ tasks {
 						copy {
 							from(jarFile)
 							into(buildOut)
-							rename { "SkyUtils-${subproject.name}-${version}.jar" }
+							var name = subproject.name;
+							if (subproject.parent?.name == "test-plugins")
+								name += "-test"
+							rename { "SkyUtils-${name}-${version}.jar" }
 						}
 					}
 					?: println("No JAR found in subproject: ${subproject.name}")
