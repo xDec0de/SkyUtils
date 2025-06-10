@@ -1,7 +1,6 @@
 plugins {
 	skyutils.`shadow-conventions`
 	skyutils.`library-conventions`
-	alias(libs.plugins.run.paper)
 }
 
 repositories {

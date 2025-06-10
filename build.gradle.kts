@@ -29,7 +29,7 @@ tasks {
 				.apply { if (!exists()) mkdirs() }
 
 			subprojects.forEach { subproject ->
-				if (subproject.name == "platforms")
+				if (subproject.parent?.name == "SkyUtils")
 					return@forEach
 
 				val subIn = subproject.layout.buildDirectory.dir("libs").get().asFile
