@@ -1,7 +1,8 @@
 [versions]
 jsky = "1.0.0-SNAPSHOT"
 jetbrains-annotations = "24.0.0"
-adventure-api = "4.17.0"
+adventure-api = "4.22.0"
+adventure-minimessage = "4.22.0"
 adventure-serializer-legacy = "4.20.0"
 adventure-serializer-gson = "4.20.0"
 spigot = "1.20-R0.1-SNAPSHOT"
@@ -14,6 +15,7 @@ jsky-base = { module = "net.codersky.jsky:base", version.ref = "jsky" }
 jsky-yaml = { module = "net.codersky.jsky:yaml", version.ref = "jsky" }
 jetbrains-annotations = { group = "org.jetbrains", name = "annotations", version.ref = "jetbrains-annotations" }
 adventure-api = { group = "net.kyori", name = "adventure-api", version.ref = "adventure-api" }
+adventure-minimessage = { group = "net.kyori", name = "adventure-text-minimessage", version.ref = "adventure-minimessage" }
 adventure-serializer-legacy = { group = "net.kyori", name = "adventure-text-serializer-legacy", version.ref = "adventure-serializer-legacy" }
 adventure-serializer-gson = { group = "net.kyori", name = "adventure-text-serializer-gson", version.ref = "adventure-serializer-gson" }
 spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }

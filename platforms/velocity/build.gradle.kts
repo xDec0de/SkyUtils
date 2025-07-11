@@ -10,6 +10,7 @@ repositories {
 dependencies {
 	api(project(":shared"))
 	compileOnly(libs.adventure.api)
+	compileOnly(libs.adventure.minimessage)
 	compileOnly(libs.velocity)
 	compileOnly(libs.jetbrains.annotations)
 }

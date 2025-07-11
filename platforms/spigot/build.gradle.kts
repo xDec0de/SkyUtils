@@ -10,6 +10,7 @@ repositories {
 dependencies {
 	api(project(":shared"))
 	implementation(libs.adventure.api)
+	implementation(libs.adventure.minimessage)
 	implementation(libs.adventure.serializer.legacy)
 	implementation(libs.adventure.serializer.gson)
 	compileOnly(libs.spigot)

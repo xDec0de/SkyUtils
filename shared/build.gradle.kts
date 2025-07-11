@@ -8,6 +8,7 @@ dependencies {
 	api(libs.jsky.yaml)
 	compileOnly(libs.jetbrains.annotations)
 	compileOnly(libs.adventure.api)
+	compileOnly(libs.adventure.minimessage)
 	compileOnly(libs.adventure.serializer.legacy)
 	compileOnly(libs.adventure.serializer.gson)
 }
