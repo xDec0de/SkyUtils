@@ -8,8 +8,11 @@ import net.codersky.skyutils.cmd.SkyCommandSender;
 import net.codersky.skyutils.crossplatform.MessageReceiver;
 import net.codersky.skyutils.crossplatform.message.tag.MessageTagProvider;
 import net.codersky.skyutils.crossplatform.message.tag.event.EventMessageTag;
+import net.codersky.skyutils.crossplatform.message.tag.filter.FilterMessageTag;
+import net.codersky.skyutils.crossplatform.message.tag.filter.PlayerFilterMessageTag;
 import net.codersky.skyutils.crossplatform.player.SkyPlayer;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
@@ -29,54 +32,39 @@ import java.util.Objects;
  */
 public class SkyMessage {
 
-	@NotNull Component player;
-	@NotNull Component console;
+	@NotNull final String player;
+	@NotNull final String console;
 
-	private SkyMessage(@NotNull final Component player, @NotNull final Component console) {
+	SkyMessage(@NotNull String player, @NotNull String console) {
 		this.player = Objects.requireNonNull(player);
 		this.console = Objects.requireNonNull(console);
 	}
 
-	@NotNull
-	public static SkyMessage of(@NotNull final String message) {
-		return of(SkyMessageBuilder.of(message));
-	}
+	// TODO: Custom filter support. This filter code is temporary.
 
 	@NotNull
-	public static SkyMessage of(@NotNull final SkyMessageBuilder builder) {
-		final String player = SkyStrings.applyColor(builder.toPlayerString());
-		final String console = SkyStrings.applyColor(builder.toConsoleString());
-		return new SkyMessage(buildComponent(player), buildComponent(console));
-	}
-
-	@NotNull
-	private static Component buildComponent(@NotNull final String colored) {
-		Component component = Component.empty();
-		final JTagParseAllResult res = JTagParser.parseAll(colored, 0, 1);
+	public static SkyMessage of(@NotNull String raw) {
+		final JTagParseAllResult res = JTagParser.parseAll(raw);
+		final StringBuilder player = new StringBuilder();
+		final StringBuilder console = new StringBuilder();
 		for (final Object obj : res) {
-			if (obj instanceof final JTag tag)
-				component = appendTag(component, tag);
-			else if (obj instanceof final String str)
-				component = component.append(Component.text(str));
+			if (obj instanceof final JTag tag) {
+				final FilterMessageTag filter = MessageTagProvider.getFilterTag(tag);
+				if (filter != null) {
+					if (filter.getClass() == PlayerFilterMessageTag.class)
+						player.append(tag.getContent());
+					else
+						console.append(tag.getContent());
+				} else {
+					player.append(tag.getRaw());
+					console.append(tag.getRaw());
+				}
+			} else if (obj instanceof final String str) {
+				player.append(str);
+				console.append(str);
+			}
 		}
-		return component;
-	}
-
-	private static Component appendTag(@NotNull final Component component, @NotNull final JTag tag) {
-		if (MessageTagProvider.isMainEventTag(tag))
-			return processEvents(component, tag);
-		else
-			return component.append(Component.text(tag.getRaw()));
-	}
-
-	private static Component processEvents(@NotNull final Component component, final JTag tag) {
-		Component comp = Component.text(tag.getContent());
-		for (JTag eTag : tag.getChildren()) {
-			final EventMessageTag event = MessageTagProvider.getEventTag(eTag);
-			if (event != null)
-				comp = event.apply(MessageTarget.CHAT, comp, eTag.getContent());
-		}
-		return component.append(comp);
+		return new SkyMessage(player.toString(), console.toString());
 	}
 
 	/*
@@ -84,13 +72,15 @@ public class SkyMessage {
 	 */
 
 	public boolean send(@NotNull final MessageReceiver receiver) {
+		final Component player = MiniMessage.miniMessage().deserialize(this.player);
+		final Component console = MiniMessage.miniMessage().deserialize(this.console);
 		MessageReceiver actualReceiver = receiver;
 		if (actualReceiver instanceof final SkyCommandSender sender)
 			actualReceiver = sender.asReceiver();
 		if (actualReceiver instanceof final SkyPlayer p)
-			p.sendJsonMessage(GsonComponentSerializer.gson().serialize(this.player));
+			p.sendJsonMessage(GsonComponentSerializer.gson().serialize(player));
 		else
-			receiver.sendMessage(LegacyComponentSerializer.legacyAmpersand().serialize(this.console));
+			receiver.sendMessage(LegacyComponentSerializer.legacyAmpersand().serialize(console));
 		return true;
 	}
 }
